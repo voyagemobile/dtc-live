@@ -8,6 +8,8 @@
 **Framework:** Next.js
 **Node version:** 24.x
 **GitHub integration:** voyagemobile/dtc-live, production branch: main
+**Current live URL:** https://dtc-live.vercel.app
+**Vercel dashboard:** https://vercel.com/voyagesms/dtc-live
 
 Auto-deploys are enabled: every push to `main` triggers a production deployment, and every pull request branch gets a preview deployment.
 
@@ -76,7 +78,9 @@ dtc.live  A  76.76.21.21
 
 ### Adding the domain in Vercel
 
-1. In the Vercel project settings, go to Settings > Domains
+**Do this BEFORE updating DNS.** Vercel must verify the domain to provision the SSL certificate. Updating DNS before adding the domain in Vercel will cause a downtime gap.
+
+1. In the Vercel dashboard at https://vercel.com/voyagesms/dtc-live, go to Settings > Domains
 2. Add `dtc.live` and `www.dtc.live`
 3. Vercel will show the required DNS values and auto-provision SSL
 
@@ -92,6 +96,23 @@ DNS propagation typically takes 5-60 minutes but can take up to 48 hours. To min
 
 SSL certificates are auto-provisioned by Vercel (Let's Encrypt) once the domain is verified.
 
+### Verifying the cutover
+
+After DNS propagates, confirm the site is live and serving correctly:
+
+```bash
+# Check HTTP status and SSL
+curl -I https://dtc.live
+
+# Expect: HTTP/2 200, server: Vercel
+```
+
+Also verify manually:
+- Homepage loads with articles
+- A category page loads (e.g. https://dtc.live/category/brand-strategy)
+- An article page loads without errors
+- Navigation mega menu works
+
 ## Preview Deployments
 
 Every pull request automatically gets a preview deployment at a unique URL like:
@@ -103,4 +124,13 @@ Preview deploys use the same environment variables as production (all targets se
 
 ## Rollback
 
-To roll back to a previous deployment, go to the Vercel dashboard for the dtc-live project, find the previous successful deployment in the Deployments tab, and click "Promote to Production".
+To roll back to a previous deployment:
+
+**Via dashboard (recommended):** Go to https://vercel.com/voyagesms/dtc-live, open the Deployments tab, find the previous successful deployment, and click "Promote to Production".
+
+**Via CLI:**
+```bash
+vercel rollback --scope voyagesms
+```
+
+This promotes the most recent previous production deployment. For a specific deployment, use "Promote to Production" in the dashboard instead.
