@@ -177,3 +177,20 @@ export const getAuthors = cache(async (): Promise<GhostAuthor[]> => {
   const data = await fetchGhost<GhostAuthorsResponse>(url)
   return data.authors
 })
+
+export const getTagBySlug = cache(async (slug: string): Promise<GhostTag | null> => {
+  const url = buildUrl('tags/slug/' + encodeURIComponent(slug), {
+    include: 'count.posts',
+  })
+  try {
+    const data = await fetchGhost<{ tags: GhostTag[] }>(url)
+    return data.tags[0] ?? null
+  } catch (err) {
+    // Re-throw configuration errors so misconfigurations are visible.
+    // Only treat HTTP 404-style fetch failures as a missing tag (null).
+    if (err instanceof Error && err.message.startsWith('Ghost API request failed: 404')) {
+      return null
+    }
+    throw err
+  }
+})
