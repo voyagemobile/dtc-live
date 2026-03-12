@@ -1,7 +1,25 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  // Ghost image CDN will be configured in US-002
+  images: {
+    remotePatterns: [
+      // Self-hosted Ghost instances on *.ghost.io
+      {
+        protocol: 'https',
+        hostname: '**.ghost.io',
+      },
+      // Ghost default static asset host
+      {
+        protocol: 'https',
+        hostname: 'static.ghost.org',
+      },
+      // Unsplash — Ghost's default stock-image integration
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+    ],
+  },
 }
 
 export default nextConfig
