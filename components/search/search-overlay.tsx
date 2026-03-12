@@ -62,6 +62,11 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
   }, [isOpen])
 
   // Debounced search: fires 300ms after the user stops typing.
+  // A request-ID counter guards against stale responses: if a newer request
+  // has already been dispatched, the older response is discarded when it
+  // eventually resolves, preventing out-of-order result overwrites.
+  const searchIdRef = useRef(0)
+
   useEffect(() => {
     if (!query.trim()) {
       setResults([])
@@ -71,10 +76,16 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
 
     setLoading(true)
 
+    // Increment the ID for this search attempt.
+    const currentId = ++searchIdRef.current
+
     const timer = setTimeout(async () => {
       const posts = await searchPosts(query)
-      setResults(posts)
-      setLoading(false)
+      // Only apply results if this is still the most recent request.
+      if (currentId === searchIdRef.current) {
+        setResults(posts)
+        setLoading(false)
+      }
     }, SEARCH_DEBOUNCE_MS)
 
     return () => clearTimeout(timer)
