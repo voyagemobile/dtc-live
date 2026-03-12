@@ -147,7 +147,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
 
         {/* Results area */}
         <div className="max-h-[60vh] overflow-y-auto px-4 pb-4">
-          <SearchResults results={results} query={query} loading={loading} />
+          <SearchResults results={results} query={query} loading={loading} onClose={onClose} />
         </div>
       </div>
     </div>

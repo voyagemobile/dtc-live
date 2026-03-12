@@ -12,9 +12,18 @@ const GHOST_CONTENT_API_KEY = process.env.GHOST_CONTENT_API_KEY
  */
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
-  const q = searchParams.get('q')?.trim()
+  const raw = searchParams.get('q')?.trim()
 
-  if (!q) {
+  if (!raw) {
+    return NextResponse.json({ error: 'Missing query parameter: q' }, { status: 400 })
+  }
+
+  // Enforce a max length to prevent excessively large filter strings being
+  // sent to the Ghost API.
+  const q = raw.slice(0, 100)
+
+  // Validate: must not be empty after truncation (edge-case: whitespace-only > 100 chars)
+  if (!q.trim()) {
     return NextResponse.json({ error: 'Missing query parameter: q' }, { status: 400 })
   }
 
@@ -23,8 +32,10 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // Ghost filter: title contains keyword OR custom_excerpt contains keyword
-    const filter = `title:~'${q}',custom_excerpt:~'${q}'`
+    // Ghost filter: title contains keyword OR custom_excerpt contains keyword.
+    // Escape single quotes in the query to prevent Ghost filter syntax errors.
+    const safeQ = q.replace(/'/g, "\\'")
+    const filter = `title:~'${safeQ}',custom_excerpt:~'${safeQ}'`
     const fields = 'title,slug,excerpt,custom_excerpt,feature_image,published_at,primary_tag'
 
     const url = new URL(

@@ -9,6 +9,7 @@ interface SearchResultsProps {
   results: GhostPost[]
   query: string
   loading: boolean
+  onClose: () => void
 }
 
 /** Skeleton row shown while search is in-flight. */
@@ -57,14 +58,20 @@ function formatDate(dateStr: string | null): string {
   })
 }
 
-export function SearchResults({ results, query, loading }: SearchResultsProps) {
+export function SearchResults({ results, query, loading, onClose }: SearchResultsProps) {
   if (loading) {
     return (
-      <div className="mt-2 overflow-hidden rounded-lg border border-border bg-white">
-        <SkeletonRow />
-        <SkeletonRow />
-        <SkeletonRow />
-      </div>
+      <>
+        {/* Announce loading state to screen readers */}
+        <p className="sr-only" aria-live="polite" aria-atomic="true">
+          Searching...
+        </p>
+        <div className="mt-2 overflow-hidden rounded-lg border border-border bg-white">
+          <SkeletonRow />
+          <SkeletonRow />
+          <SkeletonRow />
+        </div>
+      </>
     )
   }
 
@@ -72,60 +79,71 @@ export function SearchResults({ results, query, loading }: SearchResultsProps) {
 
   if (results.length === 0) {
     return (
-      <div className="mt-2 rounded-lg border border-border bg-white px-4 py-8 text-center">
-        <p className="text-sm text-text-muted">
-          No results for <strong>&ldquo;{query}&rdquo;</strong>
+      <>
+        <p className="sr-only" aria-live="polite" aria-atomic="true">
+          No results found for {query}
         </p>
-        <p className="mt-1 text-xs text-text-caption">Try a different keyword or phrase.</p>
-      </div>
+        <div className="mt-2 rounded-lg border border-border bg-white px-4 py-8 text-center">
+          <p className="text-sm text-text-muted">
+            No results for <strong>&ldquo;{query}&rdquo;</strong>
+          </p>
+          <p className="mt-1 text-xs text-text-caption">Try a different keyword or phrase.</p>
+        </div>
+      </>
     )
   }
 
   return (
-    <ul
-      className="mt-2 overflow-hidden rounded-lg border border-border bg-white"
-      role="listbox"
-      aria-label="Search results"
-    >
-      {results.map((post) => {
-        const excerpt = post.custom_excerpt ?? post.excerpt ?? ''
-        const categoryName = post.primary_tag?.name ?? null
+    <>
+      {/* Announce result count to screen readers */}
+      <p className="sr-only" aria-live="polite" aria-atomic="true">
+        {results.length} result{results.length === 1 ? '' : 's'} for {query}
+      </p>
+      <ul
+        className="mt-2 overflow-hidden rounded-lg border border-border bg-white"
+        aria-label="Search results"
+      >
+        {results.map((post) => {
+          const excerpt = post.custom_excerpt ?? post.excerpt ?? ''
+          const categoryName = post.primary_tag?.name ?? null
 
-        return (
-          <li key={post.id} role="option" aria-selected={false}>
-            <Link
-              href={`/${post.slug}`}
-              className="flex flex-col gap-1 border-b border-border px-4 py-4 transition-colors duration-150 hover:bg-surface last:border-b-0 focus:bg-surface focus:outline-none"
-            >
-              {/* Title with match highlight */}
-              <span className="text-sm font-semibold leading-snug text-text-headline">
-                <HighlightedText text={post.title} query={query} />
-              </span>
-
-              {/* Excerpt with match highlight */}
-              {excerpt && (
-                <span className="line-clamp-2 text-xs leading-relaxed text-text-muted">
-                  <HighlightedText text={excerpt} query={query} />
+          return (
+            <li key={post.id}>
+              <Link
+                href={`/${post.slug}`}
+                onClick={onClose}
+                className="flex flex-col gap-1 border-b border-border px-4 py-4 transition-colors duration-150 hover:bg-surface last:border-b-0 focus:bg-surface focus:outline-none"
+              >
+                {/* Title with match highlight */}
+                <span className="text-sm font-semibold leading-snug text-text-headline">
+                  <HighlightedText text={post.title} query={query} />
                 </span>
-              )}
 
-              {/* Category badge + date */}
-              <div className="mt-1 flex items-center gap-2">
-                {categoryName && (
-                  <Badge variant="default" size="sm">
-                    {categoryName}
-                  </Badge>
-                )}
-                {post.published_at && (
-                  <span className="text-[10px] text-text-caption">
-                    {formatDate(post.published_at)}
+                {/* Excerpt with match highlight */}
+                {excerpt && (
+                  <span className="line-clamp-2 text-xs leading-relaxed text-text-muted">
+                    <HighlightedText text={excerpt} query={query} />
                   </span>
                 )}
-              </div>
-            </Link>
-          </li>
-        )
-      })}
-    </ul>
+
+                {/* Category badge + date */}
+                <div className="mt-1 flex items-center gap-2">
+                  {categoryName && (
+                    <Badge variant="default" size="sm">
+                      {categoryName}
+                    </Badge>
+                  )}
+                  {post.published_at && (
+                    <span className="text-[10px] text-text-caption">
+                      {formatDate(post.published_at)}
+                    </span>
+                  )}
+                </div>
+              </Link>
+            </li>
+          )
+        })}
+      </ul>
+    </>
   )
 }
