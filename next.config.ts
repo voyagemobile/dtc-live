@@ -1,6 +1,21 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+  // Proxy Ghost content images — article HTML contains /content/images/
+  // URLs that Ghost stored when it was the frontend. Now that Next.js
+  // serves dtc.live, these requests need to be forwarded to Ghost.
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: '/content/images/:path*',
+          destination: 'https://dtc-live.ghost.io/content/images/:path*',
+        },
+      ],
+      afterFiles: [],
+      fallback: [],
+    }
+  },
   images: {
     remotePatterns: [
       // Self-hosted Ghost instances on *.ghost.io
