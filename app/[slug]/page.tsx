@@ -8,8 +8,8 @@ import { extractVideo, stripVideoCards } from '@/lib/video'
 import { Badge } from '@/components/ui/badge'
 import { Container } from '@/components/ui/container'
 import { ArticleContent } from '@/components/article/article-content'
-import { AuthorCard } from '@/components/article/author-card'
 import { RelatedArticles } from '@/components/article/related-articles'
+import { ArticleSubscribe } from '@/components/article/article-subscribe'
 import { ShareButtons } from '@/components/article/share-buttons'
 import { ReadingProgress } from '@/components/article/reading-progress'
 
@@ -233,8 +233,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           {/* Share Buttons */}
           <ShareButtons title={post.title} slug={post.slug} />
 
-          {/* Author Card */}
-          {primaryAuthor && <AuthorCard author={primaryAuthor} />}
+          {/* Subscribe CTA */}
+          <ArticleSubscribe />
         </Container>
       </article>
 
