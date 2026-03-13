@@ -1,14 +1,20 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getTagBySlug, getPostsByTag } from '@/lib/ghost'
+import { formatDate, formatReadingTime } from '@/lib/format'
+import { extractVideo } from '@/lib/video'
+import type { GhostPost } from '@/lib/types'
 import { Container } from '@/components/ui/container'
 import { ArticleGrid } from '@/components/article/article-grid'
 import { Pagination } from '@/components/ui/pagination'
+import { NewsletterCTA } from '@/components/home/newsletter-cta'
 
 export const revalidate = 300
 
 // ---------------------------------------------------------------------------
-// Static params — pre-generate the 4 main categories at build time
+// Static params
 // ---------------------------------------------------------------------------
 
 export async function generateStaticParams() {
@@ -88,42 +94,134 @@ export default async function CategoryPage({
     },
   }
 
+  // On page 1, pull the first post as a featured lead
+  const isFirstPage = currentPage === 1
+  const leadPost = isFirstPage ? posts[0] : null
+  const gridPosts = isFirstPage ? posts.slice(1) : posts
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Container className="py-10 sm:py-14">
-      {/* Category header */}
-      <header className="mb-10 border-b border-border pb-8">
-        <h1 className="font-heading text-4xl font-bold leading-tight text-text-headline sm:text-5xl">
-          {tag.name}
-        </h1>
-        {tag.description && (
-          <p className="mt-4 max-w-2xl text-lg leading-relaxed text-text-muted">
-            {tag.description}
+
+      {/* Category header with pink accent */}
+      <div className="border-b border-border bg-surface/50">
+        <Container className="py-10 sm:py-14">
+          <div className="flex items-center gap-3">
+            <div className="h-8 w-1 rounded-full bg-primary" />
+            <h1 className="font-heading text-4xl font-bold leading-tight text-text-headline sm:text-5xl">
+              {tag.name}
+            </h1>
+          </div>
+          {tag.description && (
+            <p className="mt-4 max-w-2xl text-lg leading-relaxed text-text-muted">
+              {tag.description}
+            </p>
+          )}
+          <p className="mt-3 text-sm text-text-caption">
+            {total === 1 ? '1 article' : `${total} articles`}
           </p>
-        )}
-        <p className="mt-3 text-sm text-text-caption">
-          {total === 1 ? '1 article' : `${total} articles`}
-        </p>
-      </header>
+        </Container>
+      </div>
+
+      {/* Featured lead article (page 1 only) */}
+      {leadPost && <CategoryLead post={leadPost} />}
 
       {/* Article grid */}
-      <ArticleGrid posts={posts} />
+      <Container className="py-10">
+        <ArticleGrid posts={gridPosts} />
 
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="mt-12">
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            basePath={`/category/${slug}`}
-          />
-        </div>
-      )}
-    </Container>
+        {totalPages > 1 && (
+          <div className="mt-12">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              basePath={`/category/${slug}`}
+            />
+          </div>
+        )}
+      </Container>
+
+      {/* Newsletter CTA */}
+      <NewsletterCTA />
     </>
+  )
+}
+
+// ---------------------------------------------------------------------------
+// Featured lead article
+// ---------------------------------------------------------------------------
+
+function CategoryLead({ post }: { post: GhostPost }) {
+  const excerpt = post.custom_excerpt || post.excerpt || ''
+  const href = `/${post.slug}`
+  const video = extractVideo(post.html)
+
+  return (
+    <div className="border-b border-border">
+      <Container className="py-8">
+        <article className="group grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-10">
+          <Link href={href} className="block">
+            <div className="relative aspect-[16/10] w-full overflow-hidden rounded-sm">
+              {video ? (
+                <video
+                  src={video.src}
+                  poster={video.thumbnail || post.feature_image || undefined}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              ) : post.feature_image ? (
+                <Image
+                  src={post.feature_image}
+                  alt={post.feature_image_alt || post.title}
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                />
+              ) : (
+                <div className="absolute inset-0 bg-surface" />
+              )}
+            </div>
+          </Link>
+
+          <div className="flex flex-col justify-center">
+            {post.primary_tag && (
+              <span className="mb-2 text-[11px] font-bold uppercase tracking-widest text-primary">
+                {post.primary_tag.name}
+              </span>
+            )}
+            <Link href={href} className="group">
+              <h2 className="font-heading text-2xl font-bold leading-tight text-text-headline transition-colors duration-150 group-hover:text-primary sm:text-3xl lg:text-4xl">
+                {post.title}
+              </h2>
+            </Link>
+            <p className="mt-3 line-clamp-3 text-base leading-relaxed text-text-muted lg:text-lg">
+              {excerpt}
+            </p>
+            <div className="mt-4 flex items-center gap-2 text-xs uppercase tracking-wider text-text-caption">
+              {post.primary_author && (
+                <>
+                  <span className="font-medium text-text-headline">{post.primary_author.name}</span>
+                  <span aria-hidden="true">&middot;</span>
+                </>
+              )}
+              {post.published_at && (
+                <>
+                  <time dateTime={post.published_at}>{formatDate(post.published_at)}</time>
+                  <span aria-hidden="true">&middot;</span>
+                </>
+              )}
+              <span>{formatReadingTime(post.reading_time)}</span>
+            </div>
+          </div>
+        </article>
+      </Container>
+    </div>
   )
 }

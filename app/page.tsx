@@ -125,6 +125,9 @@ export default function Home() {
       {/* Newsletter CTA: bold dark band */}
       <NewsletterCTA />
 
+      {/* LiveRecover sponsor banner */}
+      <SponsorBanner />
+
       {/* Latest articles feed */}
       <Suspense fallback={<LatestFeedSkeleton />}>
         <LatestSection />
