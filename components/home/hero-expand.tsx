@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import type { GhostPost } from '@/lib/types'
 import { formatDate } from '@/lib/format'
+import { extractVideo } from '@/lib/video'
 import ScrollExpandMedia from '@/components/home/scroll-expand-media'
 
 interface HeroExpandProps {
@@ -16,13 +17,15 @@ interface HeroExpandProps {
  */
 export function HeroExpand({ post }: HeroExpandProps) {
   const featureImage = post.feature_image || '/og-image.png'
+  const video = extractVideo(post.html)
   const tag = post.primary_tag?.name || ''
   const date = post.published_at ? formatDate(post.published_at) : ''
 
   return (
     <ScrollExpandMedia
-      mediaType="image"
-      mediaSrc={featureImage}
+      mediaType={video ? 'video' : 'image'}
+      mediaSrc={video ? video.src : featureImage}
+      posterSrc={video ? (video.thumbnail || featureImage) : undefined}
       bgImageSrc={featureImage}
       title={post.title}
       date={tag}
