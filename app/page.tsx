@@ -1,4 +1,3 @@
-import { Suspense } from 'react'
 import { getPosts, getPostsByTag } from '@/lib/ghost'
 import type { GhostPost } from '@/lib/types'
 import { HeroArticle } from '@/components/home/hero-article'
@@ -7,12 +6,6 @@ import { LatestFeed } from '@/components/home/latest-feed'
 import { CategorySection } from '@/components/home/category-section'
 import { NewsletterCTA } from '@/components/home/newsletter-cta'
 import { SponsorBanner } from '@/components/home/sponsor-banner'
-import {
-  HeroSkeleton,
-  FeaturedGridSkeleton,
-  LatestFeedSkeleton,
-  CategorySectionSkeleton,
-} from '@/components/article/article-card-skeleton'
 
 // ---------------------------------------------------------------------------
 // Categories displayed as homepage sections
@@ -25,124 +18,65 @@ const CATEGORIES = [
 ] as const
 
 // ---------------------------------------------------------------------------
-// Async data-fetching components (streamed via Suspense)
+// Page component — single data fetch, no duplicates
 // ---------------------------------------------------------------------------
 
-/**
- * Cinematic hero: latest post as full-bleed video/image with headline overlay,
- * plus 4 secondary story cards in a row beneath.
- */
-async function HeroSection() {
-  try {
-    const response = await getPosts({ limit: 8 })
-    const posts = response.posts
-    if (posts.length === 0) return null
+export default async function Home() {
+  // Single fetch: get enough posts for all sections
+  const [mainResponse, ...categoryResults] = await Promise.all([
+    getPosts({ limit: 20 }),
+    ...CATEGORIES.map((cat) => getPostsByTag(cat.slug, { limit: 6 })),
+  ])
 
-    const heroPost = posts[0]
-    const secondaryPosts = posts.slice(1, 5)
+  const allPosts = mainResponse.posts
 
-    return <HeroArticle post={heroPost} secondaryPosts={secondaryPosts} />
-  } catch {
-    return null
-  }
-}
+  // Distribute posts across sections — each post appears exactly once
+  const heroPost = allPosts[0] ?? null
+  const secondaryPosts = allPosts.slice(1, 5)
+  const featuredPosts = allPosts.slice(5, 8)
+  const latestPosts = allPosts.slice(8, 16)
 
-/**
- * Editor's Picks: asymmetric grid with 1 large + 2 stacked.
- * Uses posts 5-7 (after hero uses 0-4).
- */
-async function FeaturedSection() {
-  try {
-    const response = await getPosts({ limit: 8 })
-    const gridPosts = response.posts.slice(5, 8)
-    if (gridPosts.length === 0) return null
-    return <FeaturedGrid posts={gridPosts} />
-  } catch {
-    return null
-  }
-}
+  // Track all IDs used in main sections
+  const usedIds = new Set(allPosts.slice(0, 16).map((p) => p.id))
 
-/**
- * Latest feed: text-heavy list with thumbnails + "Most Read" sidebar.
- * Fetches separately to get a fresh set beyond what hero/featured use.
- */
-async function LatestSection() {
-  try {
-    const response = await getPosts({ limit: 15 })
-    // Skip the first 8 posts already used by hero + featured
-    const latestPosts = response.posts.slice(8)
-    if (latestPosts.length === 0) return null
-    return <LatestFeed posts={latestPosts} />
-  } catch {
-    return null
-  }
-}
+  // Filter category posts to exclude anything already shown
+  const categoryData = CATEGORIES.map((cat, i) => ({
+    ...cat,
+    posts: categoryResults[i].posts
+      .filter((p: GhostPost) => !usedIds.has(p.id))
+      .slice(0, 3),
+  }))
 
-async function CategorySections() {
-  try {
-    const results = await Promise.all(
-      CATEGORIES.map((cat) => getPostsByTag(cat.slug, { limit: 3 }))
-    )
-
-    return (
-      <>
-        {CATEGORIES.map((cat, i) => {
-          const posts = results[i].posts
-          if (posts.length === 0) return null
-          return (
-            <CategorySection
-              key={cat.slug}
-              title={cat.title}
-              slug={cat.slug}
-              posts={posts}
-            />
-          )
-        })}
-      </>
-    )
-  } catch {
-    return null
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Page component
-// ---------------------------------------------------------------------------
-
-export default function Home() {
   return (
     <>
-      {/* Cinematic hero with secondary story bar */}
-      <Suspense fallback={<HeroSkeleton />}>
-        <HeroSection />
-      </Suspense>
+      {/* Hero with secondary story bar */}
+      {heroPost && (
+        <HeroArticle post={heroPost} secondaryPosts={secondaryPosts} />
+      )}
 
       {/* Editor's Picks: asymmetric grid */}
-      <Suspense fallback={<FeaturedGridSkeleton />}>
-        <FeaturedSection />
-      </Suspense>
+      {featuredPosts.length > 0 && <FeaturedGrid posts={featuredPosts} />}
 
-      {/* Newsletter CTA: bold dark band */}
+      {/* Newsletter CTA */}
       <NewsletterCTA />
 
       {/* LiveRecover sponsor banner */}
       <SponsorBanner />
 
       {/* Latest articles feed */}
-      <Suspense fallback={<LatestFeedSkeleton />}>
-        <LatestSection />
-      </Suspense>
+      {latestPosts.length > 0 && <LatestFeed posts={latestPosts} />}
 
-      {/* Category sections: Industry, Strategies, Analysis */}
-      <Suspense fallback={
-        <div className="space-y-12">
-          <CategorySectionSkeleton />
-          <CategorySectionSkeleton />
-          <CategorySectionSkeleton />
-        </div>
-      }>
-        <CategorySections />
-      </Suspense>
+      {/* Category sections */}
+      {categoryData.map((cat) =>
+        cat.posts.length > 0 ? (
+          <CategorySection
+            key={cat.slug}
+            title={cat.title}
+            slug={cat.slug}
+            posts={cat.posts}
+          />
+        ) : null
+      )}
     </>
   )
 }
