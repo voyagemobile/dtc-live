@@ -230,11 +230,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             {cleanHtml && <ArticleContent html={cleanHtml} />}
           </div>
 
-          {/* Share Buttons */}
-          <ShareButtons title={post.title} slug={post.slug} />
-
           {/* Subscribe CTA */}
           <ArticleSubscribe />
+
+          {/* Share Buttons */}
+          <ShareButtons title={post.title} slug={post.slug} />
         </Container>
       </article>
 
