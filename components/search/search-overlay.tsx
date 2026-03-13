@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import type { GhostPost } from '@/lib/types'
 import { searchPosts, SEARCH_DEBOUNCE_MS } from '@/lib/search'
 import { SearchResults } from '@/components/search/search-results'
+import { trackSearch } from '@/lib/analytics'
 
 interface SearchOverlayProps {
   isOpen: boolean
@@ -85,6 +86,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
       if (currentId === searchIdRef.current) {
         setResults(posts)
         setLoading(false)
+        trackSearch(query.trim())
       }
     }, SEARCH_DEBOUNCE_MS)
 

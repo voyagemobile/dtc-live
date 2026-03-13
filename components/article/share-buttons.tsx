@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback, useEffect } from 'react'
+import { trackShare } from '@/lib/analytics'
 
 interface ShareButtonsProps {
   title: string
@@ -41,19 +42,22 @@ export function ShareButtons({ title, slug }: ShareButtonsProps) {
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     }
-  }, [getUrl])
+    trackShare('copy', slug)
+  }, [getUrl, slug])
 
   const handleShareX = useCallback(() => {
     const url = getUrl()
     const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`
     window.open(shareUrl, '_blank', 'noopener,noreferrer,width=550,height=420')
-  }, [getUrl, title])
+    trackShare('twitter', slug)
+  }, [getUrl, title, slug])
 
   const handleShareLinkedIn = useCallback(() => {
     const url = getUrl()
     const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`
     window.open(shareUrl, '_blank', 'noopener,noreferrer,width=550,height=420')
-  }, [getUrl])
+    trackShare('linkedin', slug)
+  }, [getUrl, slug])
 
   const handleNativeShare = useCallback(async () => {
     const url = getUrl()

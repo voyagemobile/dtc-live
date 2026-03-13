@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { NavLink } from '@/components/nav/nav-link'
 import { Container } from '@/components/ui/container'
 import type { GhostPost } from '@/lib/types'
+import { trackCategoryNav } from '@/lib/analytics'
 
 /** Category definition with editorial description. */
 export interface NavCategory {
@@ -123,6 +124,7 @@ export default function MegaMenu({ categories, trendingPosts }: MegaMenuProps) {
                 aria-expanded={isActive}
                 onFocus={() => handleCategoryEnter(category.slug)}
                 onBlur={scheduleClose}
+                onClick={() => trackCategoryNav(category.slug)}
                 className={`group relative block py-5 text-sm font-medium tracking-wide transition-colors duration-200 ${
                   isActive
                     ? 'text-nav-text'

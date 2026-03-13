@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { headingFont, bodyFont } from '@/lib/fonts'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
+import { AnalyticsProvider } from '@/components/analytics-provider'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -25,6 +26,7 @@ export default function RootLayout({
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <AnalyticsProvider />
       </body>
     </html>
   )
