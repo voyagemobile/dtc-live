@@ -1,10 +1,11 @@
 import { Suspense } from 'react'
-import { getFeaturedPosts, getPosts, getPostsByTag } from '@/lib/ghost'
+import { getPosts, getPostsByTag } from '@/lib/ghost'
 import type { GhostPost } from '@/lib/types'
 import { HeroArticle } from '@/components/home/hero-article'
 import { FeaturedGrid } from '@/components/home/featured-grid'
 import { LatestFeed } from '@/components/home/latest-feed'
 import { CategorySection } from '@/components/home/category-section'
+import { NewsletterCTA } from '@/components/home/newsletter-cta'
 import {
   HeroSkeleton,
   FeaturedGridSkeleton,
@@ -24,40 +25,35 @@ const CATEGORIES = [
 
 // ---------------------------------------------------------------------------
 // Async data-fetching components (streamed via Suspense)
-//
-// Each section catches fetch errors so the page degrades gracefully
-// when Ghost is unreachable or the API key is not yet configured.
 // ---------------------------------------------------------------------------
 
+/**
+ * Cinematic hero: latest post as full-bleed video/image with headline overlay,
+ * plus 4 secondary story cards in a row beneath.
+ */
 async function HeroSection() {
   try {
-    // Fetch hero (1 featured) + 4 recent posts for sidebar columns
-    const [featured, latestResponse] = await Promise.all([
-      getFeaturedPosts(1),
-      getPosts({ limit: 5 }),
-    ])
-    const heroPost = featured[0]
-    if (!heroPost) return null
+    const response = await getPosts({ limit: 8 })
+    const posts = response.posts
+    if (posts.length === 0) return null
 
-    // Use latest non-hero posts for sidebar columns
-    const sidebarPosts = latestResponse.posts.filter(
-      (p: GhostPost) => p.id !== heroPost.id
-    ).slice(0, 4)
+    const heroPost = posts[0]
+    const secondaryPosts = posts.slice(1, 5)
 
-    const leftPosts = sidebarPosts.slice(0, 2)
-    const rightPosts = sidebarPosts.slice(2, 4)
-
-    return <HeroArticle post={heroPost} leftPosts={leftPosts} rightPosts={rightPosts} />
+    return <HeroArticle post={heroPost} secondaryPosts={secondaryPosts} />
   } catch {
     return null
   }
 }
 
+/**
+ * Editor's Picks: asymmetric grid with 1 large + 2 stacked.
+ * Uses posts 5-7 (after hero uses 0-4).
+ */
 async function FeaturedSection() {
   try {
-    const featured = await getFeaturedPosts(4)
-    // Skip the first post (used by hero)
-    const gridPosts = featured.slice(1)
+    const response = await getPosts({ limit: 8 })
+    const gridPosts = response.posts.slice(5, 8)
     if (gridPosts.length === 0) return null
     return <FeaturedGrid posts={gridPosts} />
   } catch {
@@ -65,21 +61,17 @@ async function FeaturedSection() {
   }
 }
 
+/**
+ * Latest feed: text-heavy list with thumbnails + "Most Read" sidebar.
+ * Fetches separately to get a fresh set beyond what hero/featured use.
+ */
 async function LatestSection() {
   try {
-    // Fetch featured IDs to exclude the hero post from the latest feed
-    const [featured, latestResponse] = await Promise.all([
-      getFeaturedPosts(1),
-      getPosts({ limit: 10 }),
-    ])
-
-    const heroId = featured[0]?.id
-    const latestPosts = latestResponse.posts.filter(
-      (post: GhostPost) => post.id !== heroId
-    )
-
+    const response = await getPosts({ limit: 15 })
+    // Skip the first 8 posts already used by hero + featured
+    const latestPosts = response.posts.slice(8)
     if (latestPosts.length === 0) return null
-    return <LatestFeed posts={latestPosts.slice(0, 8)} />
+    return <LatestFeed posts={latestPosts} />
   } catch {
     return null
   }
@@ -87,7 +79,6 @@ async function LatestSection() {
 
 async function CategorySections() {
   try {
-    // Fetch all categories in parallel
     const results = await Promise.all(
       CATEGORIES.map((cat) => getPostsByTag(cat.slug, { limit: 3 }))
     )
@@ -120,17 +111,20 @@ async function CategorySections() {
 export default function Home() {
   return (
     <>
-      {/* Hero: full-width featured article */}
+      {/* Cinematic hero with secondary story bar */}
       <Suspense fallback={<HeroSkeleton />}>
         <HeroSection />
       </Suspense>
 
-      {/* Featured grid: asymmetric editorial layout */}
+      {/* Editor's Picks: asymmetric grid */}
       <Suspense fallback={<FeaturedGridSkeleton />}>
         <FeaturedSection />
       </Suspense>
 
-      {/* Latest articles: chronological feed */}
+      {/* Newsletter CTA: bold dark band */}
+      <NewsletterCTA />
+
+      {/* Latest articles feed */}
       <Suspense fallback={<LatestFeedSkeleton />}>
         <LatestSection />
       </Suspense>
