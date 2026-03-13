@@ -211,6 +211,10 @@ export function HeroAccordion({ posts }: HeroAccordionProps) {
             <WordPullUp
               words="Real tactics, sharp analysis, and the stories behind the DTC brands actually winning right now."
               className="mt-6 text-lg text-text-body max-w-xl mx-auto lg:mx-0 font-body leading-relaxed text-left font-normal tracking-normal drop-shadow-none"
+              wrapperFramerProps={{
+                hidden: { opacity: 0 },
+                show: { opacity: 1, transition: { staggerChildren: 0.06 } },
+              }}
             />
           </div>
 
