@@ -71,7 +71,7 @@ export function SubscribeForm({ variant = 'default' }: SubscribeFormProps) {
                   aria-invalid={status === 'error' ? true : undefined}
                   required
                   disabled={status === 'loading'}
-                  className="min-w-0 flex-1 rounded-md border border-border bg-white px-3 py-2 text-sm text-text-body placeholder:text-text-muted focus:outline-2 focus:outline-primary disabled:opacity-50"
+                  className="min-w-0 flex-1 rounded-md border border-border bg-surface-elevated px-3 py-2 text-sm text-text-body placeholder:text-text-muted focus:outline-2 focus:outline-primary disabled:opacity-50"
                 />
                 <Button
                   type="submit"
@@ -123,7 +123,7 @@ export function SubscribeForm({ variant = 'default' }: SubscribeFormProps) {
                 aria-invalid={status === 'error' ? true : undefined}
                 required
                 disabled={status === 'loading'}
-                className="w-full rounded-md border border-border bg-white px-4 py-2.5 text-sm text-text-body placeholder:text-text-muted focus:outline-2 focus:outline-primary disabled:opacity-50"
+                className="w-full rounded-md border border-border bg-surface-elevated px-4 py-2.5 text-sm text-text-body placeholder:text-text-muted focus:outline-2 focus:outline-primary disabled:opacity-50"
               />
               <Button
                 type="submit"

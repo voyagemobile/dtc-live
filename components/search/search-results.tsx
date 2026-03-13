@@ -66,7 +66,7 @@ export function SearchResults({ results, query, loading, onClose }: SearchResult
         <p className="sr-only" aria-live="polite" aria-atomic="true">
           Searching...
         </p>
-        <div className="mt-2 overflow-hidden rounded-lg border border-border bg-white">
+        <div className="mt-2 overflow-hidden rounded-lg border border-border bg-surface-elevated">
           <SkeletonRow />
           <SkeletonRow />
           <SkeletonRow />
@@ -83,7 +83,7 @@ export function SearchResults({ results, query, loading, onClose }: SearchResult
         <p className="sr-only" aria-live="polite" aria-atomic="true">
           No results found for {query}
         </p>
-        <div className="mt-2 rounded-lg border border-border bg-white px-4 py-8 text-center">
+        <div className="mt-2 rounded-lg border border-border bg-surface-elevated px-4 py-8 text-center">
           <p className="text-sm text-text-muted">
             No results for <strong>&ldquo;{query}&rdquo;</strong>
           </p>
@@ -100,7 +100,7 @@ export function SearchResults({ results, query, loading, onClose }: SearchResult
         {results.length} result{results.length === 1 ? '' : 's'} for {query}
       </p>
       <ul
-        className="mt-2 overflow-hidden rounded-lg border border-border bg-white"
+        className="mt-2 overflow-hidden rounded-lg border border-border bg-surface-elevated"
         aria-label="Search results"
       >
         {results.map((post) => {

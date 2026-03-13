@@ -113,7 +113,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
     >
       {/* Panel */}
       <div
-        className="w-full max-w-2xl overflow-hidden rounded-xl border border-border bg-white shadow-2xl mx-4"
+        className="w-full max-w-2xl overflow-hidden rounded-xl border border-border bg-surface-elevated shadow-2xl mx-4"
         /* Stop clicks inside the panel from hitting the backdrop */
         onClick={(e) => e.stopPropagation()}
       >

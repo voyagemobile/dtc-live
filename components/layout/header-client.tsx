@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import type { GhostPost } from '@/lib/types'
 import type { NavCategory } from '@/components/nav/mega-menu'
+import { ThemeToggle } from '@/components/ui/theme-toggle'
 
 const MegaMenu = dynamic(() => import('@/components/nav/mega-menu'), {
   ssr: false,
@@ -90,6 +91,9 @@ export function HeaderClient({ categories, trendingPosts }: HeaderClientProps) {
           ⌘K
         </span>
       </button>
+
+      {/* Theme toggle — sun/moon toggle for dark/light mode */}
+      <ThemeToggle />
 
       {/* Mobile hamburger button */}
       <button

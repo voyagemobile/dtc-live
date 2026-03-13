@@ -30,6 +30,36 @@
 }
 
 /* ============================================
+   Dark Mode Color Tokens
+   Applied when next-themes adds .dark class to <html>
+   ============================================ */
+
+.dark {
+  /* Backgrounds */
+  --color-background: #0a0a0a;
+  --color-foreground: #f5f5f5;
+  --color-surface: #1a1a1a;
+  --color-surface-elevated: #242424;
+
+  /* Borders */
+  --color-border: #2a2a2a;
+
+  /* Typography */
+  --color-text-headline: #f5f5f5;
+  --color-text-body: #d4d4d4;
+  --color-text-muted: #a3a3a3;
+  --color-text-caption: #737373;
+
+  /* Navigation — already dark, keep unchanged */
+  --color-nav-bg: #0a0a0a;
+  --color-nav-text: #ffffff;
+
+  /* Brand — hot pink works in both modes */
+  --color-primary: #F2245B;
+  --color-primary-hover: #D91E50;
+}
+
+/* ============================================
    Tailwind v4 Theme Extension
    Exposes CSS variables as Tailwind utilities
    ============================================ */

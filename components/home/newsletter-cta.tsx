@@ -63,7 +63,7 @@ export function NewsletterCTA() {
           ) : (
             <form
               onSubmit={handleSubmit}
-              className="flex gap-0 overflow-hidden rounded-full border border-border bg-white shadow-sm"
+              className="flex gap-0 overflow-hidden rounded-full border border-border bg-surface-elevated shadow-sm"
             >
               <input
                 type="email"
