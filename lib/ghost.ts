@@ -76,6 +76,57 @@ function buildUrl(
   return `${base}?${search.toString()}`
 }
 
+/**
+ * Rewrite Ghost media URLs in post HTML and fields so browsers load images
+ * and videos directly from Ghost's origin instead of through our proxy.
+ *
+ * Handles three URL patterns found in Ghost HTML:
+ *  1. Relative:      /content/images/...
+ *  2. Old custom domain: https://dtc.live/content/images/...
+ *  3. Already correct:   https://dtc-live.ghost.io/content/images/... (no-op)
+ */
+const GHOST_ORIGIN = GHOST_API_URL?.replace(/\/$/, '') || 'https://dtc-live.ghost.io'
+
+function rewriteGhostMediaUrl(url: string | null | undefined): string | null {
+  if (!url) return null
+  // Already pointing to Ghost origin — leave it
+  if (url.startsWith(GHOST_ORIGIN)) return url
+  // Relative /content/images/ path
+  if (url.startsWith('/content/images/')) return `${GHOST_ORIGIN}${url}`
+  // Old custom domain reference
+  if (url.startsWith('https://dtc.live/content/images/')) {
+    return url.replace('https://dtc.live/content/images/', `${GHOST_ORIGIN}/content/images/`)
+  }
+  return url
+}
+
+function rewriteGhostHtml(html: string | null): string | null {
+  if (!html) return null
+  return html
+    // Relative URLs in src/poster/href attributes
+    .replace(/(src|poster|href)="\/content\/images\//g, `$1="${GHOST_ORIGIN}/content/images/`)
+    // Old custom domain URLs
+    .replace(/(src|poster|href)="https:\/\/dtc\.live\/content\/images\//g, `$1="${GHOST_ORIGIN}/content/images/`)
+    // data-kg-thumbnail attribute (used by video cards)
+    .replace(/data-kg-thumbnail="\/content\/images\//g, `data-kg-thumbnail="${GHOST_ORIGIN}/content/images/`)
+    .replace(/data-kg-thumbnail="https:\/\/dtc\.live\/content\/images\//g, `data-kg-thumbnail="${GHOST_ORIGIN}/content/images/`)
+}
+
+function rewritePostUrls(post: Record<string, unknown>): Record<string, unknown> {
+  const patched = { ...post }
+  // Rewrite HTML body
+  if (typeof patched.html === 'string') {
+    patched.html = rewriteGhostHtml(patched.html)
+  }
+  // Rewrite image fields
+  for (const field of ['feature_image', 'og_image', 'twitter_image']) {
+    if (typeof patched[field] === 'string') {
+      patched[field] = rewriteGhostMediaUrl(patched[field] as string)
+    }
+  }
+  return patched
+}
+
 async function fetchGhost<T>(url: string): Promise<T> {
   const res = await fetch(url, {
     next: { revalidate: REVALIDATE },
@@ -89,7 +140,20 @@ async function fetchGhost<T>(url: string): Promise<T> {
     )
   }
 
-  return res.json() as Promise<T>
+  const data = (await res.json()) as T
+
+  // Rewrite media URLs so browsers load directly from Ghost
+  const obj = data as Record<string, unknown>
+  if (obj && typeof obj === 'object') {
+    for (const key of ['posts', 'pages']) {
+      const collection = obj[key]
+      if (Array.isArray(collection)) {
+        obj[key] = collection.map(rewritePostUrls)
+      }
+    }
+  }
+
+  return data
 }
 
 // ---------------------------------------------------------------------------

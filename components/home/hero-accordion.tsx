@@ -112,7 +112,7 @@ function AccordionItem({
 
   return (
     <Link
-      href={`/tag/${panel.slug}`}
+      href={`/category/${panel.slug}`}
       className={`
         relative rounded-2xl overflow-hidden cursor-pointer block h-full
         transition-[flex] duration-700 ease-in-out
@@ -239,7 +239,7 @@ export function HeroAccordion({ posts }: HeroAccordionProps) {
               {panels.map((panel) => (
                 <Link
                   key={panel.slug}
-                  href={`/tag/${panel.slug}`}
+                  href={`/category/${panel.slug}`}
                   className="relative shrink-0 w-[280px] h-[360px] rounded-2xl overflow-hidden snap-start block"
                 >
                   {panel.videoSrc ? (

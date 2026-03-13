@@ -31,7 +31,8 @@ function WordPullUp({
     <motion.p
       variants={wrapperFramerProps}
       initial="hidden"
-      animate="show"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.1 }}
       className={cn(
         "font-display text-center text-4xl font-bold leading-[5rem] tracking-[-0.02em] drop-shadow-sm",
         className,
