@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { GhostPost } from '@/lib/types'
 import { extractVideo } from '@/lib/video'
-import { HeroAnimation } from '@/components/home/hero-animation'
+import { HeroExpand } from '@/components/home/hero-expand'
 
 interface HeroArticleProps {
   post: GhostPost
@@ -11,28 +11,18 @@ interface HeroArticleProps {
 }
 
 /**
- * Hero with DTC Live logo, tagline, subscribe CTA, and two rows of
- * article images scrolling as a marquee. Trending strip below.
+ * Hero with scroll-to-expand featured article image,
+ * followed by a trending stories strip below.
  */
 export function HeroArticle({ post, secondaryPosts = [], allPosts = [] }: HeroArticleProps) {
-  // Collect articles with images for the marquee
-  const marqueeArticles = allPosts
-    .filter((p) => p.feature_image)
-    .map((p) => ({
-      slug: p.slug,
-      title: p.title,
-      feature_image: p.feature_image,
-      feature_image_alt: p.feature_image_alt,
-    }))
-
   return (
-    <section className="border-b border-border">
-      {/* ── Marquee hero ── */}
-      <HeroAnimation articles={marqueeArticles} />
+    <section>
+      {/* ── Scroll-expand hero ── */}
+      <HeroExpand post={post} />
 
       {/* ── Trending strip ── */}
       {secondaryPosts.length > 0 && (
-        <div className="border-t border-border bg-surface/40">
+        <div className="border-t border-b border-border bg-surface/40">
           <div className="mx-auto max-w-[1280px] px-5">
             <div className="flex items-center gap-2 py-3">
               <svg className="h-3.5 w-3.5 text-primary" fill="currentColor" viewBox="0 0 20 20">
