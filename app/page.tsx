@@ -49,24 +49,24 @@ export default async function Home() {
 
   return (
     <>
-      {/* Hero with secondary story bar */}
+      {/* 1. Full-bleed hero with trending bar */}
       {heroPost && (
         <HeroArticle post={heroPost} secondaryPosts={secondaryPosts} />
       )}
 
-      {/* Editor's Picks: asymmetric grid */}
+      {/* 2. Editor's Picks: bold overlay + side cards */}
       {featuredPosts.length > 0 && <FeaturedGrid posts={featuredPosts} />}
 
-      {/* Newsletter CTA */}
+      {/* 3. Newsletter CTA banner */}
       <NewsletterCTA />
 
-      {/* LiveRecover sponsor banner */}
-      <SponsorBanner />
-
-      {/* Latest articles feed */}
+      {/* 4. Latest: numbered ranking + Most Read sidebar */}
       {latestPosts.length > 0 && <LatestFeed posts={latestPosts} />}
 
-      {/* Category sections */}
+      {/* 5. LiveRecover sponsor banner */}
+      <SponsorBanner />
+
+      {/* 6. Category sections */}
       {categoryData.map((cat) =>
         cat.posts.length > 0 ? (
           <CategorySection

@@ -9,8 +9,9 @@ interface FeaturedGridProps {
 }
 
 /**
- * Asymmetric editorial grid: 1 large card left + 2 stacked right.
- * Bold imagery with animated videos. Below the hero section.
+ * Editor's Picks: bold lead card with overlay headline (mini cover),
+ * two side cards with prominent thumbnails. Feels like a different
+ * rhythm from the hero and latest sections.
  */
 export function FeaturedGrid({ posts }: FeaturedGridProps) {
   if (posts.length === 0) return null
@@ -19,23 +20,24 @@ export function FeaturedGrid({ posts }: FeaturedGridProps) {
 
   return (
     <section className="border-b border-border">
-      <div className="mx-auto max-w-[1280px] px-5 py-8">
-        {/* Section label */}
-        <div className="mb-6 border-b-2 border-foreground pb-2">
-          <h2 className="text-xs font-bold uppercase tracking-widest text-text-headline">
+      <div className="mx-auto max-w-[1280px] px-5 py-10">
+        {/* Section label with pink accent */}
+        <div className="mb-8 flex items-center gap-3">
+          <div className="h-5 w-1 rounded-full bg-primary" />
+          <h2 className="text-sm font-bold uppercase tracking-widest text-text-headline">
             Editor&rsquo;s Picks
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[3fr_2fr] lg:gap-0 lg:divide-x lg:divide-border">
-          {/* Lead story: large card */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
+          {/* Lead story: large card with overlay */}
           {lead && <LeadCard post={lead} />}
 
-          {/* Stacked stories */}
+          {/* Side cards: stacked */}
           {rest.length > 0 && (
-            <div className="flex flex-col divide-y divide-border lg:pl-6">
+            <div className="flex flex-col gap-6 lg:col-span-2">
               {rest.slice(0, 2).map((post) => (
-                <StackedCard key={post.id} post={post} />
+                <SideCard key={post.id} post={post} />
               ))}
             </div>
           )}
@@ -51,110 +53,97 @@ function LeadCard({ post }: { post: GhostPost }) {
   const video = extractVideo(post.html)
 
   return (
-    <article className="group lg:pr-6">
-      <Link href={href} className="block">
-        {(video || post.feature_image) && (
-          <div className="relative aspect-[16/10] w-full overflow-hidden rounded-sm">
-            {video ? (
-              <video
-                src={video.src}
-                poster={video.thumbnail || post.feature_image || undefined}
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-            ) : (
-              <Image
-                src={post.feature_image!}
-                alt={post.feature_image_alt || post.title}
-                fill
-                sizes="(min-width: 1024px) 60vw, 100vw"
-                className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-              />
-            )}
+    <article className="group lg:col-span-3">
+      <Link href={href} className="relative block">
+        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg lg:aspect-[3/2]">
+          {video ? (
+            <video
+              src={video.src}
+              poster={video.thumbnail || post.feature_image || undefined}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          ) : post.feature_image ? (
+            <Image
+              src={post.feature_image}
+              alt={post.feature_image_alt || post.title}
+              fill
+              sizes="(min-width: 1024px) 60vw, 100vw"
+              className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+            />
+          ) : (
+            <div className="absolute inset-0 bg-surface" />
+          )}
+          {/* Gradient + text overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+          <div className="absolute inset-0 flex items-end p-6">
+            <div>
+              {post.primary_tag && (
+                <span className="mb-2 inline-block rounded-sm bg-primary px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest text-white">
+                  {post.primary_tag.name}
+                </span>
+              )}
+              <h3 className="font-heading text-xl font-bold leading-snug text-white lg:text-2xl">
+                {post.title}
+              </h3>
+              <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-white/75">
+                {excerpt}
+              </p>
+            </div>
           </div>
-        )}
+        </div>
       </Link>
-      {post.primary_tag && (
-        <span className="mt-4 inline-block text-[11px] font-semibold uppercase tracking-wider text-primary">
-          {post.primary_tag.name}
-        </span>
-      )}
-      <Link href={href} className="group">
-        <h3 className="mt-1 font-heading text-xl font-bold leading-snug text-text-headline transition-colors duration-150 group-hover:text-primary lg:text-2xl">
-          {post.title}
-        </h3>
-      </Link>
-      <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-text-muted lg:text-base">
-        {excerpt}
-      </p>
-      <div className="mt-3 flex items-center gap-2 text-[11px] uppercase tracking-wider text-text-caption">
-        {post.primary_author && (
-          <>
-            <span>{post.primary_author.name}</span>
-            <span aria-hidden="true">&middot;</span>
-          </>
-        )}
-        {post.published_at && (
-          <time dateTime={post.published_at}>{formatDate(post.published_at)}</time>
-        )}
-      </div>
     </article>
   )
 }
 
-function StackedCard({ post }: { post: GhostPost }) {
-  const excerpt = post.custom_excerpt || post.excerpt || ''
+function SideCard({ post }: { post: GhostPost }) {
   const href = `/${post.slug}`
   const video = extractVideo(post.html)
 
   return (
-    <article className="group flex flex-1 gap-5 py-5 first:pt-0 last:pb-0">
-      <div className="flex flex-1 flex-col justify-center">
-        {post.primary_tag && (
-          <span className="mb-1 text-[11px] font-semibold uppercase tracking-wider text-primary">
-            {post.primary_tag.name}
-          </span>
-        )}
-        <Link href={href}>
-          <h3 className="font-heading text-base font-bold leading-snug text-text-headline transition-colors duration-150 group-hover:text-primary lg:text-lg">
+    <article className="group flex-1">
+      <Link href={href} className="block">
+        <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg">
+          {video ? (
+            <video
+              src={video.src}
+              poster={video.thumbnail || post.feature_image || undefined}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          ) : post.feature_image ? (
+            <Image
+              src={post.feature_image}
+              alt={post.feature_image_alt || post.title}
+              fill
+              sizes="(min-width: 1024px) 25vw, 100vw"
+              className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+            />
+          ) : (
+            <div className="absolute inset-0 bg-surface" />
+          )}
+        </div>
+        <div className="mt-3">
+          {post.primary_tag && (
+            <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
+              {post.primary_tag.name}
+            </span>
+          )}
+          <h3 className="mt-1 font-heading text-base font-bold leading-snug text-text-headline transition-colors duration-150 group-hover:text-primary">
             {post.title}
           </h3>
-        </Link>
-        <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-text-muted">
-          {excerpt}
-        </p>
-        <span className="mt-2 text-[11px] uppercase tracking-wider text-text-caption">
-          {formatReadingTime(post.reading_time)}
-        </span>
-      </div>
-      {(video || post.feature_image) && (
-        <Link href={href} className="relative hidden shrink-0 sm:block">
-          <div className="relative h-[110px] w-[160px] overflow-hidden rounded-sm">
-            {video ? (
-              <video
-                src={video.src}
-                poster={video.thumbnail || post.feature_image || undefined}
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-            ) : (
-              <Image
-                src={post.feature_image!}
-                alt={post.feature_image_alt || post.title}
-                fill
-                sizes="160px"
-                className="object-cover"
-              />
-            )}
-          </div>
-        </Link>
-      )}
+          <span className="mt-1.5 block text-[11px] uppercase tracking-wider text-text-caption">
+            {formatReadingTime(post.reading_time)}
+          </span>
+        </div>
+      </Link>
     </article>
   )
 }
