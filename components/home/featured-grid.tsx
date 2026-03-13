@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { GhostPost } from '@/lib/types'
 import { formatDate, formatReadingTime } from '@/lib/format'
+import { extractVideo } from '@/lib/video'
 
 interface FeaturedGridProps {
   posts: GhostPost[]
@@ -31,19 +32,32 @@ export function FeaturedGrid({ posts }: FeaturedGridProps) {
 function StoryCard({ post }: { post: GhostPost }) {
   const excerpt = post.custom_excerpt || post.excerpt || ''
   const href = `/${post.slug}`
+  const video = extractVideo(post.html)
 
   return (
     <article className="group px-0 py-4 first:pl-0 sm:px-6 sm:py-0 sm:first:pl-0 sm:last:pr-0 border-b border-border last:border-b-0 sm:border-b-0">
       <Link href={href} className="block">
-        {post.feature_image && (
+        {(video || post.feature_image) && (
           <div className="relative mb-3 aspect-[3/2] w-full overflow-hidden">
-            <Image
-              src={post.feature_image}
-              alt={post.feature_image_alt || post.title}
-              fill
-              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-              className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-            />
+            {video ? (
+              <video
+                src={video.src}
+                poster={video.thumbnail || post.feature_image || undefined}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            ) : (
+              <Image
+                src={post.feature_image!}
+                alt={post.feature_image_alt || post.title}
+                fill
+                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+              />
+            )}
           </div>
         )}
         <h3 className="font-heading text-lg font-bold leading-snug text-text-headline transition-colors duration-150 group-hover:text-primary">

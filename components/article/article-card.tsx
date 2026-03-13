@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { GhostPost } from '@/lib/types'
 import { formatDate, formatReadingTime } from '@/lib/format'
-import { extractVideoUrl } from '@/lib/video'
+import { extractVideo } from '@/lib/video'
 import { Badge } from '@/components/ui/badge'
 import { VideoHover } from '@/components/article/video-hover'
 
@@ -29,7 +29,8 @@ export function ArticleCard({
   className = '',
 }: ArticleCardProps) {
   const excerpt = post.custom_excerpt || post.excerpt || ''
-  const videoUrl = extractVideoUrl(post)
+  const video = extractVideo(post.html)
+  const videoUrl = video?.src ?? null
   const href = `/${post.slug}`
 
   if (variant === 'compact') {

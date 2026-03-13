@@ -1,34 +1,62 @@
-import type { GhostPost } from './types'
+/**
+ * Utilities for extracting video data from Ghost post HTML.
+ *
+ * Ghost stores 5-second animated "feature images" as kg-video-card figures
+ * at the end of the article body. The video filename matches the feature_image
+ * filename (e.g. "my-post.png" → "my-post.mp4").
+ *
+ * We extract the video URL to use as an animated banner, then strip the
+ * kg-video-card from the body HTML so it doesn't appear twice.
+ */
 
-const VIDEO_EXTENSIONS = /\.(mp4|webm|mov|m4v)(\?.*)?$/i
+export interface PostVideo {
+  /** Direct .mp4 URL from Ghost storage */
+  src: string
+  /** Thumbnail .jpg URL */
+  thumbnail: string
+  /** Video dimensions */
+  width: number
+  height: number
+}
 
 /**
- * Extract a video URL from a Ghost post's metadata fields.
- *
- * Ghost doesn't have a native video field, so editors store video URLs in
- * codeinjection_head, codeinjection_foot, og_image, or twitter_image.
- * This function checks all four and returns the first URL that looks like
- * a video file.
+ * Extract video metadata from a Ghost post's HTML.
+ * Returns null if no kg-video-card is found.
  */
-export function extractVideoUrl(post: GhostPost): string | null {
-  // Check og_image and twitter_image first (most likely locations for a URL)
-  for (const field of [post.og_image, post.twitter_image] as const) {
-    if (field && VIDEO_EXTENSIONS.test(field)) {
-      return field
-    }
-  }
+export function extractVideo(html: string | null): PostVideo | null {
+  if (!html) return null
 
-  // Check code injection fields for video URLs embedded in HTML or raw text
-  for (const field of [post.codeinjection_head, post.codeinjection_foot] as const) {
-    if (!field) continue
-    // Try to find a raw URL with a video extension
-    const urlMatch = field.match(
-      /https?:\/\/[^\s"'<>]+\.(mp4|webm|mov|m4v)(\?[^\s"'<>]*)?/i
-    )
-    if (urlMatch) {
-      return urlMatch[0]
-    }
-  }
+  // Match the video src from the kg-video-card
+  const videoMatch = html.match(
+    /<figure[^>]*kg-video-card[^>]*>[\s\S]*?<video\s+src="([^"]+\.mp4)"[^>]*>/
+  )
+  if (!videoMatch) return null
 
-  return null
+  const src = videoMatch[1]
+
+  // Extract width/height from the video tag
+  const fullTag = videoMatch[0]
+  const widthMatch = fullTag.match(/width="(\d+)"/)
+  const heightMatch = fullTag.match(/height="(\d+)"/)
+  const width = parseInt(widthMatch?.[1] || '1284', 10)
+  const height = parseInt(heightMatch?.[1] || '716', 10)
+
+  // Extract thumbnail from data-kg-thumbnail attribute
+  const thumbMatch = html.match(/data-kg-thumbnail="([^"]+)"/)
+  const thumbnail = thumbMatch?.[1] || ''
+
+  return { src, thumbnail, width, height }
+}
+
+/**
+ * Remove all kg-video-card figures from Ghost HTML.
+ * This prevents the video player from appearing in the article body
+ * when we're already showing it as the banner.
+ */
+export function stripVideoCards(html: string | null): string {
+  if (!html) return ''
+  return html.replace(
+    /<figure class="kg-card kg-video-card[^"]*"[^>]*>[\s\S]*?<\/figure>/g,
+    ''
+  )
 }

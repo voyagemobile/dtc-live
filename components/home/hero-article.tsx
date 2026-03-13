@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { GhostPost } from '@/lib/types'
 import { formatDate, formatReadingTime } from '@/lib/format'
+import { extractVideo } from '@/lib/video'
 
 interface HeroArticleProps {
   post: GhostPost
@@ -21,6 +22,7 @@ interface HeroArticleProps {
 export function HeroArticle({ post, leftPosts = [], rightPosts = [] }: HeroArticleProps) {
   const excerpt = post.custom_excerpt || post.excerpt || ''
   const href = `/${post.slug}`
+  const video = extractVideo(post.html)
 
   return (
     <section className="border-b border-border">
@@ -39,16 +41,28 @@ export function HeroArticle({ post, leftPosts = [], rightPosts = [] }: HeroArtic
           {/* Center Column - hero */}
           <div className="py-6 lg:px-6 lg:py-8">
             <Link href={href} className="group block">
-              {post.feature_image && (
+              {(video || post.feature_image) && (
                 <div className="relative aspect-[16/10] w-full overflow-hidden">
-                  <Image
-                    src={post.feature_image}
-                    alt={post.feature_image_alt || post.title}
-                    fill
-                    priority
-                    sizes="(min-width: 1024px) 50vw, 100vw"
-                    className="object-cover"
-                  />
+                  {video ? (
+                    <video
+                      src={video.src}
+                      poster={video.thumbnail || post.feature_image || undefined}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                  ) : (
+                    <Image
+                      src={post.feature_image!}
+                      alt={post.feature_image_alt || post.title}
+                      fill
+                      priority
+                      sizes="(min-width: 1024px) 50vw, 100vw"
+                      className="object-cover"
+                    />
+                  )}
                   {post.feature_image_caption && (
                     <p
                       className="absolute bottom-0 left-0 right-0 bg-black/60 px-3 py-1.5 text-xs text-white/80"

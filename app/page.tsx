@@ -31,10 +31,23 @@ const CATEGORIES = [
 
 async function HeroSection() {
   try {
-    const featured = await getFeaturedPosts(1)
+    // Fetch hero (1 featured) + 4 recent posts for sidebar columns
+    const [featured, latestResponse] = await Promise.all([
+      getFeaturedPosts(1),
+      getPosts({ limit: 5 }),
+    ])
     const heroPost = featured[0]
     if (!heroPost) return null
-    return <HeroArticle post={heroPost} />
+
+    // Use latest non-hero posts for sidebar columns
+    const sidebarPosts = latestResponse.posts.filter(
+      (p: GhostPost) => p.id !== heroPost.id
+    ).slice(0, 4)
+
+    const leftPosts = sidebarPosts.slice(0, 2)
+    const rightPosts = sidebarPosts.slice(2, 4)
+
+    return <HeroArticle post={heroPost} leftPosts={leftPosts} rightPosts={rightPosts} />
   } catch {
     return null
   }

@@ -23,6 +23,11 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'dtc.live',
       },
+      // Ghost storage (video thumbnails)
+      {
+        protocol: 'https',
+        hostname: 'storage.ghost.io',
+      },
     ],
   },
 }

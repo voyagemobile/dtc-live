@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { GhostPost } from '@/lib/types'
 import { formatDate, formatReadingTime } from '@/lib/format'
+import { extractVideo } from '@/lib/video'
 
 interface LatestFeedProps {
   posts: GhostPost[]
@@ -70,6 +71,7 @@ export function LatestFeed({ posts }: LatestFeedProps) {
 function LatestStory({ post }: { post: GhostPost }) {
   const excerpt = post.custom_excerpt || post.excerpt || ''
   const href = `/${post.slug}`
+  const video = extractVideo(post.html)
 
   return (
     <article className="group flex gap-5 py-5 first:pt-0 last:pb-0">
@@ -102,16 +104,28 @@ function LatestStory({ post }: { post: GhostPost }) {
       </div>
 
       {/* Thumbnail */}
-      {post.feature_image && (
+      {(video || post.feature_image) && (
         <Link href={href} className="relative hidden shrink-0 sm:block">
           <div className="relative h-[120px] w-[180px] overflow-hidden">
-            <Image
-              src={post.feature_image}
-              alt={post.feature_image_alt || post.title}
-              fill
-              sizes="180px"
-              className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-            />
+            {video ? (
+              <video
+                src={video.src}
+                poster={video.thumbnail || post.feature_image || undefined}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            ) : (
+              <Image
+                src={post.feature_image!}
+                alt={post.feature_image_alt || post.title}
+                fill
+                sizes="180px"
+                className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+              />
+            )}
           </div>
         </Link>
       )}

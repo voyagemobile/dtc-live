@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getPostBySlug, getPostsByTag } from '@/lib/ghost'
 import { formatDate, formatReadingTime } from '@/lib/format'
+import { extractVideo, stripVideoCards } from '@/lib/video'
 import { Badge } from '@/components/ui/badge'
 import { Container } from '@/components/ui/container'
 import { ArticleContent } from '@/components/article/article-content'
@@ -78,6 +79,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   const primaryAuthor = post.primary_author || post.authors[0] || null
 
+  // Extract video from Ghost HTML (5s animated feature videos)
+  const video = extractVideo(post.html)
+  // Strip the kg-video-card from body so it doesn't render twice
+  const cleanHtml = video ? stripVideoCards(post.html) : (post.html ?? '')
+
   // Structured data for article
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dtc.live'
   const articleUrl = `${siteUrl}/${post.slug}`
@@ -120,18 +126,30 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       />
 
       <article>
-        {/* Feature Image */}
-        {post.feature_image && (
+        {/* Feature Banner: video (autoplay loop) or static image */}
+        {(video || post.feature_image) && (
           <Container size="narrow" className="pt-8">
             <div className="relative aspect-[2/1] w-full overflow-hidden rounded-xl bg-surface">
-              <Image
-                src={post.feature_image}
-                alt={post.feature_image_alt || post.title}
-                fill
-                priority
-                sizes="(min-width: 768px) 720px, 100vw"
-                className="object-cover"
-              />
+              {video ? (
+                <video
+                  src={video.src}
+                  poster={video.thumbnail || post.feature_image || undefined}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              ) : (
+                <Image
+                  src={post.feature_image!}
+                  alt={post.feature_image_alt || post.title}
+                  fill
+                  priority
+                  sizes="(min-width: 768px) 720px, 100vw"
+                  className="object-cover"
+                />
+              )}
             </div>
           </Container>
         )}
@@ -207,7 +225,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
           {/* Article Body */}
           <div className="mt-10">
-            {post.html && <ArticleContent html={post.html} />}
+            {cleanHtml && <ArticleContent html={cleanHtml} />}
           </div>
 
           {/* Share Buttons */}
