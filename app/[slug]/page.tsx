@@ -11,6 +11,7 @@ import { ArticleContent } from '@/components/article/article-content'
 import { AuthorCard } from '@/components/article/author-card'
 import { RelatedArticles } from '@/components/article/related-articles'
 import { ShareButtons } from '@/components/article/share-buttons'
+import { ReadingProgress } from '@/components/article/reading-progress'
 
 export const revalidate = 300
 
@@ -120,6 +121,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   return (
     <>
+      <ReadingProgress />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
