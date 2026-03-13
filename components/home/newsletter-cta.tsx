@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import Image from 'next/image'
 
 /**
  * Newsletter CTA using the designed banner image (cta-banner.png) as background.
@@ -52,16 +53,19 @@ export function NewsletterCTA() {
             className="relative overflow-hidden rounded-xl"
             style={{ aspectRatio: '1320 / 325' }}
           >
-            <img
+            <Image
               src="/cta-banner.png"
               alt="The Smartest Brands Subscribe to DTC.Live"
+              width={2640}
+              height={650}
               className="absolute inset-0 h-full w-full object-cover"
+              priority={false}
             />
 
             {/* Form overlay — aligned with heading text in the image */}
             <div
               className="absolute z-10"
-              style={{ left: '6.5%', bottom: '16%', width: '42%' }}
+              style={{ left: '4.8%', bottom: '22%', width: '42%' }}
             >
               {status === 'success' ? (
                 <div className="flex items-center gap-2 text-sm font-semibold text-green-600">
