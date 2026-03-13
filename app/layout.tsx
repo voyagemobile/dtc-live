@@ -3,7 +3,6 @@ import { headingFont, bodyFont } from '@/lib/fonts'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
 import { AnalyticsProvider } from '@/components/analytics-provider'
-import { ThemeProvider } from '@/components/theme-provider'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -22,22 +21,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    // suppressHydrationWarning is required by next-themes: the server renders
-    // with no class, then the client immediately adds "dark" or "light" before
-    // React hydration completes, causing a harmless mismatch that we suppress.
-    <html lang="en" className={`${headingFont.variable} ${bodyFont.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${headingFont.variable} ${bodyFont.variable}`}>
       <body className="flex min-h-screen flex-col font-body">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />
           <AnalyticsProvider />
-        </ThemeProvider>
       </body>
     </html>
   )
