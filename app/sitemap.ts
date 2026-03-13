@@ -14,13 +14,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const posts = postsData.posts
 
-  // Static homepage entry
+  // Static pages
   const staticEntries: MetadataRoute.Sitemap = [
     {
       url: BASE_URL,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1.0,
+    },
+    {
+      url: `${BASE_URL}/terms`,
+      lastModified: new Date('2026-03-13'),
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
+    {
+      url: `${BASE_URL}/privacy`,
+      lastModified: new Date('2026-03-13'),
+      changeFrequency: 'yearly',
+      priority: 0.3,
     },
   ]
 
