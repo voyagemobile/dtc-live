@@ -275,3 +275,4 @@ export function HeroAccordion({ posts }: HeroAccordionProps) {
       </div>
     </section>
   )
+}
