@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { GhostPost } from '@/lib/types'
 import { extractVideo } from '@/lib/video'
+import { WordPullUp } from '@/components/ui/word-pull-up'
 
 interface HeroAccordionProps {
   posts: GhostPost[]
@@ -207,9 +208,10 @@ export function HeroAccordion({ posts }: HeroAccordionProps) {
             <h1 className="text-4xl md:text-5xl xl:text-[3.5rem] font-bold text-text-headline leading-[1.1] tracking-tight font-heading">
               The Playbook for Building Brands That Last
             </h1>
-            <p className="mt-6 text-lg text-text-muted max-w-xl mx-auto lg:mx-0 font-body leading-relaxed">
-              Real tactics, sharp analysis, and the stories behind the DTC brands actually winning right now.
-            </p>
+            <WordPullUp
+              words="Real tactics, sharp analysis, and the stories behind the DTC brands actually winning right now."
+              className="mt-6 text-lg text-text-body max-w-xl mx-auto lg:mx-0 font-body leading-relaxed text-left font-normal tracking-normal drop-shadow-none"
+            />
           </div>
 
           {/* Right: Image accordion — wider to fill space */}
