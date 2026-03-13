@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -108,27 +108,8 @@ function AccordionItem({
   onMouseEnter: () => void
   onMouseLeave: () => void
 }) {
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const [videoReady, setVideoReady] = useState(false)
-
   // All states use flex basis for smooth transitions
   const flexVal = isActive ? 'flex-[8_1_0%]' : isResting ? 'flex-[1_1_0%]' : 'flex-[0.5_1_0%]'
-
-  // Load and play video only when panel becomes active (hovered)
-  useEffect(() => {
-    const video = videoRef.current
-    if (!video || !panel.videoSrc) return
-
-    if (isActive) {
-      // Set src to start loading, then play once ready
-      if (!video.src) {
-        video.src = panel.videoSrc
-      }
-      video.play().catch(() => {})
-    } else {
-      video.pause()
-    }
-  }, [isActive, panel.videoSrc])
 
   return (
     <Link
@@ -141,34 +122,28 @@ function AccordionItem({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      {/* Always render the poster image — instant load, no buffering */}
-      <Image
-        src={panel.videoThumbnail || panel.image}
-        alt={panel.imageAlt}
-        fill
-        sizes="(max-width: 768px) 280px, 600px"
-        priority
-        className={`
-          object-cover transition-transform duration-[8s] ease-out
-          ${isActive ? 'scale-110' : 'scale-100'}
-          ${isActive && videoReady ? 'opacity-0' : 'opacity-100'}
-        `}
-      />
-
-      {/* Video: no src until hovered, only visible when active AND buffered */}
-      {panel.videoSrc && (
-        <video
-          ref={videoRef}
-          muted
-          loop
-          playsInline
-          preload="none"
-          onCanPlay={() => setVideoReady(true)}
+      {/* Video or image — videos autoplay immediately (only 3, bandwidth is fine) */}
+      {panel.videoSrc ? (
+        <AutoPlayVideo
+          src={panel.videoSrc}
+          poster={panel.videoThumbnail || panel.image}
+          eager
           className={`
             absolute inset-0 h-full w-full object-cover
-            transition-all duration-[8s] ease-out
+            transition-transform duration-[8s] ease-out
             ${isActive ? 'scale-110' : 'scale-100'}
-            ${isActive && videoReady ? 'opacity-100' : 'opacity-0'}
+          `}
+        />
+      ) : (
+        <Image
+          src={panel.image}
+          alt={panel.imageAlt}
+          fill
+          sizes="(max-width: 768px) 280px, 600px"
+          priority
+          className={`
+            object-cover transition-transform duration-[8s] ease-out
+            ${isActive ? 'scale-110' : 'scale-100'}
           `}
         />
       )}
