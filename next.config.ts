@@ -1,6 +1,16 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+  // Redirect old Ghost /tag/ URLs to /category/ (Ghost used /tag/ natively)
+  async redirects() {
+    return [
+      {
+        source: '/tag/:slug',
+        destination: '/category/:slug',
+        permanent: true,
+      },
+    ]
+  },
   // Proxy Ghost content images — article HTML contains /content/images/
   // URLs that Ghost stored when it was the frontend. Now that Next.js
   // serves dtc.live, these requests need to be forwarded to Ghost.
