@@ -1,54 +1,65 @@
+import Image from 'next/image'
+import Link from 'next/link'
 import type { GhostPost } from '@/lib/types'
-import { Container } from '@/components/ui/container'
-import { ArticleCard } from '@/components/article/article-card'
+import { formatDate, formatReadingTime } from '@/lib/format'
 
 interface FeaturedGridProps {
   posts: GhostPost[]
 }
 
 /**
- * Asymmetric editorial grid for featured articles.
- *
- * Layout (desktop):
- * - Left column (7/12): one large "featured" card
- * - Right column (5/12): two stacked "standard" cards
- *
- * If only 2 posts are available, the right column shows one card.
- * If only 1 post, it takes the full width.
+ * NYT-style secondary story row.
+ * Each story gets an image + headline + excerpt in a clean horizontal layout
+ * separated by thin vertical dividers. Below the hero section.
  */
 export function FeaturedGrid({ posts }: FeaturedGridProps) {
   if (posts.length === 0) return null
 
-  const primary = posts[0]
-  const secondary = posts.slice(1, 3)
+  return (
+    <section className="border-b border-border">
+      <div className="mx-auto max-w-[1280px] px-5 py-8">
+        <div className="grid grid-cols-1 gap-0 sm:grid-cols-2 sm:divide-x sm:divide-border lg:grid-cols-3">
+          {posts.slice(0, 3).map((post) => (
+            <StoryCard key={post.id} post={post} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function StoryCard({ post }: { post: GhostPost }) {
+  const excerpt = post.custom_excerpt || post.excerpt || ''
+  const href = `/${post.slug}`
 
   return (
-    <section className="py-12 lg:py-16">
-      <Container size="wide">
-        {/* Section heading */}
-        <div className="mb-8 flex items-center gap-4">
-          <h2 className="font-heading text-2xl font-bold text-text-headline lg:text-3xl">
-            Featured
-          </h2>
-          <div className="h-px flex-1 bg-border" aria-hidden="true" />
-        </div>
-
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
-          {/* Primary (large) card */}
-          <div className="lg:col-span-7">
-            <ArticleCard post={primary} variant="featured" />
+    <article className="group px-0 py-4 first:pl-0 sm:px-6 sm:py-0 sm:first:pl-0 sm:last:pr-0 border-b border-border last:border-b-0 sm:border-b-0">
+      <Link href={href} className="block">
+        {post.feature_image && (
+          <div className="relative mb-3 aspect-[3/2] w-full overflow-hidden">
+            <Image
+              src={post.feature_image}
+              alt={post.feature_image_alt || post.title}
+              fill
+              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+            />
           </div>
-
-          {/* Secondary (stacked) cards */}
-          {secondary.length > 0 && (
-            <div className="flex flex-col gap-8 lg:col-span-5">
-              {secondary.map((post) => (
-                <ArticleCard key={post.id} post={post} variant="standard" />
-              ))}
-            </div>
-          )}
-        </div>
-      </Container>
-    </section>
+        )}
+        <h3 className="font-heading text-lg font-bold leading-snug text-text-headline transition-colors duration-150 group-hover:text-primary">
+          {post.title}
+        </h3>
+      </Link>
+      <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-text-muted">
+        {excerpt}
+      </p>
+      <div className="mt-2 flex items-center gap-2 text-[11px] uppercase tracking-wider text-text-caption">
+        {post.published_at && (
+          <time dateTime={post.published_at}>{formatDate(post.published_at)}</time>
+        )}
+        <span aria-hidden="true">&middot;</span>
+        <span>{formatReadingTime(post.reading_time)}</span>
+      </div>
+    </article>
   )
 }

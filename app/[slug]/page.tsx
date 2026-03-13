@@ -122,16 +122,18 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       <article>
         {/* Feature Image */}
         {post.feature_image && (
-          <div className="relative h-[50vh] min-h-[320px] max-h-[560px] w-full overflow-hidden bg-surface sm:h-[56vh]">
-            <Image
-              src={post.feature_image}
-              alt={post.feature_image_alt || post.title}
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover"
-            />
-          </div>
+          <Container size="narrow" className="pt-8">
+            <div className="relative aspect-[2/1] w-full overflow-hidden rounded-xl bg-surface">
+              <Image
+                src={post.feature_image}
+                alt={post.feature_image_alt || post.title}
+                fill
+                priority
+                sizes="(min-width: 768px) 720px, 100vw"
+                className="object-cover"
+              />
+            </div>
+          </Container>
         )}
 
         {/* Article Header + Content */}
