@@ -36,7 +36,7 @@ export function AutoPlayVideo({ src, poster, className, eager = false }: AutoPla
           observer.disconnect()
         }
       },
-      { rootMargin: '200px' } // Start loading 200px before it scrolls into view
+      { rootMargin: '50px' } // Start loading just before it scrolls into view
     )
 
     observer.observe(video)

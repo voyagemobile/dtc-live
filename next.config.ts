@@ -11,7 +11,21 @@ const nextConfig: NextConfig = {
       },
     ]
   },
-  // Ghost content images are proxied via app/content/images/[...path]/route.ts
+  // Edge-level proxy for Ghost media — faster than serverless route handlers.
+  // Handles any /content/images/ or /content/media/ URLs that weren't rewritten
+  // at the API layer. Vercel caches these at the edge.
+  async rewrites() {
+    return [
+      {
+        source: '/content/images/:path*',
+        destination: 'https://dtc-live.ghost.io/content/images/:path*',
+      },
+      {
+        source: '/content/media/:path*',
+        destination: 'https://dtc-live.ghost.io/content/media/:path*',
+      },
+    ]
+  },
   images: {
     remotePatterns: [
       // Self-hosted Ghost instances on *.ghost.io

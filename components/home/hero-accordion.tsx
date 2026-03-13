@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -131,6 +131,7 @@ function AccordionItem({
           muted
           loop
           playsInline
+          preload="auto"
           className={`
             absolute inset-0 h-full w-full object-cover
             transition-transform duration-[8s] ease-out
@@ -193,14 +194,24 @@ function AccordionItem({
 
 export function HeroAccordion({ posts }: HeroAccordionProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
+  // Delay decorative SVG animations so browser prioritises video decoding
+  const [showPaths, setShowPaths] = useState(false)
+  useEffect(() => {
+    const t = setTimeout(() => setShowPaths(true), 2500)
+    return () => clearTimeout(t)
+  }, [])
   const panels = deriveCategoryPanels(posts)
 
   return (
     <section className="relative overflow-hidden bg-white">
-      {/* Animated pink path background */}
+      {/* Animated pink path background — delayed to not compete with videos */}
       <div className="absolute inset-0">
-        <FloatingPaths position={1} />
-        <FloatingPaths position={-1} />
+        {showPaths && (
+          <>
+            <FloatingPaths position={1} />
+            <FloatingPaths position={-1} />
+          </>
+        )}
       </div>
 
       <div className="relative z-10 mx-auto max-w-[1280px] px-5 py-12 md:py-20">
@@ -232,7 +243,8 @@ export function HeroAccordion({ posts }: HeroAccordionProps) {
               ))}
             </div>
 
-            {/* Mobile: horizontal scroll cards */}
+            {/* Mobile: horizontal scroll cards — NO eager video loading to avoid
+                duplicating the desktop video downloads on initial page load */}
             <div className="flex md:hidden gap-3 overflow-x-auto pb-4 snap-x snap-mandatory -mx-5 px-5">
               {panels.map((panel) => (
                 <Link
@@ -244,7 +256,6 @@ export function HeroAccordion({ posts }: HeroAccordionProps) {
                     <AutoPlayVideo
                       src={panel.videoSrc}
                       poster={panel.videoThumbnail || panel.image}
-                      eager
                       className="absolute inset-0 h-full w-full object-cover"
                     />
                   ) : (
