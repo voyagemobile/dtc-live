@@ -197,7 +197,7 @@ export function HeroAccordion({ posts }: HeroAccordionProps) {
   // Delay decorative SVG animations so browser prioritises video decoding
   const [showPaths, setShowPaths] = useState(false)
   useEffect(() => {
-    const t = setTimeout(() => setShowPaths(true), 2500)
+    const t = setTimeout(() => setShowPaths(true), 800)
     return () => clearTimeout(t)
   }, [])
   const panels = deriveCategoryPanels(posts)
