@@ -33,7 +33,7 @@ const categories: NavCategory[] = [
   {
     label: 'Top DTC Brands',
     slug: 'top-dtc-brands',
-    href: '/category/top-dtc-brands',
+    href: '/fastest-growing-dtc-brands-in-2025',
     description:
       'Profiles of the brands defining the DTC landscape.',
   },

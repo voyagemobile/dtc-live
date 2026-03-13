@@ -212,6 +212,23 @@ export const getAuthorBySlug = cache(async (slug: string): Promise<GhostAuthor |
   }
 })
 
+export const getPageBySlug = cache(async (slug: string): Promise<GhostPost | null> => {
+  const url = buildUrl('pages/slug/' + encodeURIComponent(slug), {
+    include: POST_INCLUDE,
+    formats: POST_FORMATS,
+    fields: POST_FIELDS,
+  })
+  try {
+    const data = await fetchGhost<{ pages: GhostPost[] }>(url)
+    return data.pages[0] ?? null
+  } catch (err) {
+    if (err instanceof Error && err.message.startsWith('Ghost API request failed: 404')) {
+      return null
+    }
+    throw err
+  }
+})
+
 export const getPostsByAuthor = cache(
   async (
     authorSlug: string,

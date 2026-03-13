@@ -7,7 +7,7 @@ const sectionLinks = [
   { label: 'Industry', href: '/category/industry' },
   { label: 'Strategies', href: '/category/strategies' },
   { label: 'Analysis', href: '/category/analysis' },
-  { label: 'Top DTC Brands', href: '/category/top-dtc-brands' },
+  { label: 'Top DTC Brands', href: '/fastest-growing-dtc-brands-in-2025' },
 ]
 
 export function Footer() {

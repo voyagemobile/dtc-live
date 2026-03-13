@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { getPostBySlug, getPostsByTag } from '@/lib/ghost'
+import { getPostBySlug, getPageBySlug, getPostsByTag } from '@/lib/ghost'
 import { formatDate, formatReadingTime } from '@/lib/format'
 import { extractVideo, stripVideoCards } from '@/lib/video'
 import { Badge } from '@/components/ui/badge'
@@ -23,7 +23,7 @@ export async function generateMetadata({
   params,
 }: ArticlePageProps): Promise<Metadata> {
   const { slug } = await params
-  const post = await getPostBySlug(slug)
+  const post = (await getPostBySlug(slug)) ?? (await getPageBySlug(slug))
 
   if (!post) {
     return { title: 'Article Not Found' }
@@ -65,7 +65,8 @@ export async function generateMetadata({
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params
-  const post = await getPostBySlug(slug)
+  // Try posts first, then fall back to Ghost pages
+  const post = (await getPostBySlug(slug)) ?? (await getPageBySlug(slug))
 
   if (!post) {
     notFound()
