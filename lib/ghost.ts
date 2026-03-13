@@ -91,11 +91,13 @@ function rewriteGhostMediaUrl(url: string | null | undefined): string | null {
   if (!url) return null
   // Already pointing to Ghost origin — leave it
   if (url.startsWith(GHOST_ORIGIN)) return url
-  // Relative /content/images/ path
-  if (url.startsWith('/content/images/')) return `${GHOST_ORIGIN}${url}`
-  // Old custom domain reference
-  if (url.startsWith('https://dtc.live/content/images/')) {
-    return url.replace('https://dtc.live/content/images/', `${GHOST_ORIGIN}/content/images/`)
+  // Relative /content/images/ or /content/media/ paths
+  if (url.startsWith('/content/images/') || url.startsWith('/content/media/')) {
+    return `${GHOST_ORIGIN}${url}`
+  }
+  // Old custom domain references (both images and media)
+  if (url.startsWith('https://dtc.live/content/')) {
+    return url.replace('https://dtc.live/', `${GHOST_ORIGIN}/`)
   }
   return url
 }
@@ -103,13 +105,13 @@ function rewriteGhostMediaUrl(url: string | null | undefined): string | null {
 function rewriteGhostHtml(html: string | null): string | null {
   if (!html) return null
   return html
-    // Relative URLs in src/poster/href attributes
-    .replace(/(src|poster|href)="\/content\/images\//g, `$1="${GHOST_ORIGIN}/content/images/`)
-    // Old custom domain URLs
-    .replace(/(src|poster|href)="https:\/\/dtc\.live\/content\/images\//g, `$1="${GHOST_ORIGIN}/content/images/`)
+    // Relative URLs in src/poster/href attributes — both /content/images/ and /content/media/
+    .replace(/(src|poster|href)="\/content\/(images|media)\//g, `$1="${GHOST_ORIGIN}/content/$2/`)
+    // Old custom domain URLs — both /content/images/ and /content/media/
+    .replace(/(src|poster|href)="https:\/\/dtc\.live\/content\/(images|media)\//g, `$1="${GHOST_ORIGIN}/content/$2/`)
     // data-kg-thumbnail attribute (used by video cards)
-    .replace(/data-kg-thumbnail="\/content\/images\//g, `data-kg-thumbnail="${GHOST_ORIGIN}/content/images/`)
-    .replace(/data-kg-thumbnail="https:\/\/dtc\.live\/content\/images\//g, `data-kg-thumbnail="${GHOST_ORIGIN}/content/images/`)
+    .replace(/data-kg-thumbnail="\/content\/(images|media)\//g, `data-kg-thumbnail="${GHOST_ORIGIN}/content/$1/`)
+    .replace(/data-kg-thumbnail="https:\/\/dtc\.live\/content\/(images|media)\//g, `data-kg-thumbnail="${GHOST_ORIGIN}/content/$1/`)
 }
 
 function rewritePostUrls(post: Record<string, unknown>): Record<string, unknown> {
