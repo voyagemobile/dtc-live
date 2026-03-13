@@ -28,7 +28,6 @@ export function HeroExpand({ post }: HeroExpandProps) {
       posterSrc={video ? (video.thumbnail || featureImage) : undefined}
       bgImageSrc={featureImage}
       title={post.title}
-      date={tag}
       scrollToExpand="Scroll to read"
       textBlend
     >

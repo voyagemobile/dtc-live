@@ -78,7 +78,7 @@ function LeadCard({ post }: { post: GhostPost }) {
             <div className="absolute inset-0 bg-surface" />
           )}
           {/* Gradient + text overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/5" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
           <div className="absolute inset-0 flex items-end p-6">
             <div>
               {post.primary_tag && (
@@ -86,7 +86,7 @@ function LeadCard({ post }: { post: GhostPost }) {
                   {post.primary_tag.name}
                 </span>
               )}
-              <h3 className="font-heading text-xl font-bold leading-snug text-white drop-shadow-md lg:text-2xl">
+              <h3 className="font-heading text-xl font-bold leading-snug text-white lg:text-2xl">
                 {post.title}
               </h3>
               <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-white/75">
@@ -130,7 +130,7 @@ function SideCard({ post }: { post: GhostPost }) {
             <div className="absolute inset-0 bg-surface" />
           )}
           {/* Gradient + text overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
           <div className="absolute inset-0 flex items-end p-5">
             <div>
               {post.primary_tag && (
@@ -138,7 +138,7 @@ function SideCard({ post }: { post: GhostPost }) {
                   {post.primary_tag.name}
                 </span>
               )}
-              <h3 className="font-heading text-base font-bold leading-snug text-white drop-shadow-md lg:text-lg">
+              <h3 className="font-heading text-base font-bold leading-snug text-white lg:text-lg">
                 {post.title}
               </h3>
               <span className="mt-1.5 block text-[11px] uppercase tracking-wider text-white/60">

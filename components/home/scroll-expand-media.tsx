@@ -195,6 +195,7 @@ const ScrollExpandMedia = ({
                   maxWidth: '95vw',
                   maxHeight: '85vh',
                   boxShadow: '0px 0px 50px rgba(0, 0, 0, 0.3)',
+                  opacity: 0.55,
                 }}
               >
                 {mediaType === 'video' ? (
@@ -297,13 +298,13 @@ const ScrollExpandMedia = ({
                 className='absolute inset-0 flex items-center justify-center text-center gap-4 w-full z-20 transition-none flex-col pointer-events-none'
               >
                 <motion.h2
-                  className='text-4xl md:text-5xl lg:text-6xl font-bold text-white transition-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]'
+                  className='text-4xl md:text-5xl lg:text-6xl font-bold text-white transition-none'
                   style={{ transform: `translateX(-${textTranslateX}vw)` }}
                 >
                   {firstWord}
                 </motion.h2>
                 <motion.h2
-                  className='text-4xl md:text-5xl lg:text-6xl font-bold text-center text-white transition-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]'
+                  className='text-4xl md:text-5xl lg:text-6xl font-bold text-center text-white transition-none'
                   style={{ transform: `translateX(${textTranslateX}vw)` }}
                 >
                   {restOfTitle}
