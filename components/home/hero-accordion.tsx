@@ -76,10 +76,7 @@ function FloatingPaths({ position }: { position: number }) {
             stroke="#F2245B"
             strokeWidth={path.width}
             strokeOpacity={0.15 + path.id * 0.025}
-            initial={{ pathLength: 0.3, opacity: 0.6 }}
             animate={{
-              pathLength: 1,
-              opacity: [0.3, 0.6, 0.3],
               pathOffset: [0, 1, 0],
             }}
             transition={{
@@ -278,4 +275,3 @@ export function HeroAccordion({ posts }: HeroAccordionProps) {
       </div>
     </section>
   )
-}
