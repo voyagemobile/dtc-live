@@ -73,8 +73,28 @@ export default async function CategoryPage({
   const { posts, meta } = postsData
   const { pages: totalPages, total } = meta.pagination
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dtc.live'
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: tag.name,
+    description: tag.description ?? `Browse ${tag.name} articles on DTC Live`,
+    url: `${siteUrl}/category/${slug}`,
+    publisher: {
+      '@type': 'Organization',
+      name: 'DTC Live',
+      url: siteUrl,
+    },
+  }
+
   return (
-    <Container className="py-10 sm:py-14">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <Container className="py-10 sm:py-14">
       {/* Category header */}
       <header className="mb-10 border-b border-border pb-8">
         <h1 className="font-heading text-4xl font-bold leading-tight text-text-headline sm:text-5xl">
@@ -104,5 +124,6 @@ export default async function CategoryPage({
         </div>
       )}
     </Container>
+    </>
   )
 }

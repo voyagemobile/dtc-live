@@ -79,22 +79,32 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const primaryAuthor = post.primary_author || post.authors[0] || null
 
   // Structured data for article
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dtc.live'
+  const articleUrl = `${siteUrl}/${post.slug}`
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': articleUrl,
+    },
     headline: post.title,
     description: post.custom_excerpt || post.excerpt || '',
+    url: articleUrl,
     image: post.feature_image || undefined,
     datePublished: post.published_at || undefined,
     dateModified: post.updated_at || post.published_at || undefined,
     author: post.authors.map((a) => ({
       '@type': 'Person',
       name: a.name,
-      url: a.website || undefined,
+      ...(a.profile_image && { image: a.profile_image }),
+      ...(a.website && { url: a.website }),
     })),
     publisher: {
       '@type': 'Organization',
       name: 'DTC Live',
+      url: siteUrl,
     },
   }
 
