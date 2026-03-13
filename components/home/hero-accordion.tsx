@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -194,24 +194,14 @@ function AccordionItem({
 
 export function HeroAccordion({ posts }: HeroAccordionProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
-  // Delay decorative SVG animations so browser prioritises video decoding
-  const [showPaths, setShowPaths] = useState(false)
-  useEffect(() => {
-    const t = setTimeout(() => setShowPaths(true), 800)
-    return () => clearTimeout(t)
-  }, [])
   const panels = deriveCategoryPanels(posts)
 
   return (
     <section className="relative overflow-hidden bg-white">
-      {/* Animated pink path background — delayed to not compete with videos */}
+      {/* Animated pink path background */}
       <div className="absolute inset-0">
-        {showPaths && (
-          <>
-            <FloatingPaths position={1} />
-            <FloatingPaths position={-1} />
-          </>
-        )}
+        <FloatingPaths position={1} />
+        <FloatingPaths position={-1} />
       </div>
 
       <div className="relative z-10 mx-auto max-w-[1280px] px-5 py-12 md:py-20">
