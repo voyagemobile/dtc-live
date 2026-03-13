@@ -29,7 +29,6 @@ export function HeroExpand({ post }: HeroExpandProps) {
       bgImageSrc={featureImage}
       title={post.title}
       scrollToExpand="Scroll to read"
-      textBlend
     >
       {/* Content revealed after full expansion */}
       <div className="mx-auto max-w-3xl">

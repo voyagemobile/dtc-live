@@ -18,7 +18,6 @@ interface ScrollExpandMediaProps {
   title?: string;
   date?: string;
   scrollToExpand?: string;
-  textBlend?: boolean;
   children?: ReactNode;
 }
 
@@ -30,7 +29,6 @@ const ScrollExpandMedia = ({
   title,
   date,
   scrollToExpand,
-  textBlend,
   children,
 }: ScrollExpandMediaProps) => {
   const [scrollProgress, setScrollProgress] = useState<number>(0);
@@ -285,8 +283,13 @@ const ScrollExpandMedia = ({
                   )}
                   {scrollToExpand && (
                     <p
-                      className='text-white font-semibold text-lg text-center [text-shadow:_0_2px_8px_rgba(0,0,0,0.7),_0_0px_3px_rgba(0,0,0,0.5)]'
-                      style={{ transform: `translateX(${textTranslateX}vw)` }}
+                      className='font-semibold text-lg text-center'
+                      style={{
+                        transform: `translateX(${textTranslateX}vw)`,
+                        color: '#ffffff',
+                        textShadow: '0 2px 10px rgba(0,0,0,0.8), 0 0px 4px rgba(0,0,0,0.6)',
+                        WebkitTextFillColor: '#ffffff',
+                      }}
                     >
                       {scrollToExpand}
                     </p>
@@ -296,16 +299,27 @@ const ScrollExpandMedia = ({
 
               <div
                 className='absolute inset-0 flex items-center justify-center text-center gap-4 w-full z-20 transition-none flex-col pointer-events-none'
+                style={{ mixBlendMode: 'normal' }}
               >
                 <motion.h2
-                  className='text-4xl md:text-5xl lg:text-6xl font-bold text-white transition-none [text-shadow:_0_2px_12px_rgba(0,0,0,0.6),_0_0px_4px_rgba(0,0,0,0.4)]'
-                  style={{ transform: `translateX(-${textTranslateX}vw)` }}
+                  className='text-4xl md:text-5xl lg:text-6xl font-bold transition-none'
+                  style={{
+                    transform: `translateX(-${textTranslateX}vw)`,
+                    color: '#ffffff',
+                    textShadow: '0 2px 16px rgba(0,0,0,0.8), 0 0px 6px rgba(0,0,0,0.6), 0 4px 30px rgba(0,0,0,0.5)',
+                    WebkitTextFillColor: '#ffffff',
+                  }}
                 >
                   {firstWord}
                 </motion.h2>
                 <motion.h2
-                  className='text-4xl md:text-5xl lg:text-6xl font-bold text-center text-white transition-none [text-shadow:_0_2px_12px_rgba(0,0,0,0.6),_0_0px_4px_rgba(0,0,0,0.4)]'
-                  style={{ transform: `translateX(${textTranslateX}vw)` }}
+                  className='text-4xl md:text-5xl lg:text-6xl font-bold text-center transition-none'
+                  style={{
+                    transform: `translateX(${textTranslateX}vw)`,
+                    color: '#ffffff',
+                    textShadow: '0 2px 16px rgba(0,0,0,0.8), 0 0px 6px rgba(0,0,0,0.6), 0 4px 30px rgba(0,0,0,0.5)',
+                    WebkitTextFillColor: '#ffffff',
+                  }}
                 >
                   {restOfTitle}
                 </motion.h2>
