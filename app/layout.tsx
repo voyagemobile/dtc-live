@@ -32,10 +32,19 @@ export const metadata: Metadata = {
     description:
       'The intelligence every DTC operator needs. Industry news, growth strategies, and data-driven analysis for direct-to-consumer brands.',
     url: siteUrl,
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'DTC Live - Deep dives, smart signals and real DTC stories',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     site: '@dtcliveUS',
+    images: ['/og-image.png'],
   },
   alternates: {
     canonical: siteUrl,

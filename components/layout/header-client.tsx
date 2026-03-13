@@ -5,9 +5,7 @@ import dynamic from 'next/dynamic'
 import type { GhostPost } from '@/lib/types'
 import type { NavCategory } from '@/components/nav/mega-menu'
 
-const MegaMenu = dynamic(() => import('@/components/nav/mega-menu'), {
-  ssr: false,
-})
+const MegaMenu = dynamic(() => import('@/components/nav/mega-menu'))
 
 const MobileMenu = dynamic(() => import('@/components/nav/mobile-menu'), {
   ssr: false,
