@@ -54,6 +54,12 @@
   --animate-marquee: marquee var(--duration) linear infinite;
   --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
   --animate-ticker: ticker 30s linear infinite;
+  --animate-word-pull-up: word-pull-up 0.4s ease-out;
+}
+
+@keyframes word-pull-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes marquee {

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import type { GhostPost } from '@/lib/types'
 import { formatDate, formatReadingTime } from '@/lib/format'
 import { extractVideo } from '@/lib/video'
+import { AutoPlayVideo } from '@/components/ui/autoplay-video'
 
 interface CategorySectionProps {
   title: string
@@ -58,13 +59,9 @@ function CategoryCard({ post }: { post: GhostPost }) {
         {(video || post.feature_image) && (
           <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg bg-surface">
             {video ? (
-              <video
+              <AutoPlayVideo
                 src={video.src}
                 poster={video.thumbnail || post.feature_image || undefined}
-                autoPlay
-                muted
-                loop
-                playsInline
                 className="absolute inset-0 h-full w-full object-cover"
               />
             ) : (

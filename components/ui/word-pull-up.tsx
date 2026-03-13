@@ -1,53 +1,40 @@
 "use client";
-import { motion, Variants } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface WordPullUpProps {
   words: string;
-  delayMultiple?: number;
-  wrapperFramerProps?: Variants;
-  framerProps?: Variants;
   className?: string;
 }
 
-function WordPullUp({
-  words,
-  wrapperFramerProps = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  },
-  framerProps = {
-    hidden: { y: 20, opacity: 0 },
-    show: { y: 0, opacity: 1, transition: { duration: 0.3 } },
-  },
-  className,
-}: WordPullUpProps) {
+/**
+ * Simple CSS-animated text reveal. Each word fades in and slides up
+ * with a staggered delay. Uses pure CSS animations to avoid
+ * framer-motion hydration timing issues.
+ */
+function WordPullUp({ words, className }: WordPullUpProps) {
+  const wordArray = words.split(" ");
+
   return (
-    <motion.p
-      variants={wrapperFramerProps}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: 0.1 }}
+    <p
       className={cn(
         "font-display text-center text-4xl font-bold leading-[5rem] tracking-[-0.02em] drop-shadow-sm",
         className,
       )}
     >
-      {words.split(" ").map((word, i) => (
-        <motion.span
+      {wordArray.map((word, i) => (
+        <span
           key={i}
-          variants={framerProps}
-          style={{ display: "inline-block", paddingRight: "0.3em" }}
+          className="inline-block animate-word-pull-up opacity-0"
+          style={{
+            paddingRight: "0.3em",
+            animationDelay: `${i * 0.04}s`,
+            animationFillMode: "forwards",
+          }}
         >
           {word === "" ? <span>&nbsp;</span> : word}
-        </motion.span>
+        </span>
       ))}
-    </motion.p>
+    </p>
   );
 }
 

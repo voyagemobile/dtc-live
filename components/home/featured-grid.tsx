@@ -3,6 +3,7 @@ import Link from 'next/link'
 import type { GhostPost } from '@/lib/types'
 import { formatDate, formatReadingTime } from '@/lib/format'
 import { extractVideo } from '@/lib/video'
+import { AutoPlayVideo } from '@/components/ui/autoplay-video'
 
 interface FeaturedGridProps {
   posts: GhostPost[]
@@ -57,13 +58,9 @@ function LeadCard({ post }: { post: GhostPost }) {
       <Link href={href} className="relative block">
         <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg lg:aspect-[3/2]">
           {video ? (
-            <video
+            <AutoPlayVideo
               src={video.src}
               poster={video.thumbnail || post.feature_image || undefined}
-              autoPlay
-              muted
-              loop
-              playsInline
               className="absolute inset-0 h-full w-full object-cover"
             />
           ) : post.feature_image ? (
@@ -112,13 +109,9 @@ function SideCard({ post }: { post: GhostPost }) {
       <Link href={href} className="relative block h-full overflow-hidden rounded-lg">
         <div className="relative h-full min-h-[200px] w-full">
           {video ? (
-            <video
+            <AutoPlayVideo
               src={video.src}
               poster={video.thumbnail || post.feature_image || undefined}
-              autoPlay
-              muted
-              loop
-              playsInline
               className="absolute inset-0 h-full w-full object-cover"
             />
           ) : post.feature_image ? (

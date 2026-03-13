@@ -7,6 +7,7 @@ import Link from 'next/link'
 import type { GhostPost } from '@/lib/types'
 import { extractVideo } from '@/lib/video'
 import { WordPullUp } from '@/components/ui/word-pull-up'
+import { AutoPlayVideo } from '@/components/ui/autoplay-video'
 
 interface HeroAccordionProps {
   posts: GhostPost[]
@@ -122,13 +123,9 @@ function AccordionItem({
       onMouseLeave={onMouseLeave}
     >
       {panel.videoSrc ? (
-        <video
+        <AutoPlayVideo
           src={panel.videoSrc}
           poster={panel.videoThumbnail || panel.image}
-          autoPlay
-          muted
-          loop
-          playsInline
           className={`
             absolute inset-0 h-full w-full object-cover
             transition-transform duration-[8s] ease-out
@@ -211,10 +208,6 @@ export function HeroAccordion({ posts }: HeroAccordionProps) {
             <WordPullUp
               words="Real tactics, sharp analysis, and the stories behind the DTC brands actually winning right now."
               className="mt-6 text-lg text-text-body max-w-xl mx-auto lg:mx-0 font-body leading-relaxed text-left font-normal tracking-normal drop-shadow-none"
-              wrapperFramerProps={{
-                hidden: { opacity: 0 },
-                show: { opacity: 1, transition: { staggerChildren: 0.06 } },
-              }}
             />
           </div>
 
@@ -243,13 +236,9 @@ export function HeroAccordion({ posts }: HeroAccordionProps) {
                   className="relative shrink-0 w-[280px] h-[360px] rounded-2xl overflow-hidden snap-start block"
                 >
                   {panel.videoSrc ? (
-                    <video
+                    <AutoPlayVideo
                       src={panel.videoSrc}
                       poster={panel.videoThumbnail || panel.image}
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
                       className="absolute inset-0 h-full w-full object-cover"
                     />
                   ) : (
