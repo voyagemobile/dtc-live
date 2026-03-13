@@ -10,9 +10,10 @@ interface HeroArticleProps {
 }
 
 /**
- * Full-bleed magazine-cover hero. The headline lives ON TOP of
- * the feature image/video with a dramatic gradient overlay.
- * Secondary stories as a tight "Now Trending" bar below.
+ * Editorial front-page hero: 5-post grid with one dominant story and
+ * four supporting stories. The lead article takes 2/3 width with a large
+ * image; secondary stories stack in a tight column on the right.
+ * A "Now Trending" label anchors the top.
  */
 export function HeroArticle({ post, secondaryPosts = [] }: HeroArticleProps) {
   const excerpt = post.custom_excerpt || post.excerpt || ''
@@ -20,55 +21,55 @@ export function HeroArticle({ post, secondaryPosts = [] }: HeroArticleProps) {
   const video = extractVideo(post.html)
 
   return (
-    <section>
-      {/* ── Full-bleed cover ── */}
-      <Link href={href} className="group relative block">
-        <div className="relative h-[480px] w-full overflow-hidden sm:h-[540px] lg:h-[600px]">
-          {/* Media layer */}
-          {video ? (
-            <video
-              src={video.src}
-              poster={video.thumbnail || post.feature_image || undefined}
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="absolute inset-0 h-full w-full object-cover"
-            />
-          ) : post.feature_image ? (
-            <Image
-              src={post.feature_image}
-              alt={post.feature_image_alt || post.title}
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-            />
-          ) : (
-            <div className="absolute inset-0 bg-foreground" />
-          )}
-
-          {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-
-          {/* Content overlay */}
-          <div className="absolute inset-0 flex items-end">
-            <div className="mx-auto w-full max-w-[1280px] px-5 pb-10 lg:pb-14">
+    <section className="border-b border-border">
+      <div className="mx-auto max-w-[1280px] px-5 py-8 lg:py-10">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_380px]">
+          {/* ── Lead story ── */}
+          <article className="group">
+            <Link href={href} className="block">
+              <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg">
+                {video ? (
+                  <video
+                    src={video.src}
+                    poster={video.thumbnail || post.feature_image || undefined}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                ) : post.feature_image ? (
+                  <Image
+                    src={post.feature_image}
+                    alt={post.feature_image_alt || post.title}
+                    fill
+                    priority
+                    sizes="(min-width: 1024px) 60vw, 100vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-surface" />
+                )}
+              </div>
+            </Link>
+            <div className="mt-5">
               {post.primary_tag && (
-                <span className="mb-3 inline-block rounded-sm bg-primary px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-white">
+                <span className="mb-2 inline-block rounded-sm bg-primary px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-white">
                   {post.primary_tag.name}
                 </span>
               )}
-              <h1 className="max-w-3xl font-heading text-3xl font-bold leading-[1.1] text-white sm:text-4xl lg:text-5xl xl:text-[3.5rem]">
-                {post.title}
-              </h1>
-              <p className="mt-3 max-w-2xl text-base leading-relaxed text-white/80 sm:text-lg">
+              <Link href={href} className="group">
+                <h1 className="font-heading text-2xl font-bold leading-[1.15] text-text-headline transition-colors duration-150 group-hover:text-primary sm:text-3xl lg:text-4xl">
+                  {post.title}
+                </h1>
+              </Link>
+              <p className="mt-3 max-w-2xl text-base leading-relaxed text-text-muted">
                 {excerpt}
               </p>
-              <div className="mt-4 flex items-center gap-3 text-xs uppercase tracking-wider text-white/60">
+              <div className="mt-3 flex items-center gap-2 text-[11px] uppercase tracking-wider text-text-caption">
                 {post.primary_author && (
                   <>
-                    <span className="font-medium text-white/90">{post.primary_author.name}</span>
+                    <span className="font-medium text-text-headline">{post.primary_author.name}</span>
                     <span aria-hidden="true">&middot;</span>
                   </>
                 )}
@@ -81,50 +82,70 @@ export function HeroArticle({ post, secondaryPosts = [] }: HeroArticleProps) {
                 <span>{formatReadingTime(post.reading_time)}</span>
               </div>
             </div>
-          </div>
-        </div>
-      </Link>
+          </article>
 
-      {/* ── Trending bar ── */}
-      {secondaryPosts.length > 0 && (
-        <div className="border-b border-border bg-surface">
-          <div className="mx-auto max-w-[1280px] px-5">
-            <div className="flex items-center gap-0 overflow-x-auto">
-              <span className="shrink-0 border-r border-border py-4 pr-5 text-[11px] font-bold uppercase tracking-widest text-primary">
-                Trending
-              </span>
-              <div className="flex divide-x divide-border">
-                {secondaryPosts.slice(0, 4).map((p, i) => (
-                  <TrendingItem key={p.id} post={p} index={i + 1} />
-                ))}
-              </div>
+          {/* ── Secondary stories column ── */}
+          {secondaryPosts.length > 0 && (
+            <div className="flex flex-col divide-y divide-border border-t border-border pt-0 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+              {secondaryPosts.slice(0, 4).map((p) => (
+                <SideStory key={p.id} post={p} />
+              ))}
             </div>
-          </div>
+          )}
         </div>
-      )}
+      </div>
     </section>
   )
 }
 
-function TrendingItem({ post, index }: { post: GhostPost; index: number }) {
+function SideStory({ post }: { post: GhostPost }) {
+  const href = `/${post.slug}`
+  const video = extractVideo(post.html)
+
   return (
-    <Link
-      href={`/${post.slug}`}
-      className="group flex shrink-0 items-center gap-3 px-5 py-4"
-    >
-      <span className="font-heading text-2xl font-bold leading-none text-primary/30">
-        {String(index).padStart(2, '0')}
-      </span>
-      <div className="max-w-[220px]">
+    <article className="group flex gap-4 py-5 first:pt-0">
+      {/* Thumbnail */}
+      {(video || post.feature_image) && (
+        <Link href={href} className="relative shrink-0">
+          <div className="relative h-[80px] w-[110px] overflow-hidden rounded-md">
+            {video ? (
+              <video
+                src={video.src}
+                poster={video.thumbnail || post.feature_image || undefined}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            ) : (
+              <Image
+                src={post.feature_image!}
+                alt={post.feature_image_alt || post.title}
+                fill
+                sizes="110px"
+                className="object-cover"
+              />
+            )}
+          </div>
+        </Link>
+      )}
+      {/* Text */}
+      <div className="flex flex-1 flex-col justify-center">
         {post.primary_tag && (
-          <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
+          <span className="mb-1 text-[10px] font-bold uppercase tracking-widest text-primary">
             {post.primary_tag.name}
           </span>
         )}
-        <h3 className="line-clamp-2 text-xs font-bold leading-snug text-text-headline transition-colors duration-150 group-hover:text-primary">
-          {post.title}
-        </h3>
+        <Link href={href}>
+          <h3 className="line-clamp-2 font-heading text-sm font-bold leading-snug text-text-headline transition-colors duration-150 group-hover:text-primary">
+            {post.title}
+          </h3>
+        </Link>
+        <span className="mt-1 text-[10px] uppercase tracking-wider text-text-caption">
+          {post.published_at && formatDate(post.published_at)}
+        </span>
       </div>
-    </Link>
+    </article>
   )
 }

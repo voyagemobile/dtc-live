@@ -29,13 +29,13 @@ export function FeaturedGrid({ posts }: FeaturedGridProps) {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-5 lg:grid-rows-1">
           {/* Lead story: large card with overlay */}
           {lead && <LeadCard post={lead} />}
 
-          {/* Side cards: stacked */}
+          {/* Side cards: fill full height, split evenly */}
           {rest.length > 0 && (
-            <div className="flex flex-col gap-6 lg:col-span-2">
+            <div className="grid grid-rows-2 gap-5 lg:col-span-2">
               {rest.slice(0, 2).map((post) => (
                 <SideCard key={post.id} post={post} />
               ))}
@@ -105,9 +105,9 @@ function SideCard({ post }: { post: GhostPost }) {
   const video = extractVideo(post.html)
 
   return (
-    <article className="group flex-1">
-      <Link href={href} className="block">
-        <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg">
+    <article className="group">
+      <Link href={href} className="relative block h-full overflow-hidden rounded-lg">
+        <div className="relative h-full min-h-[200px] w-full">
           {video ? (
             <video
               src={video.src}
@@ -129,19 +129,23 @@ function SideCard({ post }: { post: GhostPost }) {
           ) : (
             <div className="absolute inset-0 bg-surface" />
           )}
-        </div>
-        <div className="mt-3">
-          {post.primary_tag && (
-            <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
-              {post.primary_tag.name}
-            </span>
-          )}
-          <h3 className="mt-1 font-heading text-base font-bold leading-snug text-text-headline transition-colors duration-150 group-hover:text-primary">
-            {post.title}
-          </h3>
-          <span className="mt-1.5 block text-[11px] uppercase tracking-wider text-text-caption">
-            {formatReadingTime(post.reading_time)}
-          </span>
+          {/* Gradient + text overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+          <div className="absolute inset-0 flex items-end p-5">
+            <div>
+              {post.primary_tag && (
+                <span className="mb-1.5 inline-block rounded-sm bg-primary px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-white">
+                  {post.primary_tag.name}
+                </span>
+              )}
+              <h3 className="font-heading text-base font-bold leading-snug text-white lg:text-lg">
+                {post.title}
+              </h3>
+              <span className="mt-1.5 block text-[11px] uppercase tracking-wider text-white/60">
+                {formatReadingTime(post.reading_time)}
+              </span>
+            </div>
+          </div>
         </div>
       </Link>
     </article>

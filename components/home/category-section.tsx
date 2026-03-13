@@ -69,7 +69,7 @@ export function CategorySection({ title, slug, posts }: CategorySectionProps) {
                       <div className="absolute inset-0 bg-surface" />
                     )
                   })()}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
                   <div className="absolute inset-0 flex items-end p-5">
                     <div>
                       <span className="mb-2 inline-block rounded-sm bg-primary px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest text-white">
