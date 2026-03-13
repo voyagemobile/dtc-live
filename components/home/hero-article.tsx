@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { GhostPost } from '@/lib/types'
 import { extractVideo } from '@/lib/video'
-import { HeroExpand } from '@/components/home/hero-expand'
+import { HeroAccordion } from '@/components/home/hero-accordion'
 
 interface HeroArticleProps {
   post: GhostPost
@@ -11,14 +11,16 @@ interface HeroArticleProps {
 }
 
 /**
- * Hero with scroll-to-expand featured article image,
+ * Hero with image accordion featuring top articles,
  * followed by a trending stories strip below.
  */
 export function HeroArticle({ post, secondaryPosts = [], allPosts = [] }: HeroArticleProps) {
+  const accordionPosts = [post, ...secondaryPosts].slice(0, 5)
+
   return (
     <section>
-      {/* ── Scroll-expand hero ── */}
-      <HeroExpand post={post} />
+      {/* ── Image accordion hero ── */}
+      <HeroAccordion posts={accordionPosts} />
 
       {/* ── Trending strip ── */}
       {secondaryPosts.length > 0 && (
@@ -32,10 +34,16 @@ export function HeroArticle({ post, secondaryPosts = [], allPosts = [] }: HeroAr
                 Trending
               </span>
             </div>
-            <div className="grid grid-cols-1 divide-y divide-border sm:grid-cols-2 sm:divide-y-0 sm:divide-x lg:grid-cols-4">
-              {secondaryPosts.slice(0, 4).map((p) => (
-                <TrendingItem key={p.id} post={p} />
-              ))}
+            <div className="relative overflow-hidden">
+              {/* Fade edges */}
+              <div className="pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-12 bg-gradient-to-r from-surface/40 to-transparent" />
+              <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-12 bg-gradient-to-l from-surface/40 to-transparent" />
+              <div className="flex animate-ticker hover:[animation-play-state:paused]">
+                {/* Duplicate items for seamless loop */}
+                {[...secondaryPosts.slice(0, 4), ...secondaryPosts.slice(0, 4)].map((p, i) => (
+                  <TrendingItem key={`${p.id}-${i}`} post={p} />
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -49,7 +57,7 @@ function TrendingItem({ post }: { post: GhostPost }) {
   const video = extractVideo(post.html)
 
   return (
-    <Link href={href} className="group flex gap-3 py-4 sm:px-5 first:sm:pl-0 last:sm:pr-0">
+    <Link href={href} className="group flex shrink-0 gap-3 px-5 py-4 w-[320px]">
       {(video || post.feature_image) && (
         <div className="relative h-[56px] w-[76px] shrink-0 overflow-hidden rounded">
           {video ? (

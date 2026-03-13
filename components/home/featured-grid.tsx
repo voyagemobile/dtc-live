@@ -86,7 +86,10 @@ function LeadCard({ post }: { post: GhostPost }) {
                   {post.primary_tag.name}
                 </span>
               )}
-              <h3 className="font-heading text-xl font-bold leading-snug text-white lg:text-2xl">
+              <h3
+                className="font-heading text-xl font-bold leading-snug lg:text-2xl"
+                style={{ color: '#ffffff' }}
+              >
                 {post.title}
               </h3>
               <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-white/75">
@@ -138,7 +141,10 @@ function SideCard({ post }: { post: GhostPost }) {
                   {post.primary_tag.name}
                 </span>
               )}
-              <h3 className="font-heading text-base font-bold leading-snug text-white lg:text-lg">
+              <h3
+                className="font-heading text-base font-bold leading-snug lg:text-lg"
+                style={{ color: '#ffffff' }}
+              >
                 {post.title}
               </h3>
               <span className="mt-1.5 block text-[11px] uppercase tracking-wider text-white/60">
