@@ -3,9 +3,11 @@
 import { useState, useCallback } from 'react'
 
 /**
- * Newsletter CTA with real functional subscribe form.
- * Design: light gray banner, bold headline, email input + pink button,
- * decorative pink concentric circles on the right.
+ * Newsletter CTA using the designed banner image (cta-banner.png) as background.
+ * The image has the headline, subheading, and decorative pink circles but NO form.
+ * A real email input + subscribe button is positioned in the empty space below the text.
+ *
+ * On mobile, falls back to a text-based layout since the image is too wide.
  */
 export function NewsletterCTA() {
   const [email, setEmail] = useState('')
@@ -44,34 +46,80 @@ export function NewsletterCTA() {
   return (
     <section className="border-y border-border">
       <div className="mx-auto max-w-[1280px] px-5 py-8">
-        <div className="relative overflow-hidden rounded-xl bg-[#f5f3f0]">
-          {/* Decorative circles — right side */}
-          <div className="pointer-events-none absolute -right-16 top-1/2 hidden -translate-y-1/2 sm:block">
-            <div className="relative h-[320px] w-[320px]">
-              <div className="absolute inset-0 rounded-full bg-[#F2245B]/[0.07]" />
-              <div className="absolute inset-6 rounded-full bg-[#F2245B]/[0.10]" />
-              <div className="absolute inset-12 rounded-full bg-[#F2245B]/[0.15]" />
-              <div className="absolute inset-[72px] rounded-full bg-[#F2245B]/[0.20]" />
+        {/* Desktop: image background with overlaid form */}
+        <div className="hidden sm:block">
+          <div
+            className="relative overflow-hidden rounded-xl"
+            style={{ aspectRatio: '1320 / 325' }}
+          >
+            <img
+              src="/cta-banner.png"
+              alt="The Smartest Brands Subscribe to DTC.Live"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+
+            {/* Form overlay — aligned with heading text in the image */}
+            <div
+              className="absolute z-10"
+              style={{ left: '6.5%', bottom: '16%', width: '42%' }}
+            >
+              {status === 'success' ? (
+                <div className="flex items-center gap-2 text-sm font-semibold text-green-600">
+                  <svg className="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  {message}
+                </div>
+              ) : (
+                <>
+                  <form onSubmit={handleSubmit} className="flex gap-0">
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => {
+                        setEmail(e.target.value)
+                        if (status === 'error') setStatus('idle')
+                      }}
+                      placeholder="jamie@example.com"
+                      required
+                      className="h-10 flex-1 rounded-l-full border-0 bg-white px-5 text-sm text-text-body outline-none placeholder:text-text-caption/50 focus:ring-2 focus:ring-primary/30"
+                    />
+                    <button
+                      type="submit"
+                      disabled={status === 'loading'}
+                      className="h-10 shrink-0 rounded-r-full bg-primary px-6 text-sm font-bold text-white transition-colors duration-150 hover:bg-primary-hover disabled:opacity-60"
+                    >
+                      {status === 'loading' ? '...' : 'Subscribe'}
+                    </button>
+                  </form>
+                  {status === 'error' && (
+                    <p className="mt-1.5 text-xs text-red-500">{message}</p>
+                  )}
+                </>
+              )}
             </div>
           </div>
+        </div>
 
-          <div className="relative z-10 px-8 py-10 sm:px-12 sm:py-12 lg:max-w-[65%]">
-            <h2 className="font-heading text-2xl font-bold leading-tight text-text-headline sm:text-3xl lg:text-[2rem]">
+        {/* Mobile: stacked text layout */}
+        <div className="sm:hidden">
+          <div className="overflow-hidden rounded-xl bg-[#f5f3f0] px-6 py-8">
+            <h2 className="font-heading text-2xl font-bold leading-tight text-text-headline">
               The Smartest Brands Subscribe to DTC.Live
             </h2>
-            <p className="mt-2.5 text-base leading-relaxed text-text-muted sm:text-lg">
+            <p className="mt-2 text-sm leading-relaxed text-text-muted">
               The intelligence every DTC operator needs to build, grow, and scale.
             </p>
 
             {status === 'success' ? (
-              <div className="mt-6 flex items-center gap-2 text-sm font-semibold text-green-600">
+              <div className="mt-5 flex items-center gap-2 text-sm font-semibold text-green-600">
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
                 {message}
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="mt-6 flex max-w-lg flex-col gap-3 sm:flex-row sm:gap-0">
+              <form onSubmit={handleSubmit} className="mt-5 flex flex-col gap-3">
                 <input
                   type="email"
                   value={email}
@@ -81,12 +129,12 @@ export function NewsletterCTA() {
                   }}
                   placeholder="jamie@example.com"
                   required
-                  className="h-12 flex-1 rounded-full border-0 bg-white px-5 text-sm text-text-body shadow-sm outline-none placeholder:text-text-caption/60 focus:ring-2 focus:ring-primary/30 sm:rounded-r-none"
+                  className="h-12 rounded-full border-0 bg-white px-5 text-sm text-text-body shadow-sm outline-none placeholder:text-text-caption/60 focus:ring-2 focus:ring-primary/30"
                 />
                 <button
                   type="submit"
                   disabled={status === 'loading'}
-                  className="h-12 rounded-full bg-primary px-7 text-sm font-bold text-white shadow-sm transition-colors duration-150 hover:bg-primary-hover disabled:opacity-60 sm:rounded-l-none"
+                  className="h-12 rounded-full bg-primary px-7 text-sm font-bold text-white shadow-sm transition-colors duration-150 hover:bg-primary-hover disabled:opacity-60"
                 >
                   {status === 'loading' ? 'Subscribing...' : 'Subscribe'}
                 </button>

@@ -23,18 +23,19 @@ The following environment variables must be set in the Vercel project settings (
 |----------|------|----------|-------------|
 | `GHOST_API_URL` | Plain | Yes | Ghost CMS API URL (e.g. `https://dtc-live.ghost.io`) |
 | `GHOST_CONTENT_API_KEY` | Encrypted | Yes | Ghost Content API key from Ghost Admin |
+| `GHOST_ADMIN_API_KEY` | Encrypted | Yes | Ghost Admin API key for newsletter subscriptions (format: `id:secret`) |
 
-Both variables should be set for all targets: production, preview, and development.
+All variables should be set for all targets: production, preview, and development.
 
-### Getting the Ghost Content API Key
+### Getting the Ghost API Keys
 
 1. Log in to Ghost Admin at `https://dtc-live.ghost.io/ghost/`
 2. Go to Settings > Integrations
 3. Click "Add custom integration" (or find the existing dtc-live integration)
-4. Copy the **Content API Key**
-5. In Vercel project settings, update `GHOST_CONTENT_API_KEY` with the real key
+4. Copy the **Content API Key** and **Admin API Key**
+5. In Vercel project settings, set `GHOST_CONTENT_API_KEY` and `GHOST_ADMIN_API_KEY`
 
-**Status:** `GHOST_API_URL` is set to `https://dtc-live.ghost.io`. `GHOST_CONTENT_API_KEY` is set to a placeholder and must be updated with the real key before the site will load content.
+The Admin API Key is used server-side only for the newsletter subscribe endpoint (`/api/subscribe`). It is never exposed to the browser.
 
 ## Build Commands
 

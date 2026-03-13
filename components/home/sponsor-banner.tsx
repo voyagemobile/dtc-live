@@ -1,9 +1,10 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 /**
- * LiveRecover sponsor banner using the official design asset.
- * Image is 728x90 — displayed at natural aspect ratio, centered,
- * not stretched beyond its native resolution.
+ * LiveRecover sponsor banner using the official 2x design asset.
+ * The image is rendered at half its native pixel dimensions for
+ * crisp display on retina screens.
  */
 export function SponsorBanner() {
   return (
@@ -15,11 +16,13 @@ export function SponsorBanner() {
           rel="noopener noreferrer sponsored"
           className="mx-auto block max-w-3xl transition-opacity duration-200 hover:opacity-90"
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src="/lr-banner.png"
             alt="LiveRecover — The human layer your SMS strategy is missing. Get Started."
+            width={1456}
+            height={180}
             className="h-auto w-full rounded-lg"
+            priority={false}
           />
         </Link>
       </div>

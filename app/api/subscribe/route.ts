@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-
-const BEEHIIV_API_KEY = process.env.BEEHIIV_API_KEY
-const BEEHIIV_PUBLICATION_ID = process.env.BEEHIIV_PUBLICATION_ID
+import { addMember } from '@/lib/ghost'
 
 // RFC 5321 maximum email length
 const MAX_EMAIL_LENGTH = 254
@@ -27,18 +25,18 @@ function isValidEmail(email: string): boolean {
  * POST /api/subscribe
  *
  * Accepts { email: string } in the request body and subscribes the address
- * to the Beehiiv publication configured via environment variables.
+ * as a Ghost member (newsletter subscriber) via the Ghost Admin API.
  *
  * Returns:
- *   200 { success: true }                    — already subscribed (Beehiiv 200)
- *   201 { success: true }                    — newly subscribed (Beehiiv 201)
+ *   200 { success: true }                    — already subscribed
+ *   201 { success: true }                    — newly subscribed
  *   400 { success: false, error: string }    — missing or invalid email
  *   503 { success: false, error: string }    — env vars not configured
  *   500 { success: false, error: string }    — upstream failure
  */
 export async function POST(request: NextRequest) {
-  // Guard: env vars must be present before we attempt any parsing
-  if (!BEEHIIV_API_KEY || !BEEHIIV_PUBLICATION_ID) {
+  // Guard: env vars must be present
+  if (!process.env.GHOST_API_URL || !process.env.GHOST_ADMIN_API_KEY) {
     return NextResponse.json(
       { success: false, error: 'Newsletter not configured' },
       { status: 503 }
@@ -91,33 +89,8 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const beehiivUrl = `https://api.beehiiv.com/v2/publications/${BEEHIIV_PUBLICATION_ID}/subscriptions`
-
-    const res = await fetch(beehiivUrl, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${BEEHIIV_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: rawEmail,
-        reactivate_existing: true,
-        send_welcome_email: true,
-      }),
-      // Do not cache subscription requests
-      cache: 'no-store',
-    })
-
-    if (res.status === 200 || res.status === 201) {
-      return NextResponse.json({ success: true }, { status: res.status })
-    }
-
-    // Beehiiv returned a non-success status
-    // Avoid leaking upstream error details to the client
-    return NextResponse.json(
-      { success: false, error: 'Subscription failed. Please try again.' },
-      { status: 500 }
-    )
+    const result = await addMember(rawEmail)
+    return NextResponse.json({ success: true }, { status: result.status })
   } catch {
     return NextResponse.json(
       { success: false, error: 'Subscription failed. Please try again.' },

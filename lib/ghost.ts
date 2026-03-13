@@ -1,4 +1,5 @@
 import { cache } from 'react'
+import { createHmac } from 'crypto'
 import type {
   GhostPost,
   GhostTag,
@@ -10,6 +11,7 @@ import type {
 
 const GHOST_API_URL = process.env.GHOST_API_URL
 const GHOST_CONTENT_API_KEY = process.env.GHOST_CONTENT_API_KEY
+const GHOST_ADMIN_API_KEY = process.env.GHOST_ADMIN_API_KEY
 
 // Fields to include on every post request.
 // codeinjection_head / codeinjection_foot / og_image / meta_description /
@@ -245,3 +247,79 @@ export const getPostsByAuthor = cache(
     return fetchGhost<GhostPostsResponse>(url)
   }
 )
+
+// ---------------------------------------------------------------------------
+// Ghost Admin API — used for member (newsletter) subscriptions.
+// The Admin API authenticates via a short-lived JWT signed with an HMAC key
+// derived from the admin API key (format: "id:secret").
+// ---------------------------------------------------------------------------
+
+function createAdminToken(): string {
+  if (!GHOST_ADMIN_API_KEY) {
+    throw new Error('GHOST_ADMIN_API_KEY environment variable is not set')
+  }
+
+  const [id, secret] = GHOST_ADMIN_API_KEY.split(':')
+  if (!id || !secret) {
+    throw new Error('GHOST_ADMIN_API_KEY must be in "id:secret" format')
+  }
+
+  const now = Math.floor(Date.now() / 1000)
+
+  const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT', kid: id })).toString(
+    'base64url'
+  )
+  const payload = Buffer.from(
+    JSON.stringify({ iat: now, exp: now + 300, aud: '/admin/' })
+  ).toString('base64url')
+
+  const signature = createHmac('sha256', Buffer.from(secret, 'hex'))
+    .update(`${header}.${payload}`)
+    .digest('base64url')
+
+  return `${header}.${payload}.${signature}`
+}
+
+/**
+ * Add a member (newsletter subscriber) via the Ghost Admin API.
+ * Returns { success: true } on success, or throws on failure.
+ */
+export async function addMember(
+  email: string
+): Promise<{ success: true; status: number }> {
+  if (!GHOST_API_URL) {
+    throw new Error('GHOST_API_URL environment variable is not set')
+  }
+  if (!GHOST_ADMIN_API_KEY) {
+    throw new Error('GHOST_ADMIN_API_KEY environment variable is not set')
+  }
+
+  const token = createAdminToken()
+  const url = `${GHOST_API_URL.replace(/\/$/, '')}/ghost/api/admin/members/`
+
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      Authorization: `Ghost ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      members: [{ email, subscribed: true }],
+    }),
+    cache: 'no-store',
+  })
+
+  if (res.status === 201) {
+    return { success: true, status: 201 }
+  }
+
+  if (res.status === 422) {
+    // Member already exists
+    return { success: true, status: 200 }
+  }
+
+  const safeUrl = url.split('?')[0]
+  throw new Error(
+    `Ghost Admin API request failed: ${res.status} ${res.statusText} — ${safeUrl}`
+  )
+}
