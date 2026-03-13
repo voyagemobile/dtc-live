@@ -65,7 +65,7 @@ export function NewsletterCTA() {
             {/* Form overlay — aligned with heading text in the image */}
             <div
               className="absolute z-10"
-              style={{ left: '4.8%', bottom: '22%', width: '42%' }}
+              style={{ left: '5.3%', bottom: '22%', width: '42%' }}
             >
               {status === 'success' ? (
                 <div className="flex items-center gap-2 text-sm font-semibold text-green-600">
