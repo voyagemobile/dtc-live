@@ -126,6 +126,7 @@ function AccordionItem({
         <AutoPlayVideo
           src={panel.videoSrc}
           poster={panel.videoThumbnail || panel.image}
+          eager
           className={`
             absolute inset-0 h-full w-full object-cover
             transition-transform duration-[8s] ease-out
@@ -239,6 +240,7 @@ export function HeroAccordion({ posts }: HeroAccordionProps) {
                     <AutoPlayVideo
                       src={panel.videoSrc}
                       poster={panel.videoThumbnail || panel.image}
+                      eager
                       className="absolute inset-0 h-full w-full object-cover"
                     />
                   ) : (
