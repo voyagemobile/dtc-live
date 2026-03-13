@@ -67,15 +67,43 @@ export default async function CategoryPage({
 
   const currentPage = Math.max(1, parseInt(pageParam ?? '1', 10) || 1)
 
-  const [tag, postsData] = await Promise.all([
-    getTagBySlug(slug),
-    getPostsByTag(slug, { limit: POSTS_PER_PAGE, page: currentPage }),
-  ])
+  const tag = await getTagBySlug(slug)
 
+  // If the tag doesn't exist in Ghost yet, show a coming-soon placeholder
   if (!tag) {
-    notFound()
+    const friendlyName = slug
+      .split('-')
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ')
+
+    return (
+      <>
+        <div className="border-b border-border bg-surface/50">
+          <Container className="py-10 sm:py-14">
+            <div className="flex items-center gap-3">
+              <div className="h-8 w-1 rounded-full bg-primary" />
+              <h1 className="font-heading text-4xl font-bold leading-tight text-text-headline sm:text-5xl">
+                {friendlyName}
+              </h1>
+            </div>
+          </Container>
+        </div>
+        <Container className="py-16 text-center">
+          <p className="text-lg text-text-muted">
+            We&rsquo;re curating the best content for this section. Check back soon!
+          </p>
+          <Link
+            href="/"
+            className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-primary-hover"
+          >
+            Back to Home
+          </Link>
+        </Container>
+      </>
+    )
   }
 
+  const postsData = await getPostsByTag(slug, { limit: POSTS_PER_PAGE, page: currentPage })
   const { posts, meta } = postsData
   const { pages: totalPages, total } = meta.pagination
 
