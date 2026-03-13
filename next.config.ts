@@ -18,6 +18,11 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'images.unsplash.com',
       },
+      // Ghost content images served from dtc.live domain
+      {
+        protocol: 'https',
+        hostname: 'dtc.live',
+      },
     ],
   },
 }
