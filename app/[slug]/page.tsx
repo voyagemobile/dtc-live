@@ -105,6 +105,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       '@type': 'Organization',
       name: 'DTC Live',
       url: siteUrl,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${siteUrl}/logo.png`,
+      },
     },
   }
 

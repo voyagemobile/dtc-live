@@ -32,13 +32,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }))
 
-  // Category pages — one entry per tag
-  const tagEntries: MetadataRoute.Sitemap = tags.map((tag) => ({
-    url: `${BASE_URL}/category/${tag.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'weekly',
-    priority: 0.7,
-  }))
+  // Category pages — one entry per public tag (exclude internal Ghost tags)
+  const tagEntries: MetadataRoute.Sitemap = tags
+    .filter((tag) => tag.visibility === 'public')
+    .map((tag) => ({
+      url: `${BASE_URL}/category/${tag.slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    }))
 
   // Author pages — one entry per author
   const authorEntries: MetadataRoute.Sitemap = authors.map((author) => ({
