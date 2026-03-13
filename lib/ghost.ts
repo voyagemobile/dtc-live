@@ -50,8 +50,8 @@ const POST_FIELDS = [
   'primary_author',
 ].join(',')
 
-// ISR revalidation interval (5 minutes).
-const REVALIDATE = 300
+// ISR revalidation interval (2 minutes).
+const REVALIDATE = 120
 
 function buildUrl(
   endpoint: string,
