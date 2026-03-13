@@ -176,7 +176,7 @@ export default function DesignSystemPage() {
                 Variants (size: md)
               </h3>
               <div className="flex flex-wrap items-center gap-4">
-                <Button variant="primary">Primary</Button>
+                <Button variant="default">Primary</Button>
                 <Button variant="secondary">Secondary</Button>
                 <Button variant="ghost">Ghost</Button>
               </div>
@@ -186,9 +186,9 @@ export default function DesignSystemPage() {
                 Sizes (variant: primary)
               </h3>
               <div className="flex flex-wrap items-center gap-4">
-                <Button variant="primary" size="sm">Small</Button>
-                <Button variant="primary" size="md">Medium</Button>
-                <Button variant="primary" size="lg">Large</Button>
+                <Button variant="default" size="sm">Small</Button>
+                <Button variant="default" size="default">Medium</Button>
+                <Button variant="default" size="lg">Large</Button>
               </div>
             </div>
             <div>
@@ -196,8 +196,8 @@ export default function DesignSystemPage() {
                 States
               </h3>
               <div className="flex flex-wrap items-center gap-4">
-                <Button variant="primary">Enabled</Button>
-                <Button variant="primary" disabled>Disabled</Button>
+                <Button variant="default">Enabled</Button>
+                <Button variant="default" disabled>Disabled</Button>
               </div>
             </div>
           </div>

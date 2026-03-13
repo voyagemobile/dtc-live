@@ -75,7 +75,7 @@ export function SubscribeForm({ variant = 'default' }: SubscribeFormProps) {
                 />
                 <Button
                   type="submit"
-                  variant="primary"
+                  variant="default"
                   size="sm"
                   disabled={status === 'loading'}
                 >
@@ -127,8 +127,8 @@ export function SubscribeForm({ variant = 'default' }: SubscribeFormProps) {
               />
               <Button
                 type="submit"
-                variant="primary"
-                size="md"
+                variant="default"
+                size="default"
                 disabled={status === 'loading'}
                 className="w-full"
               >

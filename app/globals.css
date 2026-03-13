@@ -50,6 +50,17 @@
   --color-nav-text: var(--color-nav-text);
   --font-heading: var(--font-heading);
   --font-body: var(--font-body);
+  --animate-marquee: marquee var(--duration) linear infinite;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-100% - var(--gap))); }
+}
+@keyframes marquee-vertical {
+  from { transform: translateY(0); }
+  to { transform: translateY(calc(-100% - var(--gap))); }
 }
 
 /* ============================================
@@ -418,6 +429,137 @@ h1, h2, h3, h4, h5, h6 {
   margin-right: calc(-50vw + 50%);
 }
 
+/* Ghost header cards (kg-header-card) */
+.article-prose .kg-header-card {
+  margin: 2rem 0;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.article-prose .kg-header-card.kg-width-full {
+  border-radius: 0;
+}
+
+.article-prose .kg-header-card-content {
+  position: relative;
+  z-index: 1;
+}
+
+.article-prose .kg-header-card.kg-layout-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 400px;
+}
+
+.article-prose .kg-header-card.kg-layout-split .kg-header-card-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.article-prose .kg-header-card-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 500px;
+  object-fit: cover;
+  margin: 0;
+  border-radius: 0;
+}
+
+.article-prose .kg-header-card-text {
+  padding: 2rem 2.5rem;
+}
+
+.article-prose .kg-header-card-text.kg-align-center {
+  text-align: center;
+}
+
+.article-prose .kg-header-card-heading {
+  font-family: var(--font-heading), 'Playfair Display', Georgia, serif;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 0.75rem;
+}
+
+.article-prose .kg-header-card-subheading {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  margin: 0 0 1.5rem;
+  opacity: 0.85;
+}
+
+.article-prose .kg-header-card-button {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: opacity 150ms ease;
+}
+
+.article-prose .kg-header-card-button.kg-style-accent {
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+
+.article-prose .kg-header-card-button:hover {
+  opacity: 0.9;
+}
+
+/* Ghost product cards */
+.article-prose .kg-product-card {
+  margin: 2rem 0;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 1.5rem;
+}
+
+.article-prose .kg-product-card-image {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin: 0 0 1rem;
+}
+
+.article-prose .kg-product-card-title {
+  font-family: var(--font-heading), 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--color-text-headline);
+}
+
+.article-prose .kg-product-card-description {
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+  margin-top: 0.5rem;
+}
+
+/* Ghost toggle cards */
+.article-prose .kg-toggle-card {
+  margin: 1.5rem 0;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.article-prose .kg-toggle-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--color-text-headline);
+}
+
+.article-prose .kg-toggle-content {
+  padding: 0 1.25rem 1rem;
+}
+
 @media (max-width: 768px) {
   .article-prose {
     font-size: 1.0625rem;
@@ -443,5 +585,13 @@ h1, h2, h3, h4, h5, h6 {
   .article-prose .kg-bookmark-thumbnail {
     width: 100%;
     height: 160px;
+  }
+
+  .article-prose .kg-header-card-heading {
+    font-size: 1.5rem;
+  }
+
+  .article-prose .kg-header-card-text {
+    padding: 1.5rem;
   }
 }

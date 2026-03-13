@@ -51,7 +51,7 @@ export default async function Home() {
     <>
       {/* 1. Full-bleed hero with trending bar */}
       {heroPost && (
-        <HeroArticle post={heroPost} secondaryPosts={secondaryPosts} />
+        <HeroArticle post={heroPost} secondaryPosts={secondaryPosts} allPosts={allPosts} />
       )}
 
       {/* 2. Editor's Picks: bold overlay + side cards */}
