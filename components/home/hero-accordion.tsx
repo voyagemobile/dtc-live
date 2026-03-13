@@ -122,12 +122,15 @@ function AccordionItem({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      {/* Video or image — videos autoplay immediately (only 3, bandwidth is fine) */}
+      {/* Video or image — plain native <video> for reliable autoplay (no React wrapper) */}
       {panel.videoSrc ? (
-        <AutoPlayVideo
+        <video
           src={panel.videoSrc}
           poster={panel.videoThumbnail || panel.image}
-          eager
+          autoPlay
+          muted
+          loop
+          playsInline
           className={`
             absolute inset-0 h-full w-full object-cover
             transition-transform duration-[8s] ease-out
