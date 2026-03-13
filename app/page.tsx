@@ -6,6 +6,7 @@ import { FeaturedGrid } from '@/components/home/featured-grid'
 import { LatestFeed } from '@/components/home/latest-feed'
 import { CategorySection } from '@/components/home/category-section'
 import { NewsletterCTA } from '@/components/home/newsletter-cta'
+import { SponsorBanner } from '@/components/home/sponsor-banner'
 import {
   HeroSkeleton,
   FeaturedGridSkeleton,
