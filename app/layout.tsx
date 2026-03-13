@@ -7,6 +7,11 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'DTC Live',
   description: 'The DTC industry\'s leading media brand.',
+  alternates: {
+    types: {
+      'application/rss+xml': [{ url: '/feed.xml', title: 'DTC Live RSS Feed' }],
+    },
+  },
 }
 
 export default function RootLayout({
