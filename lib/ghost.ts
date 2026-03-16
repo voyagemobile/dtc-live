@@ -112,6 +112,8 @@ function rewriteGhostHtml(html: string | null): string | null {
     // data-kg-thumbnail attribute (used by video cards)
     .replace(/data-kg-thumbnail="\/content\/(images|media)\//g, `data-kg-thumbnail="${GHOST_ORIGIN}/content/$1/`)
     .replace(/data-kg-thumbnail="https:\/\/dtc\.live\/content\/(images|media)\//g, `data-kg-thumbnail="${GHOST_ORIGIN}/content/$1/`)
+    // Strip Ghost referral tracking from external links (?ref=dtc-live.ghost.io)
+    .replace(/\?ref=dtc-live\.ghost\.io/g, '')
 }
 
 function rewritePostUrls(post: Record<string, unknown>): Record<string, unknown> {
