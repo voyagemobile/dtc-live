@@ -45,10 +45,15 @@ export async function generateMetadata({
     return { title: 'Category Not Found' }
   }
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dtc.live'
+
   return {
     title: `${tag.name} | DTC Live`,
     description:
       tag.description ?? `Browse ${tag.name} articles on DTC Live`,
+    alternates: {
+      canonical: `${siteUrl}/category/${slug}`,
+    },
   }
 }
 
@@ -109,6 +114,25 @@ export default async function CategoryPage({
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dtc.live'
 
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: siteUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: tag.name,
+        item: `${siteUrl}/category/${slug}`,
+      },
+    ],
+  }
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
@@ -129,6 +153,10 @@ export default async function CategoryPage({
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

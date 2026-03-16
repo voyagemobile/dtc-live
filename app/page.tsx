@@ -1,4 +1,4 @@
-import { getPosts, getPostsByTag } from '@/lib/ghost'
+import { getPosts, getPostsByTag, getFeaturedPosts } from '@/lib/ghost'
 import type { GhostPost } from '@/lib/types'
 import { HeroArticle } from '@/components/home/hero-article'
 import { FeaturedGrid } from '@/components/home/featured-grid'
@@ -22,22 +22,52 @@ const CATEGORIES = [
 // ---------------------------------------------------------------------------
 
 export default async function Home() {
-  // Single fetch: get enough posts for all sections
-  const [mainResponse, ...categoryResults] = await Promise.all([
+  // Fetch posts + Ghost-featured posts + category posts in parallel
+  const [mainResponse, ghostFeatured, ...categoryResults] = await Promise.all([
     getPosts({ limit: 20 }),
+    getFeaturedPosts(4),
     ...CATEGORIES.map((cat) => getPostsByTag(cat.slug, { limit: 6 })),
   ])
 
   const allPosts = mainResponse.posts
 
-  // Distribute posts across sections — each post appears exactly once
+  // Distribute posts across sections
   const heroPost = allPosts[0] ?? null
   const secondaryPosts = allPosts.slice(1, 5)
-  const featuredPosts = allPosts.slice(5, 8)
-  const latestPosts = allPosts.slice(8, 16)
+
+  // Editor's Picks: lead card = most recent post, side cards = Ghost featured
+  const usedInUpperSections = new Set(allPosts.slice(0, 5).map((p) => p.id))
+
+  const editorsPicks: GhostPost[] = []
+  // Lead card: always the most recent article
+  if (heroPost) editorsPicks.push(heroPost)
+  // Side cards: Ghost-featured posts not already used above
+  for (const fp of ghostFeatured) {
+    if (editorsPicks.length >= 3) break
+    if (!usedInUpperSections.has(fp.id) && !editorsPicks.some((p) => p.id === fp.id)) {
+      editorsPicks.push(fp)
+    }
+  }
+  // Backfill if not enough featured posts
+  for (const p of allPosts.slice(5)) {
+    if (editorsPicks.length >= 3) break
+    if (!usedInUpperSections.has(p.id) && !editorsPicks.some((ep) => ep.id === p.id)) {
+      editorsPicks.push(p)
+    }
+  }
+
+  const featuredPosts = editorsPicks
 
   // Track all IDs used in main sections
-  const usedIds = new Set(allPosts.slice(0, 16).map((p) => p.id))
+  const usedIds = new Set([
+    ...allPosts.slice(0, 5).map((p) => p.id),
+    ...featuredPosts.map((p) => p.id),
+  ])
+
+  // Latest: first 8 unused posts
+  const latestPosts = allPosts.filter((p) => !usedIds.has(p.id)).slice(0, 8)
+  // Add latest to used set for category dedup
+  latestPosts.forEach((p) => usedIds.add(p.id))
 
   // Filter category posts to exclude anything already shown
   const categoryData = CATEGORIES.map((cat, i) => ({

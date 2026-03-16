@@ -47,6 +47,7 @@ export async function generateMetadata({
       modifiedTime: post.updated_at || undefined,
       authors: post.authors.map((a) => a.name),
       tags: post.tags.map((t) => t.name),
+      section: post.primary_tag?.name,
       ...(ogImage && {
         images: [{ url: ogImage, alt: post.feature_image_alt || title }],
       }),
@@ -59,7 +60,9 @@ export async function generateMetadata({
         ? { images: [post.twitter_image || ogImage!] }
         : {}),
     },
-    ...(post.canonical_url && { alternates: { canonical: post.canonical_url } }),
+    alternates: {
+      canonical: post.canonical_url || `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dtc.live'}/${post.slug}`,
+    },
   }
 }
 
@@ -89,6 +92,42 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   // Structured data for article
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dtc.live'
   const articleUrl = `${siteUrl}/${post.slug}`
+
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: siteUrl,
+      },
+      ...(post.primary_tag
+        ? [
+            {
+              '@type': 'ListItem',
+              position: 2,
+              name: post.primary_tag.name,
+              item: `${siteUrl}/category/${post.primary_tag.slug}`,
+            },
+            {
+              '@type': 'ListItem',
+              position: 3,
+              name: post.title,
+              item: articleUrl,
+            },
+          ]
+        : [
+            {
+              '@type': 'ListItem',
+              position: 2,
+              name: post.title,
+              item: articleUrl,
+            },
+          ]),
+    ],
+  }
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -123,6 +162,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   return (
     <>
       <ReadingProgress />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

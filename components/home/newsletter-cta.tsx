@@ -48,7 +48,7 @@ export function NewsletterCTA() {
     <section className="border-y border-border">
       <div className="mx-auto max-w-[1280px] px-5 py-8">
         {/* Desktop: image background with overlaid form */}
-        <div className="hidden sm:block">
+        <div className="hidden md:block">
           <div
             className="relative overflow-hidden rounded-xl"
             style={{ aspectRatio: '1320 / 325' }}
@@ -106,7 +106,7 @@ export function NewsletterCTA() {
         </div>
 
         {/* Mobile: stacked text layout */}
-        <div className="sm:hidden">
+        <div className="md:hidden">
           <div className="overflow-hidden rounded-xl bg-[#f5f3f0] px-6 py-8">
             <h2 className="font-heading text-2xl font-bold leading-tight text-text-headline">
               The Smartest Brands Subscribe to DTC.Live

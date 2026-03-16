@@ -63,7 +63,7 @@ export default function RootLayout({
     '@context': 'https://schema.org',
     '@graph': [
       {
-        '@type': 'Organization',
+        '@type': 'NewsMediaOrganization',
         '@id': `${siteUrl}/#organization`,
         name: 'DTC Live',
         url: siteUrl,

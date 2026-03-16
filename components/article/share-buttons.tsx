@@ -78,7 +78,7 @@ export function ShareButtons({ title, slug }: ShareButtonsProps) {
       <button
         type="button"
         onClick={handleCopyLink}
-        className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm text-text-muted transition-colors duration-150 hover:border-primary hover:text-primary"
+        className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2.5 text-sm text-text-muted transition-colors duration-150 hover:border-primary hover:text-primary"
         aria-label="Copy link to clipboard"
       >
         <svg
@@ -102,7 +102,7 @@ export function ShareButtons({ title, slug }: ShareButtonsProps) {
       <button
         type="button"
         onClick={handleShareX}
-        className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm text-text-muted transition-colors duration-150 hover:border-primary hover:text-primary"
+        className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2.5 text-sm text-text-muted transition-colors duration-150 hover:border-primary hover:text-primary"
         aria-label="Share on X"
       >
         <svg
@@ -121,7 +121,7 @@ export function ShareButtons({ title, slug }: ShareButtonsProps) {
       <button
         type="button"
         onClick={handleShareLinkedIn}
-        className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm text-text-muted transition-colors duration-150 hover:border-primary hover:text-primary"
+        className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2.5 text-sm text-text-muted transition-colors duration-150 hover:border-primary hover:text-primary"
         aria-label="Share on LinkedIn"
       >
         <svg
@@ -141,7 +141,7 @@ export function ShareButtons({ title, slug }: ShareButtonsProps) {
         <button
           type="button"
           onClick={handleNativeShare}
-          className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm text-text-muted transition-colors duration-150 hover:border-primary hover:text-primary"
+          className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2.5 text-sm text-text-muted transition-colors duration-150 hover:border-primary hover:text-primary"
           aria-label="Share via device share menu"
         >
           <svg

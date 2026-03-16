@@ -36,10 +36,15 @@ export async function generateMetadata({
     return { title: 'Author Not Found' }
   }
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dtc.live'
+
   return {
     title: `${author.name} | DTC Live`,
     description:
       author.bio ?? `Browse articles by ${author.name} on DTC Live`,
+    alternates: {
+      canonical: `${siteUrl}/author/${slug}`,
+    },
   }
 }
 
@@ -93,7 +98,33 @@ export default async function AuthorPage({
   const { posts, meta } = postsData
   const { pages: totalPages, total } = meta.pagination
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dtc.live'
+
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: siteUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: author.name,
+        item: `${siteUrl}/author/${slug}`,
+      },
+    ],
+  }
+
   return (
+    <>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+    />
     <Container className="py-10 sm:py-14">
       {/* Author header */}
       <header className="mb-10 border-b border-border pb-8">
@@ -161,5 +192,6 @@ export default async function AuthorPage({
         </div>
       )}
     </Container>
+    </>
   )
 }

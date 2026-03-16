@@ -32,7 +32,7 @@ export function CategorySection({ title, slug, posts }: CategorySectionProps) {
           </div>
           <Link
             href={`/category/${slug}`}
-            className="text-xs font-bold uppercase tracking-wider text-primary transition-colors duration-150 hover:text-primary-hover"
+            className="py-2 text-xs font-bold uppercase tracking-wider text-primary transition-colors duration-150 hover:text-primary-hover"
           >
             View All &rarr;
           </Link>

@@ -51,20 +51,20 @@ export function Footer() {
           </div>
 
           {/* Navigation */}
-          <nav className="mb-8 flex flex-wrap justify-center gap-6 text-sm">
-            <Link href="/" className="text-nav-text/70 transition-colors duration-200 hover:text-primary">
+          <nav className="mb-8 flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm">
+            <Link href="/" className="py-2 text-nav-text/70 transition-colors duration-200 hover:text-primary">
               Home
             </Link>
-            <Link href="/category/industry" className="text-nav-text/70 transition-colors duration-200 hover:text-primary">
+            <Link href="/category/industry" className="py-2 text-nav-text/70 transition-colors duration-200 hover:text-primary">
               Industry
             </Link>
-            <Link href="/category/strategies" className="text-nav-text/70 transition-colors duration-200 hover:text-primary">
+            <Link href="/category/strategies" className="py-2 text-nav-text/70 transition-colors duration-200 hover:text-primary">
               Strategies
             </Link>
-            <Link href="/category/analysis" className="text-nav-text/70 transition-colors duration-200 hover:text-primary">
+            <Link href="/category/analysis" className="py-2 text-nav-text/70 transition-colors duration-200 hover:text-primary">
               Analysis
             </Link>
-            <Link href="/fastest-growing-dtc-brands-in-2025" className="text-nav-text/70 transition-colors duration-200 hover:text-primary">
+            <Link href="/fastest-growing-dtc-brands-in-2025" className="py-2 text-nav-text/70 transition-colors duration-200 hover:text-primary">
               Top DTC Brands
             </Link>
           </nav>
@@ -118,7 +118,7 @@ export function Footer() {
                     }}
                     placeholder="Enter your email"
                     required
-                    className="h-11 flex-1 rounded-l-full border border-nav-text/20 bg-transparent px-5 text-sm text-nav-text outline-none placeholder:text-nav-text/40 focus:border-primary focus:ring-1 focus:ring-primary/30"
+                    className="h-11 min-w-0 flex-1 rounded-l-full border border-nav-text/20 bg-transparent px-5 text-sm text-nav-text outline-none placeholder:text-nav-text/40 focus:border-primary focus:ring-1 focus:ring-primary/30"
                   />
                   <button
                     type="submit"
@@ -138,13 +138,13 @@ export function Footer() {
           {/* Bottom bar */}
           <div className="flex flex-col items-center gap-3 border-t border-nav-text/10 pt-6">
             <div className="flex gap-6 text-xs text-nav-text/40">
-              <Link href="/terms" className="transition-colors duration-200 hover:text-nav-text/70">
+              <Link href="/terms" className="py-1.5 transition-colors duration-200 hover:text-nav-text/70">
                 Terms of Service
               </Link>
-              <Link href="/privacy" className="transition-colors duration-200 hover:text-nav-text/70">
+              <Link href="/privacy" className="py-1.5 transition-colors duration-200 hover:text-nav-text/70">
                 Privacy Policy
               </Link>
-              <a href="mailto:contact@dtc.live" className="transition-colors duration-200 hover:text-nav-text/70">
+              <a href="mailto:contact@dtc.live" className="py-1.5 transition-colors duration-200 hover:text-nav-text/70">
                 Contact
               </a>
             </div>
