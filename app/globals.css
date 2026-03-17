@@ -214,13 +214,16 @@ body {
 
 /* Injected article diagrams */
 .article-prose .article-diagram {
-  margin: 2.5rem auto;
-  max-width: 640px;
+  margin: 1.5rem auto 2rem;
+  max-width: 580px;
 }
 .article-prose .article-diagram img {
   width: 100%;
   height: auto;
+  border: 1px solid var(--color-border, #e5e5e5);
   border-radius: 0.5rem;
+  padding: 1rem;
+  background: #fafafa;
 }
 
 /* Blockquotes */
