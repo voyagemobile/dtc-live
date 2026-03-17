@@ -204,16 +204,16 @@ export function HeroAccordion({ posts }: HeroAccordionProps) {
         <FloatingPaths position={-1} />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-[1280px] px-5 py-12 md:py-20">
-        <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-10">
+      <div className="relative z-10 mx-auto max-w-[1280px] px-5 py-8 md:py-20">
+        <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-10">
           {/* Left: Editorial text — narrower to close the gap */}
           <div className="w-full lg:w-4/12 text-center lg:text-left shrink-0">
-            <h1 className="text-4xl md:text-5xl xl:text-[3.5rem] font-bold text-text-headline leading-[1.1] tracking-tight font-heading">
+            <h1 className="text-3xl md:text-5xl xl:text-[3.5rem] font-bold text-text-headline leading-[1.1] tracking-tight font-heading">
               The Playbook for Building Brands That Last
             </h1>
             <WordPullUp
               words="Real tactics, sharp analysis, and the stories behind the DTC brands actually winning right now."
-              className="mt-6 text-lg text-text-body max-w-xl mx-auto lg:mx-0 font-body leading-relaxed text-left font-normal tracking-normal drop-shadow-none"
+              className="mt-4 md:mt-6 text-base md:text-lg text-text-body max-w-xl mx-auto lg:mx-0 font-body leading-relaxed text-left font-normal tracking-normal drop-shadow-none"
             />
           </div>
 
@@ -235,12 +235,12 @@ export function HeroAccordion({ posts }: HeroAccordionProps) {
 
             {/* Mobile: horizontal scroll cards — NO eager video loading to avoid
                 duplicating the desktop video downloads on initial page load */}
-            <div className="flex md:hidden gap-3 overflow-x-auto pb-4 snap-x snap-mandatory -mx-5 px-5">
+            <div className="flex md:hidden gap-3 overflow-x-auto pb-3 snap-x snap-mandatory -mx-5 px-5">
               {panels.map((panel) => (
                 <Link
                   key={panel.slug}
                   href={`/category/${panel.slug}`}
-                  className="relative shrink-0 w-[280px] h-[360px] rounded-2xl overflow-hidden snap-start block"
+                  className="relative shrink-0 w-[240px] h-[280px] rounded-2xl overflow-hidden snap-start block"
                 >
                   {panel.videoSrc ? (
                     <AutoPlayVideo
