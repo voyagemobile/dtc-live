@@ -114,6 +114,8 @@ function rewriteGhostHtml(html: string | null): string | null {
     .replace(/data-kg-thumbnail="https:\/\/dtc\.live\/content\/(images|media)\//g, `data-kg-thumbnail="${GHOST_ORIGIN}/content/$1/`)
     // Strip Ghost referral tracking from external links (?ref=dtc-live.ghost.io)
     .replace(/\?ref=dtc-live\.ghost\.io/g, '')
+    // Open external links in new tab (skip internal/anchor/media links)
+    .replace(/<a\s+href="(https?:\/\/(?!dtc\.live)[^"]+)"/g, '<a href="$1" target="_blank" rel="noopener noreferrer"')
 }
 
 function rewritePostUrls(post: Record<string, unknown>): Record<string, unknown> {
