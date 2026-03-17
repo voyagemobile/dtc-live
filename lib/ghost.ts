@@ -115,7 +115,12 @@ function rewriteGhostHtml(html: string | null): string | null {
     // Strip Ghost referral tracking from external links (?ref=dtc-live.ghost.io)
     .replace(/\?ref=dtc-live\.ghost\.io/g, '')
     // Open external links in new tab (skip internal/anchor/media links)
-    .replace(/<a\s+href="(https?:\/\/(?!dtc\.live)[^"]+)"/g, '<a href="$1" target="_blank" rel="noopener noreferrer"')
+    // Matches <a ...href="https://external..."...> regardless of attribute order
+    .replace(/<a\s+([^>]*?)href="(https?:\/\/(?!dtc\.live)[^"]+)"([^>]*?)>/g, (match, before, url, after) => {
+      // Skip if already has target
+      if (before.includes('target=') || after.includes('target=')) return match
+      return `<a ${before}href="${url}"${after} target="_blank" rel="noopener noreferrer">`
+    })
 }
 
 function rewritePostUrls(post: Record<string, unknown>): Record<string, unknown> {
