@@ -214,8 +214,12 @@ body {
 
 /* Injected article diagrams */
 .article-prose .article-diagram {
-  margin: 1.5rem auto 2rem;
-  max-width: 580px;
+  margin: 2rem 0;
+  max-width: 100%;
+}
+.article-prose .article-diagram.kg-width-wide {
+  margin-left: 0;
+  margin-right: 0;
 }
 .article-prose .article-diagram img {
   width: 100%;

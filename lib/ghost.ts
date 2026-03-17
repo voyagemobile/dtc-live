@@ -124,7 +124,7 @@ function injectDiagrams(html: string, slug: string): string {
     const headingPattern = new RegExp(
       `(<h[2-4][^>]*>\\s*${beforeHeading.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`
     )
-    const diagramHtml = `<figure class="kg-card kg-image-card kg-width-wide article-diagram"><img src="${src}" alt="${alt}" loading="lazy" /><figcaption>${alt}</figcaption></figure>`
+    const diagramHtml = `<figure class="kg-card kg-image-card article-diagram"><img src="${src}" alt="${alt}" loading="lazy" /><figcaption>${alt}</figcaption></figure>`
     result = result.replace(headingPattern, `${diagramHtml}$1`)
   }
   return result
