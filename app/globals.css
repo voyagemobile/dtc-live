@@ -212,6 +212,17 @@ body {
   margin-top: 0.75rem;
 }
 
+/* Injected article diagrams */
+.article-prose .article-diagram {
+  margin: 2.5rem auto;
+  max-width: 640px;
+}
+.article-prose .article-diagram img {
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+}
+
 /* Blockquotes */
 .article-prose blockquote {
   border-left: 3px solid var(--color-primary);

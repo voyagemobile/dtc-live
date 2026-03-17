@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="648" height="618" viewBox="0 0 648 618" style="fill:none; stroke:none; fill-rule:evenodd; clip-rule:evenodd; stroke-linecap:round; stroke-linejoin:round; stroke-miterlimit:1.5;">
+<style class="text-font-style fontImports" data-font-family="Playfair Display">
+@import url(https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&amp;family=Source+Serif+4:wght@400;600&amp;display=block);
+</style>
+<style class="text-font-style">
+</style>
+<rect id="" x="0" y="0" width="648" height="618" style="fill:#ffffff;"></rect>
+<g id="items" style="isolation:isolate;">
+<g id="blend" style="mix-blend-mode:normal;">
+<g id="g-root-tf_1hjfnry9s55vz-fill" data-item-order="-600696">
+<g id="tf_1hjfnry9s55vz-fill-merged" stroke="none" fill="#ffffff" fill-opacity="1.0">
+<g>
+<path d="M0 0 H648 V618 H0 V0"></path>
+</g>
+</g>
+</g>
+<g id="g-root-tf_1hjfnry9s55vz-stroke" data-item-order="-600696"></g>
+<g id="g-root-cp_-1_lines-left_hvaof29imdqj-fill" data-item-order="-313181" transform="translate(167.0, 416.0)"></g>
+<g id="g-root-cp_-1_lines-left_hvaof29imdqj-stroke" data-item-order="-313181" transform="translate(167.0, 416.0)">
+<g id="cp_-1_lines-left_hvaof29imdqj-stroke" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="4" stroke="#484848" stroke-width="2" stroke-opacity="1.0">
+<g>
+<path d="M 16 67C 16 68.6569 14.6569 70 13 70C 11.3431 70 10 68.6569 10 67C 10 65.3431 11.3431 64 13 64C 14.6569 64 16 65.3431 16 67ZM 13 16L 13 64M 16 13C 16 14.6569 14.6569 16 13 16C 11.3431 16 10 14.6569 10 13C 10 11.3431 11.3431 10 13 10C 14.6569 10 16 11.3431 16 13Z"></path>
+</g>
+</g>
+</g>
+<g id="g-root-cp_-1_line_40nxa9imdxr-fill" data-item-order="-313171" transform="translate(314.0, 320.0)"></g>
+<g id="g-root-cp_-1_line_40nxa9imdxr-stroke" data-item-order="-313171" transform="translate(314.0, 320.0)">
+<g id="cp_-1_line_40nxa9imdxr-stroke" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="4" stroke="#484848" stroke-width="2" stroke-dasharray="5.0, 7.0" stroke-opacity="1.0">
+<g>
+<path d="M 10 238L 10 10"></path>
+</g>
+</g>
+</g>
+<g id="g-root-cp_-1_lines-right_1cy17a69imeq6-fill" data-item-order="-313155" transform="translate(455.0, 452.0)"></g>
+<g id="g-root-cp_-1_lines-right_1cy17a69imeq6-stroke" data-item-order="-313155" transform="translate(455.0, 452.0)">
+<g id="cp_-1_lines-right_1cy17a69imeq6-stroke" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="4" stroke="#484848" stroke-width="2" stroke-opacity="1.0">
+<g>
+<path d="M 16 67C 16 68.6569 14.6569 70 13 70C 11.3431 70 10 68.6569 10 67C 10 65.3431 11.3431 64 13 64C 14.6569 64 16 65.3431 16 67ZM 13 16L 13 64M 16 13C 16 14.6569 14.6569 16 13 16C 11.3431 16 10 14.6569 10 13C 10 11.3431 11.3431 10 13 10C 14.6569 10 16 11.3431 16 13Z"></path>
+</g>
+</g>
+</g>
+<g id="g-root-tx_q42025yo_142e71a9imex4-fill" data-item-order="0" transform="translate(195.71875, 38.0)">
+<g id="tx_q42025yo_142e71a9imex4-fill-merged" stroke="none" fill="#484848" fill-opacity="1.0">
+<g>
+<text transform="translate(126.28125, 10.0)" style="font-size:25px; font-family:'Playfair Display', Georgia, serif; font-weight:bold; white-space:pre;">
+<tspan x="-114.28" y="30" dominant-baseline="ideographic">Q4 2025 YoY Growth</tspan>
+</text>
+</g>
+</g>
+</g>
+<g id="g-root-tx_q42025yo_142e71a9imex4-stroke" data-item-order="0" transform="translate(195.71875, 38.0)"></g>
+<g id="g-root-ic_asce_1cy17a69imf45-fill" data-item-order="0" transform="translate(74.0, 116.25)"></g>
+<g id="g-root-ic_asce_1cy17a69imf45-stroke" data-item-order="0" transform="translate(74.0, 116.25)">
+<g id="ic_asce_1cy17a69imf45-stroke" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="4" stroke="#484848" stroke-width="2" stroke-opacity="1.0">
+<g>
+<path d="M 20 156L 78.688004 90C 81.669159 86.708946 86.706863 86.332527 90.144005 89.144005L 125.856003 118.903999C 129.291473 121.715858 134.330978 121.328201 137.29599 118.023994L 192 56M 136.496002 56L 192 56L 192 103.832001"></path>
+</g>
+</g>
+</g>
+<g id="g-root-tx_30_13yncim9ip72c-fill" data-item-order="0" transform="translate(139.703125, 332.0)">
+<g id="tx_30_13yncim9ip72c-fill-merged" stroke="none" fill="#484848" fill-opacity="1.0">
+<g>
+<text transform="translate(38.296875, 10.0)" style="font-size:30px; font-family:'Playfair Display', Georgia, serif; font-weight:bold; white-space:pre;">
+<tspan x="-26.3" y="36" dominant-baseline="ideographic">30%</tspan>
+</text>
+</g>
+</g>
+</g>
+<g id="g-root-tx_30_13yncim9ip72c-stroke" data-item-order="0" transform="translate(139.703125, 332.0)"></g>
+<g id="g-root-tx_shopify_dbqbry9ip79n-fill" data-item-order="0" transform="translate(116.578125, 368.0)">
+<g id="tx_shopify_dbqbry9ip79n-fill-merged" stroke="none" fill="#484848" fill-opacity="1.0">
+<g>
+<text transform="translate(61.421875, 10.0)" style="font-size:30px; font-family:'Playfair Display', Georgia, serif; font-weight:bold; white-space:pre;">
+<tspan x="-49.42" y="36" dominant-baseline="ideographic">Shopify</tspan>
+</text>
+</g>
+</g>
+</g>
+<g id="g-root-tx_shopify_dbqbry9ip79n-stroke" data-item-order="0" transform="translate(116.578125, 368.0)"></g>
+<g id="g-root-tx_revenuea_1ha3uvy9ip79m-fill" data-item-order="0" transform="translate(53.3828125, 488.0)">
+<g id="tx_revenuea_1ha3uvy9ip79m-fill-merged" stroke="none" fill="#484848" fill-opacity="1.0">
+<g>
+<text transform="translate(124.6171875, 10.0)" style="font-size:20px; font-family:'Source Serif 4', Georgia, serif; white-space:pre;">
+<tspan x="-112.62" y="24" dominant-baseline="ideographic">Revenue and GMV growth</tspan>
+</text>
+</g>
+</g>
+</g>
+<g id="g-root-tx_revenuea_1ha3uvy9ip79m-stroke" data-item-order="0" transform="translate(53.3828125, 488.0)"></g>
+<g id="g-root-ic_time_13yncim9ip7gq-fill" data-item-order="0" transform="translate(362.0, 116.25)"></g>
+<g id="g-root-ic_time_13yncim9ip7gq-stroke" data-item-order="0" transform="translate(362.0, 116.25)">
+<g id="ic_time_13yncim9ip7gq-stroke" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="4" stroke="#484848" stroke-width="2" stroke-opacity="1.0">
+<g>
+<path d="M 78.399918 70.400002C 112.862396 70.400002 140.800003 58.22216 140.800003 43.200001C 140.800003 28.177839 112.862396 16 78.399918 16C 43.937359 16 16 28.177839 16 43.200001C 16 58.22216 43.937359 70.400002 78.399918 70.400002ZM 140.800003 77.600159L 140.800003 43.200161M 16 43.200161L 16 84.800163C 16 100 43.99992 112 78.399918 112M 16 84L 16 125.599998C 16 140.800003 43.99992 152.800003 78.399918 152.800003L 86.399918 152.800003M 112 110.400002L 112 196L 196 196M 10 10M 111.947998 184.052795L 144.000793 152L 164.000793 172L 195.943207 140.057602M 176 140L 196 140L 196 160M 10 10M 112.0056 143.996002L 141.6008 114.400002L 156.000793 128"></path>
+</g>
+</g>
+</g>
+<g id="g-root-tx_singledi_1uuw65a9s543n-fill" data-item-order="0" transform="translate(407.9453125, 332.0)">
+<g id="tx_singledi_1uuw65a9s543n-fill-merged" stroke="none" fill="#484848" fill-opacity="1.0">
+<g>
+<text transform="translate(58.0546875, 28.0)" style="font-size:30px; font-family:'Playfair Display', Georgia, serif; font-weight:bold; white-space:pre;">
+<tspan x="-46.05" y="18" dominant-baseline="ideographic">Single-</tspan>
+<tspan x="-28.04" y="54" dominant-baseline="ideographic">digit</tspan>
+</text>
+</g>
+</g>
+</g>
+<g id="g-root-tx_singledi_1uuw65a9s543n-stroke" data-item-order="0" transform="translate(407.9453125, 332.0)"></g>
+<g id="g-root-tx_amazon_1uuw65a9s54ay-fill" data-item-order="0" transform="translate(400.8359375, 404.0)">
+<g id="tx_amazon_1uuw65a9s54ay-fill-merged" stroke="none" fill="#484848" fill-opacity="1.0">
+<g>
+<text transform="translate(65.1640625, 10.0)" style="font-size:30px; font-family:'Playfair Display', Georgia, serif; font-weight:bold; white-space:pre;">
+<tspan x="-53.16" y="36" dominant-baseline="ideographic">Amazon</tspan>
+</text>
+</g>
+</g>
+</g>
+<g id="g-root-tx_amazon_1uuw65a9s54ay-stroke" data-item-order="0" transform="translate(400.8359375, 404.0)"></g>
+<g id="g-root-tx_onlinest_18nsnj29s54i2-fill" data-item-order="0" transform="translate(343.5234375, 524.0)">
+<g id="tx_onlinest_18nsnj29s54i2-fill-merged" stroke="none" fill="#484848" fill-opacity="1.0">
+<g>
+<text transform="translate(122.4765625, 10.0)" style="font-size:20px; font-family:'Source Serif 4', Georgia, serif; white-space:pre;">
+<tspan x="-110.48" y="24" dominant-baseline="ideographic">Online store sales growth</tspan>
+</text>
+</g>
+</g>
+</g>
+<g id="g-root-tx_onlinest_18nsnj29s54i2-stroke" data-item-order="0" transform="translate(343.5234375, 524.0)"></g>
+</g>
+</g>
+</svg>

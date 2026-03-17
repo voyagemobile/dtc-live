@@ -102,9 +102,37 @@ function rewriteGhostMediaUrl(url: string | null | undefined): string | null {
   return url
 }
 
-function rewriteGhostHtml(html: string | null): string | null {
+/**
+ * Slug-keyed map of diagrams to inject into article HTML.
+ * Each entry specifies a heading to insert before and the diagram image path.
+ */
+const ARTICLE_DIAGRAMS: Record<string, { beforeHeading: string; src: string; alt: string }[]> = {
+  'amazons-slowdown-vs-shopify-surge-q4-signals-for-dtc-brands': [
+    {
+      beforeHeading: "Shopify\u2019s Record-Breaking Q4: DTC\u2019s Engine Roars",
+      src: '/diagrams/amazon-vs-shopify-1.svg',
+      alt: 'Q4 2025 YoY Growth: Shopify +30% vs Amazon single-digit',
+    },
+  ],
+}
+
+function injectDiagrams(html: string, slug: string): string {
+  const diagrams = ARTICLE_DIAGRAMS[slug]
+  if (!diagrams) return html
+  let result = html
+  for (const { beforeHeading, src, alt } of diagrams) {
+    const headingPattern = new RegExp(
+      `(<h[2-4][^>]*>\\s*${beforeHeading.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`
+    )
+    const diagramHtml = `<figure class="kg-card kg-image-card kg-width-wide article-diagram"><img src="${src}" alt="${alt}" loading="lazy" /><figcaption>${alt}</figcaption></figure>`
+    result = result.replace(headingPattern, `${diagramHtml}$1`)
+  }
+  return result
+}
+
+function rewriteGhostHtml(html: string | null, slug?: string): string | null {
   if (!html) return null
-  return html
+  let result = html
     // Relative URLs in src/poster/href attributes — both /content/images/ and /content/media/
     .replace(/(src|poster|href)="\/content\/(images|media)\//g, `$1="${GHOST_ORIGIN}/content/$2/`)
     // Old custom domain URLs — both /content/images/ and /content/media/
@@ -121,13 +149,19 @@ function rewriteGhostHtml(html: string | null): string | null {
       if (before.includes('target=') || after.includes('target=')) return match
       return `<a ${before}href="${url}"${after} target="_blank" rel="noopener noreferrer">`
     })
+  // Inject article-specific diagrams
+  if (slug) {
+    result = injectDiagrams(result, slug)
+  }
+  return result
 }
 
 function rewritePostUrls(post: Record<string, unknown>): Record<string, unknown> {
   const patched = { ...post }
+  const slug = typeof patched.slug === 'string' ? patched.slug : undefined
   // Rewrite HTML body
   if (typeof patched.html === 'string') {
-    patched.html = rewriteGhostHtml(patched.html)
+    patched.html = rewriteGhostHtml(patched.html, slug)
   }
   // Rewrite image fields
   for (const field of ['feature_image', 'og_image', 'twitter_image']) {
