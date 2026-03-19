@@ -30,8 +30,15 @@ export async function generateMetadata({
   }
 
   const title = post.meta_title || post.title
-  const description =
+  const rawDescription =
     post.meta_description || post.custom_excerpt || post.excerpt || ''
+  // Ensure descriptions are meaningful (50+ chars) and within Google's limit (160 chars)
+  const description =
+    rawDescription.length >= 50
+      ? rawDescription.length > 160
+        ? rawDescription.slice(0, 157) + '...'
+        : rawDescription
+      : `${post.title}. ${post.primary_tag?.name ?? 'DTC'} coverage on DTC Live.`
   const ogImage = post.og_image || post.feature_image
   const ogTitle = post.og_title || title
   const ogDescription = post.og_description || description
@@ -273,6 +280,21 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           <div className="mt-10">
             {cleanHtml && <ArticleContent html={cleanHtml} />}
           </div>
+
+          {/* Tag links for internal linking */}
+          {post.tags.filter((t) => t.visibility === 'public').length > 0 && (
+            <div className="mt-10 flex flex-wrap gap-2">
+              {post.tags
+                .filter((t) => t.visibility === 'public')
+                .map((tag) => (
+                  <Link key={tag.id} href={`/category/${tag.slug}`}>
+                    <Badge variant="outline" size="sm">
+                      {tag.name}
+                    </Badge>
+                  </Link>
+                ))}
+            </div>
+          )}
 
           {/* Subscribe CTA */}
           <ArticleSubscribe />

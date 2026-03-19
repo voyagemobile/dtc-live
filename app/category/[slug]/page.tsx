@@ -35,6 +35,20 @@ interface CategoryPageProps {
   searchParams: Promise<{ page?: string }>
 }
 
+// Editorial descriptions for core categories — unique content helps Google index
+const CATEGORY_DESCRIPTIONS: Record<string, string> = {
+  industry:
+    'Breaking news and developments in the DTC and ecommerce space. Shopify platform updates, funding rounds, acquisitions, and market shifts that impact direct-to-consumer brands.',
+  strategies:
+    'Actionable playbooks from top DTC operators. Email marketing, SMS, retention, acquisition, and growth tactics that Shopify brands use to scale profitably.',
+  analysis:
+    'Deep dives into DTC performance data, market trends, and business model analysis. Data-driven insights for ecommerce operators making better decisions.',
+  'top-dtc-brands':
+    'Profiles and breakdowns of the most successful direct-to-consumer brands. What they do differently, how they grow, and lessons for emerging Shopify merchants.',
+}
+
+const CORE_CATEGORIES = ['industry', 'strategies', 'analysis', 'top-dtc-brands']
+
 export async function generateMetadata({
   params,
 }: CategoryPageProps): Promise<Metadata> {
@@ -42,18 +56,22 @@ export async function generateMetadata({
   const tag = await getTagBySlug(slug)
 
   if (!tag) {
-    return { title: 'Category Not Found' }
+    return { title: 'Category Not Found', robots: { index: false } }
   }
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dtc.live'
+  const postCount = tag.count?.posts ?? 0
+  const description =
+    tag.description ?? CATEGORY_DESCRIPTIONS[slug] ?? `Browse ${tag.name} articles on DTC Live`
 
   return {
     title: `${tag.name} | DTC Live`,
-    description:
-      tag.description ?? `Browse ${tag.name} articles on DTC Live`,
+    description,
     alternates: {
       canonical: `${siteUrl}/category/${slug}`,
     },
+    // noindex thin categories (< 3 posts) but still follow their links
+    ...(postCount < 3 && { robots: { index: false, follow: true } }),
   }
 }
 
@@ -171,9 +189,9 @@ export default async function CategoryPage({
               {tag.name}
             </h1>
           </div>
-          {tag.description && (
+          {(tag.description || CATEGORY_DESCRIPTIONS[slug]) && (
             <p className="mt-4 max-w-2xl text-lg leading-relaxed text-text-muted">
-              {tag.description}
+              {tag.description || CATEGORY_DESCRIPTIONS[slug]}
             </p>
           )}
           <p className="mt-3 text-sm text-text-caption">
@@ -199,6 +217,31 @@ export default async function CategoryPage({
           </div>
         )}
       </Container>
+
+      {/* Cross-category links for internal linking */}
+      {CORE_CATEGORIES.filter((c) => c !== slug).length > 0 && (
+        <div className="border-t border-border">
+          <Container className="py-10">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-text-caption">
+              More topics
+            </h2>
+            <div className="mt-4 flex flex-wrap gap-3">
+              {CORE_CATEGORIES.filter((c) => c !== slug).map((cat) => (
+                <Link
+                  key={cat}
+                  href={`/category/${cat}`}
+                  className="rounded-full border border-border px-4 py-2 text-sm font-medium text-text-muted transition-colors hover:border-primary hover:text-primary"
+                >
+                  {cat
+                    .split('-')
+                    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                    .join(' ')}
+                </Link>
+              ))}
+            </div>
+          </Container>
+        </div>
+      )}
 
       {/* Newsletter CTA */}
       <NewsletterCTA />

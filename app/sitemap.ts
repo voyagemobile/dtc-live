@@ -44,23 +44,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }))
 
-  // Category pages — one entry per public tag (exclude internal Ghost tags)
+  // Category pages — only include tags with enough content to be worth indexing
   const tagEntries: MetadataRoute.Sitemap = tags
-    .filter((tag) => tag.visibility === 'public')
+    .filter((tag) => tag.visibility === 'public' && (tag.count?.posts ?? 0) >= 3)
     .map((tag) => ({
       url: `${BASE_URL}/category/${tag.slug}`,
-      lastModified: new Date(),
       changeFrequency: 'weekly',
-      priority: 0.7,
+      priority: 0.5,
     }))
 
-  // Author pages — one entry per author
-  const authorEntries: MetadataRoute.Sitemap = authors.map((author) => ({
-    url: `${BASE_URL}/author/${author.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly',
-    priority: 0.5,
-  }))
+  // Author pages — one entry per author with meaningful content
+  const authorEntries: MetadataRoute.Sitemap = authors
+    .filter((author) => (author.count?.posts ?? 0) >= 2)
+    .map((author) => ({
+      url: `${BASE_URL}/author/${author.slug}`,
+      changeFrequency: 'monthly',
+      priority: 0.3,
+    }))
 
   return [...staticEntries, ...postEntries, ...tagEntries, ...authorEntries]
 }
