@@ -1,5 +1,7 @@
 import { cache } from 'react'
 import { createHmac } from 'crypto'
+import { readFileSync } from 'fs'
+import { join } from 'path'
 import type {
   GhostPost,
   GhostTag,
@@ -131,7 +133,23 @@ function injectDiagrams(html: string, slug: string): string {
     const headingPattern = new RegExp(
       `(<h[2-4][^>]*>\\s*${beforeHeading.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`
     )
-    const diagramHtml = `<figure class="kg-card kg-image-card article-diagram"><img src="${src}" alt="${alt}" loading="lazy" /><figcaption>${alt}</figcaption></figure>`
+    // Inline the SVG so it inherits page fonts (img tags block external font loading)
+    let diagramContent: string
+    try {
+      const svgPath = join(process.cwd(), 'public', src.replace(/^\//, ''))
+      let svgContent = readFileSync(svgPath, 'utf-8')
+      // Strip XML declaration and DOCTYPE, keep just the <svg> element
+      svgContent = svgContent.replace(/<\?xml[^?]*\?>\s*/g, '').replace(/<!DOCTYPE[^>]*>\s*/g, '')
+      // Strip embedded font imports since page already loads these fonts
+      svgContent = svgContent.replace(/<style[^>]*>[\s\S]*?<\/style>/g, '')
+      // Add role and aria-label for accessibility
+      svgContent = svgContent.replace('<svg ', `<svg role="img" aria-label="${alt}" `)
+      diagramContent = svgContent
+    } catch {
+      // Fallback to img tag if SVG file can't be read
+      diagramContent = `<img src="${src}" alt="${alt}" loading="lazy" />`
+    }
+    const diagramHtml = `<figure class="kg-card kg-image-card article-diagram">${diagramContent}<figcaption>${alt}</figcaption></figure>`
     result = result.replace(headingPattern, `${diagramHtml}$1`)
   }
   return result
