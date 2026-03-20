@@ -114,6 +114,13 @@ const ARTICLE_DIAGRAMS: Record<string, { beforeHeading: string; src: string; alt
       alt: 'Q4 2025 YoY Growth: Shopify +30% vs Amazon single-digit',
     },
   ],
+  'shopify-google-unveil-universal-commerce-protocol-for-ai-shopping': [
+    {
+      beforeHeading: "Retail Giants Are Already Live\u2014and Setting Expectations",
+      src: '/diagrams/shopify-google-ucp-ecosystem.svg',
+      alt: 'UCP Ecosystem: AI assistants connect to merchants through Universal Commerce Protocol',
+    },
+  ],
 }
 
 function injectDiagrams(html: string, slug: string): string {
