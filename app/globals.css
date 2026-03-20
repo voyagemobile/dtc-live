@@ -221,7 +221,8 @@ body {
   margin-left: 0;
   margin-right: 0;
 }
-.article-prose .article-diagram img {
+.article-prose .article-diagram img,
+.article-prose .article-diagram svg {
   width: 100%;
   height: auto;
   border: 1px solid var(--color-border, #e5e5e5);
