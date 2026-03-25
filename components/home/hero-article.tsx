@@ -16,7 +16,7 @@ interface HeroArticleProps {
  * followed by a trending stories strip below.
  */
 export function HeroArticle({ post, secondaryPosts = [], allPosts = [] }: HeroArticleProps) {
-  const accordionPosts = [post, ...secondaryPosts].slice(0, 5)
+  const accordionPosts = allPosts?.length ? allPosts.slice(0, 10) : [post, ...secondaryPosts].slice(0, 5)
 
   return (
     <section>
