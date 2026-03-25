@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="648" height="564" viewBox="0 0 648 564" style="fill:none; stroke:none; fill-rule:evenodd; clip-rule:evenodd; stroke-linecap:round; stroke-linejoin:round; stroke-miterlimit:1.5;">
+<style class="text-font-style fontImports" data-font-family="Playfair Display">
+@import url(https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700\url(https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=block)family=Source+Serif+4:wght@400;600\url(https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=block)display=block);
+</style>
+<style class="text-font-style">
+@import url(https://app.napkin.ai/fonts/font-face.web.napkin-fallback.css);
+@import url(https://app.napkin.ai/fonts/font-face.web.shantell-sans.css);
+@import url(https://app.napkin.ai/fonts/font-face.web.roboto.css);
+</style>
+<rect id="" x="0" y="0" width="648" height="564" style="fill:#ffffff;"></rect>
+<g id="items" style="isolation:isolate;">
+<g id="blend" style="mix-blend-mode:normal;">
+<g id="g-root-tf_zkohcr1mck2yz-fill" data-item-order="-548208">
+<g id="tf_zkohcr1mck2yz-fill-merged" stroke="none" fill="#ffffff" fill-opacity="1.0">
+<g>
+<path d="M0 0 H648 V564 H0 V0"></path>
+</g>
+</g>
+</g>
+<g id="g-root-tf_zkohcr1mck2yz-stroke" data-item-order="-548208"></g>
+<g id="g-root-cp_-1_body_hx5bdn1mceio1-fill" data-item-order="-280793" transform="translate(314.0, 368.0)"></g>
+<g id="g-root-cp_-1_body_hx5bdn1mceio1-stroke" data-item-order="-280793" transform="translate(314.0, 368.0)">
+<g id="cp_-1_body_hx5bdn1mceio1-stroke" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="4" stroke="#484848" stroke-width="2" stroke-dasharray="5.0, 7.0" stroke-opacity="1.0">
+<g>
+<path d="M 10 154L 10 10"></path>
+</g>
+</g>
+</g>
+<g id="g-root-cp_-1_bg-left_v8ltqz1mcej2j-fill" data-item-order="-280779" transform="translate(65.046875, 189.0)"></g>
+<g id="g-root-cp_-1_bg-left_v8ltqz1mcej2j-stroke" data-item-order="-280779" transform="translate(65.046875, 189.0)"></g>
+<g id="g-root-cp_-1_bg-right_1ur5uqj1mcej9j-fill" data-item-order="-280759" transform="translate(326.3984375, 189.0)"></g>
+<g id="g-root-cp_-1_bg-right_1ur5uqj1mcej9j-stroke" data-item-order="-280759" transform="translate(326.3984375, 189.0)"></g>
+<g id="g-root-tx_marketpl_1hfpcd71mcejgk-fill" data-item-order="0" transform="translate(212.1328125, 38.0)">
+<g id="tx_marketpl_1hfpcd71mcejgk-fill-merged" stroke="none" fill="#484848" fill-opacity="1.0">
+<g>
+<text transform="translate(109.8671875, 10.0)" style="font-size:25px; font-family:'Playfair Display', serif; font-weight:bold; white-space:pre;">
+<tspan x="-97.87" y="30" dominant-baseline="ideographic">Marketplace Fees</tspan>
+</text>
+</g>
+</g>
+</g>
+<g id="g-root-tx_marketpl_1hfpcd71mcejgk-stroke" data-item-order="0" transform="translate(212.1328125, 38.0)"></g>
+<g id="g-root-tx_115_1czvu8r1mcejno-fill" data-item-order="0" transform="translate(129.4296875, 380.0)">
+<g id="tx_115_1czvu8r1mcejno-fill-merged" stroke="none" fill="#484848" fill-opacity="1.0">
+<g>
+<text transform="translate(63.6171875, 10.0)" style="font-size:40px; font-family:'Source Serif 4', serif; white-space:pre;">
+<tspan x="-51.62" y="48" dominant-baseline="ideographic">11.5%</tspan>
+</text>
+</g>
+</g>
+</g>
+<g id="g-root-tx_115_1czvu8r1mcejno-stroke" data-item-order="0" transform="translate(129.4296875, 380.0)"></g>
+<g id="g-root-tx_amazonma_v98au31mcegow-fill" data-item-order="0" transform="translate(88.6484375, 452.0)">
+<g id="tx_amazonma_v98au31mcegow-fill-merged" stroke="none" fill="#969696" fill-opacity="1.0">
+<g>
+<text transform="translate(104.3984375, 10.0)" style="font-size:20px; font-family:'Source Serif 4', serif; white-space:pre;">
+<tspan x="-92.4" y="24" dominant-baseline="ideographic">Amazon Marketplace</tspan>
+</text>
+</g>
+</g>
+</g>
+<g id="g-root-tx_amazonma_v98au31mcegow-stroke" data-item-order="0" transform="translate(88.6484375, 452.0)"></g>
+<g id="g-root-tx_averagef_924s7v1mcegw0-fill" data-item-order="0" transform="translate(143.7890625, 488.0)">
+<g id="tx_averagef_924s7v1mcegw0-fill-merged" stroke="none" fill="#484848" fill-opacity="1.0">
+<g>
+<text transform="translate(49.2578125, 10.0)" style="font-size:15px; font-family:'Source Serif 4', serif; white-space:pre;">
+<tspan x="-37.26" y="18" dominant-baseline="ideographic">Average fee</tspan>
+</text>
+</g>
+</g>
+</g>
+<g id="g-root-tx_averagef_924s7v1mcegw0-stroke" data-item-order="0" transform="translate(143.7890625, 488.0)"></g>
+<g id="g-root-ic_brow_1lw5bkr1mcegw6-fill" data-item-order="0" transform="translate(89.046875, 164.25)"></g>
+<g id="g-root-ic_brow_1lw5bkr1mcegw6-stroke" data-item-order="0" transform="translate(89.046875, 164.25)">
+<g id="ic_brow_1lw5bkr1mcegw6-stroke" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="4" stroke="#484848" stroke-width="2" stroke-opacity="1.0">
+<g>
+<path d="M 14 74L 198 74M 40 54C 38.895432 54 38 54.895432 38 56C 38 57.104568 38.895432 58 40 58C 41.104568 58 42 57.104568 42 56C 42 54.895432 41.104568 54 40 54L 40 54M 65.360001 54C 64.255432 54 63.360001 54.895432 63.360001 56C 63.360001 57.104568 64.255432 58 65.360001 58C 66.464569 58 67.360001 57.104568 67.360001 56C 67.360001 54.895432 66.464569 54 65.360001 54L 65.360001 54M 90.800003 54C 89.695427 54 88.800003 54.895432 88.800003 56C 88.800003 57.104568 89.695427 58 90.800003 58C 91.904572 58 92.800003 57.104568 92.800003 56C 92.800003 54.895432 91.904572 54 90.800003 54L 90.800003 54M 30 34L 182 34C 182 34 198 34 198 50L 198 162C 198 162 198 178 182 178L 30 178C 30 178 14 178 14 162L 14 50C 14 50 14 34 30 34M 138 94L 126.959999 135.360001C 126.368301 136.929077 124.87677 137.976318 123.199997 138L 90.559998 138C 88.970558 137.985138 87.534431 137.048538 86.879997 135.600006L 78.32 111.599998C 77.779289 110.361107 77.900879 108.93293 78.643227 107.803261C 79.385582 106.673599 80.648262 105.995285 82 106L 134.800003 106M 92 150C 93.104568 150 94 150.895432 94 152C 94 153.104568 93.104568 154 92 154C 90.895432 154 90 153.104568 90 152C 90 150.895432 90.895432 150 92 150M 120 150C 121.104568 150 122 150.895432 122 152C 122 153.104568 121.104568 154 120 154C 118.895432 154 118 153.104568 118 152C 118 150.895432 118.895432 150 120 150"></path>
+</g>
+</g>
+</g>
+<g id="g-root-tx_4_me7rob1mchatd-fill" data-item-order="0" transform="translate(418.515625, 380.0)">
+<g id="tx_4_me7rob1mchatd-fill-merged" stroke="none" fill="#484848" fill-opacity="1.0">
+<g>
+<text transform="translate(35.8828125, 10.0)" style="font-size:40px; font-family:'Source Serif 4', serif; white-space:pre;">
+<tspan x="-23.88" y="48" dominant-baseline="ideographic">4%</tspan>
+</text>
+</g>
+</g>
+</g>
+<g id="g-root-tx_4_me7rob1mchatd-stroke" data-item-order="0" transform="translate(418.515625, 380.0)"></g>
+<g id="g-root-tx_chatgptc_v9urx71mchb0s-fill" data-item-order="0" transform="translate(353.4453125, 452.0)">
+<g id="tx_chatgptc_v9urx71mchb0s-fill-merged" stroke="none" fill="#969696" fill-opacity="1.0">
+<g>
+<text transform="translate(100.953125, 10.0)" style="font-size:20px; font-family:'Source Serif 4', serif; white-space:pre;">
+<tspan x="-88.95" y="24" dominant-baseline="ideographic">ChatGPT Commerce</tspan>
+</text>
+</g>
+</g>
+</g>
+<g id="g-root-tx_chatgptc_v9urx71mchb0s-stroke" data-item-order="0" transform="translate(353.4453125, 452.0)"></g>
+<g id="g-root-tx_openaife_dikrff1mchb7y-fill" data-item-order="0" transform="translate(407.65625, 488.0)">
+<g id="tx_openaife_dikrff1mchb7y-fill-merged" stroke="none" fill="#484848" fill-opacity="1.0">
+<g>
+<text transform="translate(46.7421875, 10.0)" style="font-size:15px; font-family:'Source Serif 4', serif; white-space:pre;">
+<tspan x="-34.74" y="18" dominant-baseline="ideographic">OpenAI fee</tspan>
+</text>
+</g>
+</g>
+</g>
+<g id="g-root-tx_openaife_dikrff1mchb7y-stroke" data-item-order="0" transform="translate(407.65625, 488.0)"></g>
+<g id="g-root-ic_keyb_4mxr6j1mchbey-fill" data-item-order="0" transform="translate(350.3984375, 164.25)"></g>
+<g id="g-root-ic_keyb_4mxr6j1mchbey-stroke" data-item-order="0" transform="translate(350.3984375, 164.25)">
+<g id="ic_keyb_4mxr6j1mchbey-stroke" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="4" stroke="#484848" stroke-width="2" stroke-opacity="1.0">
+<g>
+<path d="M 105.999985 113.999985L 105.999985 137.999969M 66.319992 137.999969L 145.999969 137.999969M 176.239975 182.399963C 177.547363 184.946182 177.394821 187.996872 175.839966 190.399963C 174.375046 192.743851 171.803986 194.165497 169.039963 194.159973L 45.999992 194.159973C 43.227245 194.151581 40.656567 192.708038 39.2061 190.34491C 37.755634 187.981796 37.63224 185.036118 38.879993 182.559967L 46.879993 166.559967C 48.190624 163.80751 50.951679 162.0392 53.999992 161.999969L 161.039963 161.999969C 164.081223 161.978806 166.871445 163.683945 168.239975 166.399963ZM 61.999992 177.999969L 69.999992 177.999969M 89.999985 177.999969L 97.999985 177.999969M 117.999977 177.999969L 125.999977 177.999969M 145.999969 177.999969L 153.999969 177.999969M 41.999992 17.999998L 169.999969 17.999998C 169.999969 17.999998 177.999969 17.999998 177.999969 25.999996L 177.999969 105.999985C 177.999969 105.999985 177.999969 113.999985 169.999969 113.999985L 41.999992 113.999985C 41.999992 113.999985 33.999996 113.999985 33.999996 105.999985L 33.999996 25.999996C 33.999996 25.999996 33.999996 17.999998 41.999992 17.999998M 137.999969 37.999996L 126.959976 79.359985C 126.368279 80.92907 124.876747 81.976311 123.199974 81.999985L 90.559982 81.999985C 88.970543 81.985123 87.534416 81.048523 86.879982 79.599983L 78.319984 55.599991C 77.779274 54.361095 77.900864 52.932922 78.643211 51.803257C 79.385567 50.673592 80.648247 49.995277 81.999985 49.999992L 134.799988 49.999992M 91.999985 93.999985C 93.104553 93.999985 93.999985 94.895416 93.999985 95.999985C 93.999985 97.104553 93.104553 97.999985 91.999985 97.999985C 90.895416 97.999985 89.999985 97.104553 89.999985 95.999985C 89.999985 94.895416 90.895416 93.999985 91.999985 93.999985M 119.999977 93.999985C 121.104546 93.999985 121.999977 94.895416 121.999977 95.999985C 121.999977 97.104553 121.104546 97.999985 119.999977 97.999985C 118.895409 97.999985 117.999977 97.104553 117.999977 95.999985C 117.999977 94.895416 118.895409 93.999985 119.999977 93.999985"></path>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>

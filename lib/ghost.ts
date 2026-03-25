@@ -123,6 +123,13 @@ const ARTICLE_DIAGRAMS: Record<string, { beforeHeading: string; src: string; alt
       alt: 'UCP Ecosystem: AI assistants connect to merchants through Universal Commerce Protocol',
     },
   ],
+  'shopify-brings-merchant-ads-to-chatgpt-conversations': [
+    {
+      beforeHeading: 'Key Steps for DTC Operators',
+      src: '/diagrams/shopify-chatgpt-commerce-stats.svg',
+      alt: 'ChatGPT Commerce vs Traditional Marketplaces: 4% OpenAI fee vs 8-15% Amazon, 7x AI traffic surge, $20B projected AI shopping sales',
+    },
+  ],
 }
 
 function injectDiagrams(html: string, slug: string): string {

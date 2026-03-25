@@ -70,6 +70,11 @@ export async function generateMetadata({
     alternates: {
       canonical: post.canonical_url || `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dtc.live'}/${post.slug}`,
     },
+    ...(post.tags.length > 0 && {
+      keywords: post.tags
+        .filter((t) => t.visibility === 'public')
+        .map((t) => t.name),
+    }),
   }
 }
 
@@ -164,6 +169,12 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         url: `${siteUrl}/logo.png`,
       },
     },
+    ...(post.tags.filter((t) => t.visibility === 'public').length > 0 && {
+      keywords: post.tags
+        .filter((t) => t.visibility === 'public')
+        .map((t) => t.name)
+        .join(', '),
+    }),
   }
 
   return (
