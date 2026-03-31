@@ -130,6 +130,13 @@ const ARTICLE_DIAGRAMS: Record<string, { beforeHeading: string; src: string; alt
       alt: 'ChatGPT Commerce vs Traditional Marketplaces: 4% OpenAI fee vs 8-15% Amazon, 7x AI traffic surge, $20B projected AI shopping sales',
     },
   ],
+  'why-meal-kit-cac-towers-over-fashions-new-2026-data': [
+    {
+      beforeHeading: '2026 Benchmark Data: CACs by Vertical',
+      src: '/diagrams/meal-kit-cac-vs-fashion-2026.svg',
+      alt: '2026 Customer Acquisition Cost by DTC Vertical: Pet $23, Fashion $32, Beauty $38, Food & Bev $49, Fitness $55, Meal Kits $69, Supplements $89',
+    },
+  ],
 }
 
 function injectDiagrams(html: string, slug: string): string {
