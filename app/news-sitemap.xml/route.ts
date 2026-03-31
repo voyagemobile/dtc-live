@@ -2,7 +2,7 @@ import { getPosts } from '@/lib/ghost'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dtc.live'
 
-export const revalidate = 3600
+export const revalidate = 600
 
 export async function GET() {
   try {

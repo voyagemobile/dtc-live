@@ -38,10 +38,26 @@ export async function generateMetadata({
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dtc.live'
 
+  const description = author.bio ?? `Browse articles by ${author.name} on DTC Live`
+
   return {
     title: `${author.name} | DTC Live`,
-    description:
-      author.bio ?? `Browse articles by ${author.name} on DTC Live`,
+    description,
+    openGraph: {
+      type: 'profile',
+      title: `${author.name} | DTC Live`,
+      description,
+      url: `${siteUrl}/author/${slug}`,
+      ...(author.profile_image && {
+        images: [{ url: author.profile_image, alt: author.name }],
+      }),
+    },
+    twitter: {
+      card: 'summary',
+      title: `${author.name} | DTC Live`,
+      description,
+      ...(author.profile_image && { images: [author.profile_image] }),
+    },
     alternates: {
       canonical: `${siteUrl}/author/${slug}`,
     },
@@ -119,11 +135,30 @@ export default async function AuthorPage({
     ],
   }
 
+  const personLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: author.name,
+    url: `${siteUrl}/author/${slug}`,
+    ...(author.bio && { description: author.bio }),
+    ...(author.profile_image && { image: author.profile_image }),
+    ...(author.website && { sameAs: [author.website] }),
+    worksFor: {
+      '@type': 'Organization',
+      name: 'DTC Live',
+      url: siteUrl,
+    },
+  }
+
   return (
     <>
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd) }}
     />
     <Container className="py-10 sm:py-14">
       {/* Author header */}

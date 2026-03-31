@@ -149,11 +149,12 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       '@id': articleUrl,
     },
     headline: post.title,
-    description: post.custom_excerpt || post.excerpt || '',
+    description: post.meta_description || post.custom_excerpt || post.excerpt || '',
     url: articleUrl,
     image: post.feature_image || undefined,
     datePublished: post.published_at || undefined,
     dateModified: post.updated_at || post.published_at || undefined,
+    ...(post.primary_tag && { articleSection: post.primary_tag.name }),
     author: post.authors.map((a) => ({
       '@type': 'Person',
       name: a.name,
