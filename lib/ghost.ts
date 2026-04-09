@@ -188,6 +188,15 @@ function rewriteGhostHtml(html: string | null, slug?: string): string | null {
       if (before.includes('target=') || after.includes('target=')) return match
       return `<a ${before}href="${url}"${after} target="_blank" rel="noopener noreferrer">`
     })
+    // Add anchor IDs to h2/h3 headings for deep linking and featured snippets
+    .replace(/<h([23])([^>]*)>(.*?)<\/h\1>/gi, (_match, level, attrs, text) => {
+      if (attrs.includes('id=')) return _match // skip if already has id
+      const plain = text.replace(/<[^>]+>/g, '').trim()
+      const id = plain.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+      return `<h${level}${attrs} id="${id}">${text}</h${level}>`
+    })
+    // Lazy-load inline images (feature image handled by Next.js Image component)
+    .replace(/<img(?![^>]*loading=)([^>]*)>/gi, '<img loading="lazy" decoding="async"$1>')
   // Inject article-specific diagrams
   if (slug) {
     result = injectDiagrams(result, slug)

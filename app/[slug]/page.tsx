@@ -101,6 +101,25 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   // Strip the kg-video-card from body so it doesn't render twice
   const cleanHtml = video ? stripVideoCards(post.html) : (post.html ?? '')
 
+  // Helpers for structured data enrichment
+  const stripHtml = (h: string) => h.replace(/<[^>]+>/g, '').trim()
+  const plainText = stripHtml(post.html ?? '')
+  const words = plainText.split(/\s+/).filter(Boolean)
+  const wordCount = words.length
+  const articleBody = words.slice(0, 200).join(' ')
+
+  // Extract FAQ pairs: question-style h2/h3 headings followed by paragraph answers
+  const faqPairs: { question: string; answer: string }[] = []
+  const faqRegex = /<h[23][^>]*>(.*?)<\/h[23]>\s*<p[^>]*>(.*?)<\/p>/gi
+  let faqMatch
+  while ((faqMatch = faqRegex.exec(post.html ?? '')) !== null) {
+    const question = stripHtml(faqMatch[1])
+    const answer = stripHtml(faqMatch[2])
+    if (question.includes('?') && answer.length > 30) {
+      faqPairs.push({ question, answer })
+    }
+  }
+
   // Structured data for article
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dtc.live'
   const articleUrl = `${siteUrl}/${post.slug}`
@@ -143,7 +162,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Article',
+    '@type': 'NewsArticle',
     mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': articleUrl,
@@ -154,6 +173,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     image: post.feature_image || undefined,
     datePublished: post.published_at || undefined,
     dateModified: post.updated_at || post.published_at || undefined,
+    inLanguage: 'en-US',
+    wordCount,
+    articleBody,
     ...(post.primary_tag && { articleSection: post.primary_tag.name }),
     author: post.authors.map((a) => ({
       '@type': 'Person',
@@ -178,6 +200,22 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     }),
   }
 
+  // FAQ structured data (only if 2+ question/answer pairs found)
+  const faqLd = faqPairs.length >= 2
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqPairs.map((faq) => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.answer,
+          },
+        })),
+      }
+    : null
+
   return (
     <>
       <ReadingProgress />
@@ -189,6 +227,12 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      {faqLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+        />
+      )}
 
       <article>
         {/* Feature Banner: video (autoplay loop) or static image */}
