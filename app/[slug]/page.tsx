@@ -13,7 +13,7 @@ import { ArticleSubscribe } from '@/components/article/article-subscribe'
 import { ShareButtons } from '@/components/article/share-buttons'
 import { ReadingProgress } from '@/components/article/reading-progress'
 
-export const revalidate = 300
+export const revalidate = 1800
 
 interface ArticlePageProps {
   params: Promise<{ slug: string }>

@@ -11,7 +11,7 @@ import { ArticleGrid } from '@/components/article/article-grid'
 import { Pagination } from '@/components/ui/pagination'
 import { NewsletterCTA } from '@/components/home/newsletter-cta'
 
-export const revalidate = 300
+export const revalidate = 1800
 
 // ---------------------------------------------------------------------------
 // Static params

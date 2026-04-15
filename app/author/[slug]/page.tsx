@@ -6,7 +6,7 @@ import { Container } from '@/components/ui/container'
 import { ArticleGrid } from '@/components/article/article-grid'
 import { Pagination } from '@/components/ui/pagination'
 
-export const revalidate = 300
+export const revalidate = 3600
 
 // ---------------------------------------------------------------------------
 // Static params — pre-generate all author slugs at build time
