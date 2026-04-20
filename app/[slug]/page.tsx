@@ -190,6 +190,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       logo: {
         '@type': 'ImageObject',
         url: `${siteUrl}/logo.png`,
+        width: 311,
+        height: 72,
       },
     },
     ...(post.tags.filter((t) => t.visibility === 'public').length > 0 && {

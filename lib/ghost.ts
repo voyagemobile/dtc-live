@@ -137,6 +137,13 @@ const ARTICLE_DIAGRAMS: Record<string, { beforeHeading: string; src: string; alt
       alt: '2026 Customer Acquisition Cost by DTC Vertical: Pet $23, Fashion $32, Beauty $38, Food & Bev $49, Fitness $55, Meal Kits $69, Supplements $89',
     },
   ],
+  'ai-inventory-forecasting-keeps-dtc-shelves-stocked-and-costs-down': [
+    {
+      beforeHeading: 'The ROI of AI Forecasting: Real Results for Operators',
+      src: '/diagrams/ai-inventory-forecasting-roi.svg',
+      alt: 'AI Inventory Forecasting ROI: Allbirds +43% turnover, -67% peak stockouts, +35% marketing ROI. Bright Body -75% forecasting time. McKinsey benchmark: 20-30% lower carrying costs annually.',
+    },
+  ],
 }
 
 function injectDiagrams(html: string, slug: string): string {

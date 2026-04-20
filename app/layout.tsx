@@ -44,6 +44,10 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     site: '@dtcliveUS',
+    creator: '@dtcliveUS',
+    title: 'DTC Live | News, Strategies & Analysis for DTC Brands',
+    description:
+      'The intelligence every DTC operator needs. Industry news, growth strategies, and data-driven analysis for direct-to-consumer brands.',
     images: ['/og-image.png'],
   },
   alternates: {
@@ -77,6 +81,8 @@ export default function RootLayout({
         logo: {
           '@type': 'ImageObject',
           url: `${siteUrl}/logo.png`,
+          width: 311,
+          height: 72,
         },
         sameAs: [
           'https://x.com/dtcliveUS',
