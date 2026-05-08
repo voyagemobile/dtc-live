@@ -144,6 +144,13 @@ const ARTICLE_DIAGRAMS: Record<string, { beforeHeading: string; src: string; alt
       alt: 'AI Inventory Forecasting ROI: Allbirds +43% turnover, -67% peak stockouts, +35% marketing ROI. Bright Body -75% forecasting time. McKinsey benchmark: 20-30% lower carrying costs annually.',
     },
   ],
+  'social-ads-comeback-42-more-clicks-as-costs-drop-in-q1-2026': [
+    {
+      beforeHeading: 'Where to Allocate: Instagram, TikTok, and Beyond',
+      src: '/diagrams/q1-2026-paid-social-scorecard.svg',
+      alt: 'Q1 2026 Paid Social Channel Scorecard: Instagram spend +28% / CPM -3% (Heavy), Facebook impressions +8% / CPM -4% (Steady), TikTok spend +14% / CPM +11% (Creative-dependent), Pinterest spend +27% / CPM -8% (Quiet winner), Snapchat spend -8% (Skip), Reddit CPM +71% (Hard pass).',
+    },
+  ],
 }
 
 function injectDiagrams(html: string, slug: string): string {
