@@ -2,8 +2,12 @@ import type { Metadata } from 'next'
 import { Container } from '@/components/ui/container'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | DTC Live',
+  // Root layout template appends "| DTC Live" — don't add it here too
+  title: 'Privacy Policy',
   description: 'Privacy Policy for DTC Live.',
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dtc.live'}/privacy`,
+  },
 }
 
 export default function PrivacyPage() {

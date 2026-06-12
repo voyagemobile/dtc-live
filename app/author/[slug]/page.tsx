@@ -28,8 +28,10 @@ interface AuthorPageProps {
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: AuthorPageProps): Promise<Metadata> {
   const { slug } = await params
+  const { page: pageParam } = await searchParams
   const author = await getAuthorBySlug(slug)
 
   if (!author) {
@@ -39,9 +41,14 @@ export async function generateMetadata({
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dtc.live'
 
   const description = author.bio ?? `Browse articles by ${author.name} on DTC Live`
+  // Paginated pages self-canonicalize so Google doesn't treat them as duplicates of page 1
+  const page = Math.max(1, parseInt(pageParam ?? '1', 10) || 1)
+  const canonicalPath =
+    page > 1 ? `/author/${slug}?page=${page}` : `/author/${slug}`
 
   return {
-    title: `${author.name} | DTC Live`,
+    // Root layout template appends "| DTC Live" — don't add it here too
+    title: author.name,
     description,
     openGraph: {
       type: 'profile',
@@ -59,7 +66,7 @@ export async function generateMetadata({
       ...(author.profile_image && { images: [author.profile_image] }),
     },
     alternates: {
-      canonical: `${siteUrl}/author/${slug}`,
+      canonical: `${siteUrl}${canonicalPath}`,
     },
   }
 }

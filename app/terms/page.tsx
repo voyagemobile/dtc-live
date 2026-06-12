@@ -2,8 +2,12 @@ import type { Metadata } from 'next'
 import { Container } from '@/components/ui/container'
 
 export const metadata: Metadata = {
-  title: 'Terms of Service | DTC Live',
+  // Root layout template appends "| DTC Live" — don't add it here too
+  title: 'Terms of Service',
   description: 'Terms of Service for DTC Live.',
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dtc.live'}/terms`,
+  },
 }
 
 export default function TermsPage() {

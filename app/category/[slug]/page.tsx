@@ -51,8 +51,10 @@ const CORE_CATEGORIES = ['industry', 'strategies', 'analysis', 'top-dtc-brands']
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: CategoryPageProps): Promise<Metadata> {
   const { slug } = await params
+  const { page: pageParam } = await searchParams
   const tag = await getTagBySlug(slug)
 
   if (!tag) {
@@ -63,12 +65,17 @@ export async function generateMetadata({
   const postCount = tag.count?.posts ?? 0
   const description =
     tag.description ?? CATEGORY_DESCRIPTIONS[slug] ?? `Browse ${tag.name} articles on DTC Live`
+  // Paginated pages self-canonicalize so Google doesn't treat them as duplicates of page 1
+  const page = Math.max(1, parseInt(pageParam ?? '1', 10) || 1)
+  const canonicalPath =
+    page > 1 ? `/category/${slug}?page=${page}` : `/category/${slug}`
 
   return {
-    title: `${tag.name} | DTC Live`,
+    // Root layout template appends "| DTC Live" — don't add it here too
+    title: tag.name,
     description,
     alternates: {
-      canonical: `${siteUrl}/category/${slug}`,
+      canonical: `${siteUrl}${canonicalPath}`,
     },
     // noindex thin categories (< 3 posts) but still follow their links
     ...(postCount < 3 && { robots: { index: false, follow: true } }),
@@ -155,7 +162,8 @@ export default async function CategoryPage({
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: tag.name,
-    description: tag.description ?? `Browse ${tag.name} articles on DTC Live`,
+    description:
+      tag.description ?? CATEGORY_DESCRIPTIONS[slug] ?? `Browse ${tag.name} articles on DTC Live`,
     url: `${siteUrl}/category/${slug}`,
     publisher: {
       '@type': 'Organization',
