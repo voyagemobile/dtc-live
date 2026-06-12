@@ -151,6 +151,13 @@ const ARTICLE_DIAGRAMS: Record<string, { beforeHeading: string; src: string; alt
       alt: 'Q1 2026 Paid Social Channel Scorecard: Instagram spend +28% / CPM -3% (Heavy), Facebook impressions +8% / CPM -4% (Steady), TikTok spend +14% / CPM +11% (Creative-dependent), Pinterest spend +27% / CPM -8% (Quiet winner), Snapchat spend -8% (Skip), Reddit CPM +71% (Hard pass).',
     },
   ],
+  'rcs-messaging-dtc-brands-test-rich-texts-to-revive-customer-engagement': [
+    {
+      beforeHeading: 'How to Implement RCS on Shopify',
+      src: '/diagrams/rcs-early-wins-by-brand.svg',
+      alt: 'Early RCS campaign wins by brand: POPFLEX +136% conversion rate vs SMS, Nespresso +36% purchase completion, Clarins 3x the clicks of standard SMS, Boulanger 17% Black Friday response rate.',
+    },
+  ],
 }
 
 function injectDiagrams(html: string, slug: string): string {
