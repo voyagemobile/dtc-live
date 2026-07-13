@@ -158,6 +158,13 @@ const ARTICLE_DIAGRAMS: Record<string, { beforeHeading: string; src: string; alt
       alt: 'Early RCS campaign wins by brand: POPFLEX +136% conversion rate vs SMS, Nespresso +36% purchase completion, Clarins 3x the clicks of standard SMS, Boulanger 17% Black Friday response rate.',
     },
   ],
+  'metas-new-ai-ad-suite-claims-25-higher-roas-for-dtc-marketers': [
+    {
+      beforeHeading: 'Balancing Automation with Brand Control: Your Playbook',
+      src: '/diagrams/meta-ai-roas-numbers.svg',
+      alt: 'Meta AI ad tools ROAS data: Meta claims $4.13 returned per $1 spent, up 25% from $3.30 in 2022 (1M-campaign analysis). Independent audit of 150+ DTC brands: Advantage+ +28% ROAS and -22% CPA vs manual, apparel and beauty up to +35%. Skincare case study: ROAS 1.8x to 4.2x with spend scaled 175%, Meta revenue $27k to $173k per month.',
+    },
+  ],
 }
 
 function injectDiagrams(html: string, slug: string): string {
@@ -185,7 +192,8 @@ function injectDiagrams(html: string, slug: string): string {
       diagramContent = `<img src="${src}" alt="${alt}" loading="lazy" />`
     }
     const diagramHtml = `<figure class="kg-card kg-image-card article-diagram">${diagramContent}<figcaption>${alt}</figcaption></figure>`
-    result = result.replace(headingPattern, `${diagramHtml}$1`)
+    // Use a replacer function so $-sequences in diagram content (e.g. "$1" in captions) aren't treated as group references
+    result = result.replace(headingPattern, (match) => `${diagramHtml}${match}`)
   }
   return result
 }
